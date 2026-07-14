@@ -19,12 +19,12 @@ export const ConsultationForm: React.FC = () => {
 
     // Gửi thông báo qua Telegram nếu có cấu hình
     if (systemSettings?.telegramBotToken && systemSettings?.telegramChatId) {
-      const message = `🔔 *CÓ NGƯỜI ĐĂNG KÝ TƯ VẤN MỚI*\n\n` +
-                      `👤 *Họ tên:* ${form.name}\n` +
-                      `📞 *Số điện thoại:* ${form.phone}\n` +
-                      `📧 *Email:* ${form.email}\n` +
-                      `📚 *Quan tâm:* ${form.courseInterest || 'Không chọn'}\n` +
-                      `⏰ *Thời gian:* ${new Date().toLocaleString('vi-VN')}`;
+      const message = `🔔 <b>CÓ NGƯỜI ĐĂNG KÝ TƯ VẤN MỚI</b>\n\n` +
+                      `👤 <b>Họ tên:</b> ${form.name}\n` +
+                      `📞 <b>Số điện thoại:</b> ${form.phone}\n` +
+                      `📧 <b>Email:</b> ${form.email}\n` +
+                      `📚 <b>Quan tâm:</b> ${form.courseInterest || 'Không chọn'}\n` +
+                      `⏰ <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}`;
 
       try {
         await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken}/sendMessage`, {
@@ -33,7 +33,7 @@ export const ConsultationForm: React.FC = () => {
           body: JSON.stringify({
             chat_id: systemSettings.telegramChatId,
             text: message,
-            parse_mode: 'Markdown'
+            parse_mode: 'HTML'
           })
         });
       } catch (error) {
