@@ -496,20 +496,20 @@ export const StorageService = {
   async updateSystemSettings(settings: any) {
     try {
       const dataToSave = {
-        contact_name: settings.contactName,
-        contact_phone: settings.contactPhone,
-        contact_email: settings.contactEmail,
-        pass_mark: settings.passMark,
-        ai_analysis_enabled: settings.aiAnalysisEnabled,
-        popup_enabled: settings.popupEnabled,
-        popup_title: settings.popupTitle,
-        popup_content: settings.popupContent,
-        countdown_enabled: settings.countdownEnabled,
-        countdown_target_date: settings.countdownTargetDate,
-        countdown_title: settings.countdownTitle,
-        countdown_subtitle: settings.countdownSubtitle,
-        telegram_bot_token: settings.telegramBotToken,
-        telegram_chat_id: settings.telegramChatId,
+        contact_name: settings.contactName ?? '',
+        contact_phone: settings.contactPhone ?? '',
+        contact_email: settings.contactEmail ?? '',
+        pass_mark: settings.passMark ?? 5,
+        ai_analysis_enabled: settings.aiAnalysisEnabled ?? true,
+        popup_enabled: settings.popupEnabled ?? false,
+        popup_title: settings.popupTitle ?? '',
+        popup_content: settings.popupContent ?? '',
+        countdown_enabled: settings.countdownEnabled ?? false,
+        countdown_target_date: settings.countdownTargetDate ?? '',
+        countdown_title: settings.countdownTitle ?? '',
+        countdown_subtitle: settings.countdownSubtitle ?? '',
+        telegram_bot_token: settings.telegramBotToken ?? '',
+        telegram_chat_id: settings.telegramChatId ?? '',
       };
       const { error } = await supabase.from('system_settings').upsert({
         id: 'default',
@@ -518,8 +518,9 @@ export const StorageService = {
       if (error) {
         alert('Lỗi lưu máy chủ: ' + error.message);
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert('Lỗi hệ thống khi lưu: ' + (e.message || e));
     }
     localStorage.setItem(STORAGE_KEYS.SYSTEM_SETTINGS, JSON.stringify(settings));
   },
