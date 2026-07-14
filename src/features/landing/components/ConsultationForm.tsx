@@ -17,8 +17,15 @@ export const ConsultationForm: React.FC = () => {
       date: new Date().toLocaleDateString('vi-VN'),
     });
 
+    // Lấy config an toàn nhất (từ Context hoặc trực tiếp từ localStorage)
+    const localSettingsStr = localStorage.getItem('mva_system_settings');
+    const localSettings = localSettingsStr ? JSON.parse(localSettingsStr) : {};
+    
+    const token = (systemSettings?.telegramBotToken || localSettings?.telegramBotToken || '').trim();
+    const chatId = (systemSettings?.telegramChatId || localSettings?.telegramChatId || '').trim();
+
     // Gửi thông báo qua Telegram nếu có cấu hình
-    if (systemSettings?.telegramBotToken && systemSettings?.telegramChatId) {
+    if (token && chatId) {
       const message = `🔔 <b>CÓ NGƯỜI ĐĂNG KÝ TƯ VẤN MỚI</b>\n\n` +
                       `👤 <b>Họ tên:</b> ${form.name}\n` +
                       `📞 <b>Số điện thoại:</b> ${form.phone}\n` +
@@ -27,11 +34,11 @@ export const ConsultationForm: React.FC = () => {
                       `⏰ <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}`;
 
       try {
-        const res = await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken.trim()}/sendMessage`, {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            chat_id: systemSettings.telegramChatId.trim(),
+            chat_id: chatId,
             text: message,
             parse_mode: 'HTML'
           })
