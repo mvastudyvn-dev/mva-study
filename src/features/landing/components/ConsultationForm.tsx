@@ -27,7 +27,7 @@ export const ConsultationForm: React.FC = () => {
                       `⏰ <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}`;
 
       try {
-        await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken.trim()}/sendMessage`, {
+        const res = await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken.trim()}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -36,9 +36,15 @@ export const ConsultationForm: React.FC = () => {
             parse_mode: 'HTML'
           })
         });
+        const tgData = await res.json();
+        if (!tgData.ok) {
+          alert('Lỗi gửi thông báo Telegram: ' + tgData.description);
+        }
       } catch (error) {
-        console.error('Error sending Telegram message:', error);
+        alert('Lỗi mạng khi gọi API Telegram: ' + error);
       }
+    } else {
+      alert('Chưa cấu hình Telegram Bot trong phần cài đặt.');
     }
 
     setForm({ name: '', phone: '', email: '', courseInterest: '', content: '' });
