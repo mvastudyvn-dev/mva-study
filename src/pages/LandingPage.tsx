@@ -35,10 +35,10 @@ const LandingPage: React.FC = () => {
         <Box id="section-news"><NewsLeaderboardSection /></Box>
         <Box id="section-teachers"><TeacherSection /></Box>
         <Box id="section-feedback"><FeedbackSection /></Box>
-        <Box id="section-partners"><PartnerSection /></Box>
         {systemSettings?.countdownEnabled && (
           <Box id="section-countdown"><CountdownSection /></Box>
         )}
+        <Box id="section-partners"><PartnerSection /></Box>
         <Box id="section-consultation"><ConsultationForm /></Box>
         
         <Dialog 
