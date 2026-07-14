@@ -36,7 +36,7 @@ export const PartnerSection: React.FC = () => {
             sx={{ 
               display: 'flex', 
               width: 'max-content',
-              animation: 'marquee 25s linear infinite',
+              animation: 'marquee 35s linear infinite',
               '@keyframes marquee': {
                 '0%': { transform: 'translateX(0)' },
                 '100%': { transform: 'translateX(-33.333%)' } // Di chuyển 1/3 vì ta đã nhân 3 mảng
@@ -50,7 +50,7 @@ export const PartnerSection: React.FC = () => {
                   display: 'flex', 
                   alignItems: 'center', 
                   gap: 1.5, 
-                  px: 6,
+                  px: 10,
                   py: 2
                 }}
               >
