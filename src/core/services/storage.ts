@@ -469,8 +469,8 @@ export const StorageService = {
         countdownTargetDate: data.countdown_target_date ?? localSettings.countdownTargetDate ?? '',
         countdownTitle: data.countdown_title ?? localSettings.countdownTitle ?? '',
         countdownSubtitle: data.countdown_subtitle ?? localSettings.countdownSubtitle ?? '',
-        telegramBotToken: data.telegram_bot_token ?? localSettings.telegramBotToken ?? '',
-        telegramChatId: data.telegram_chat_id ?? localSettings.telegramChatId ?? '',
+        telegramBotToken: data.telegram_bot_token || localSettings.telegramBotToken || '',
+        telegramChatId: data.telegram_chat_id || localSettings.telegramChatId || '',
       };
     } catch (_e) {
       console.warn('Fallback to LocalStorage for System Settings');
