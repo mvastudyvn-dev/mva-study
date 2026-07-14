@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Tải biến môi trường
 dotenv.config();
@@ -90,4 +90,4 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Xuất ứng dụng để Vercel chạy thay vì app.listen()
-module.exports = app;
+export default app;
