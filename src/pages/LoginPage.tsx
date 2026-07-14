@@ -8,6 +8,7 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const returnUrl = location.state?.from;
+  const successMessage = location.state?.message;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -119,6 +120,12 @@ const LoginPage: React.FC = () => {
             {error && (
               <div style={{ color: '#c80000', textAlign: 'center', marginBottom: '20px', fontFamily: 'Poppins-Medium', fontSize: '14px' }}>
                 {error}
+              </div>
+            )}
+
+            {successMessage && !error && (
+              <div style={{ color: '#2e7d32', textAlign: 'center', marginBottom: '20px', fontFamily: 'Poppins-Medium', fontSize: '14px' }}>
+                {successMessage}
               </div>
             )}
 

@@ -71,8 +71,7 @@ const RegisterPage: React.FC = () => {
     
     const res = await StorageService.registerUser(regData);
     if (res.success && res.user) {
-      loginDemo('student', res.user);
-      navigate('/student');
+      navigate('/login', { state: { message: 'Đăng ký thành công! Vui lòng đăng nhập.' } });
     } else {
       setError(res.error || 'Có lỗi xảy ra.');
     }
