@@ -470,7 +470,20 @@ export const StorageService = {
     } catch (_e) {
       console.warn('Fallback to LocalStorage for System Settings');
       const s = localStorage.getItem(STORAGE_KEYS.SYSTEM_SETTINGS);
-      return s ? JSON.parse(s) : null;
+      return s ? JSON.parse(s) : {
+        contactName: '',
+        contactPhone: '',
+        contactEmail: '',
+        passMark: 5,
+        aiAnalysisEnabled: true,
+        popupEnabled: false,
+        popupTitle: '',
+        popupContent: '',
+        countdownEnabled: false,
+        countdownTargetDate: '',
+        countdownTitle: '',
+        countdownSubtitle: '',
+      };
     }
   },
   async updateSystemSettings(settings: any) {
