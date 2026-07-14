@@ -60,6 +60,11 @@ const CheckDHPage: React.FC = () => {
     setAiResult(null);
     setErrorMsg('');
     
+    // Cuộn trang xuống phần kết quả ngay lập tức
+    setTimeout(() => {
+      document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+    
     try {
       const result = await aiPredictionService({
         score,
@@ -68,10 +73,6 @@ const CheckDHPage: React.FC = () => {
         majors: selectedMajors
       });
       setAiResult(result);
-      
-      setTimeout(() => {
-        window.scrollBy({ top: 400, behavior: 'smooth' });
-      }, 300);
     } catch (err: any) {
       setErrorMsg(err.message || 'Có lỗi xảy ra khi phân tích.');
     } finally {
@@ -483,7 +484,9 @@ const CheckDHPage: React.FC = () => {
             </Box>
           </Box>
 
-          <PredictionResults isLoading={isAnalyzing} result={aiResult} />
+          <Box id="results-section" sx={{ mt: 2 }}>
+            <PredictionResults isLoading={isAnalyzing} result={aiResult} />
+          </Box>
 
         </Container>
       </Box>
