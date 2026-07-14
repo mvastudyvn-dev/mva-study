@@ -33,13 +33,17 @@ app.post('/api/predict', async (req, res) => {
   try {
     const { promptText } = req.body;
     
-    const model = predictGenAI.getGenerativeModel(
-      { model: "gemini-3.5-flash" },
-      { apiVersion: 'v1' }
-    );
-
-    const result = await model.generateContent(promptText);
-    const textResult = result.response.text();
+    let textResult = "";
+    try {
+      const model = predictGenAI.getGenerativeModel({ model: "gemini-3.5-flash" }, { apiVersion: 'v1' });
+      const result = await model.generateContent(promptText);
+      textResult = result.response.text();
+    } catch (e) {
+      console.warn("gemini-3.5-flash failed, falling back to gemini-1.5-flash:", e.message);
+      const fallbackModel = predictGenAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const fallbackResult = await fallbackModel.generateContent(promptText);
+      textResult = fallbackResult.response.text();
+    }
     
     res.json({ text: textResult });
   } catch (error) {
@@ -67,20 +71,19 @@ app.post('/api/chat', async (req, res) => {
   try {
     const { message, history } = req.body;
     
-    const model = chatGenAI.getGenerativeModel(
-      { 
-        model: "gemini-3.5-flash",
-        systemInstruction: SYSTEM_INSTRUCTION 
-      },
-      { apiVersion: 'v1' }
-    );
-
-    const chatSession = model.startChat({
-      history: history || []
-    });
-
-    const result = await chatSession.sendMessage(message);
-    const textResult = result.response.text();
+    let textResult = "";
+    try {
+      const model = chatGenAI.getGenerativeModel({ model: "gemini-3.5-flash", systemInstruction: SYSTEM_INSTRUCTION }, { apiVersion: 'v1' });
+      const chatSession = model.startChat({ history: history || [] });
+      const result = await chatSession.sendMessage(message);
+      textResult = result.response.text();
+    } catch (e) {
+      console.warn("gemini-3.5-flash failed in chat, falling back to gemini-1.5-flash:", e.message);
+      const fallbackModel = chatGenAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction: SYSTEM_INSTRUCTION });
+      const fallbackChatSession = fallbackModel.startChat({ history: history || [] });
+      const fallbackResult = await fallbackChatSession.sendMessage(message);
+      textResult = fallbackResult.response.text();
+    }
 
     res.json({ text: textResult });
   } catch (error) {
