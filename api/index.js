@@ -10,23 +10,30 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+// Lấy các API Key từ biến môi trường (Ưu tiên Key riêng, nếu không có thì dùng Key chung)
+const CHAT_API_KEY = process.env.GEMINI_API_KEY_CHAT || process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+const PREDICT_API_KEY = process.env.GEMINI_API_KEY_PREDICT || process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 
-let genAI = null;
-if (API_KEY && API_KEY !== 'your_api_key_here') {
-  genAI = new GoogleGenerativeAI(API_KEY);
+let chatGenAI = null;
+if (CHAT_API_KEY && CHAT_API_KEY !== 'your_api_key_here') {
+  chatGenAI = new GoogleGenerativeAI(CHAT_API_KEY);
+}
+
+let predictGenAI = null;
+if (PREDICT_API_KEY && PREDICT_API_KEY !== 'your_api_key_here') {
+  predictGenAI = new GoogleGenerativeAI(PREDICT_API_KEY);
 }
 
 // 1. API: Tư vấn tuyển sinh
 app.post('/api/predict', async (req, res) => {
-  if (!genAI) {
-    return res.status(500).json({ error: { message: "Server chưa cấu hình API Key" } });
+  if (!predictGenAI) {
+    return res.status(500).json({ error: { message: "Server chưa cấu hình API Key cho tính năng Tra Cứu" } });
   }
 
   try {
     const { promptText } = req.body;
     
-    const model = genAI.getGenerativeModel(
+    const model = predictGenAI.getGenerativeModel(
       { model: "gemini-3.5-flash" },
       { apiVersion: 'v1' }
     );
@@ -53,14 +60,14 @@ Một số thông tin về trung tâm:
 Luôn trả lời ngắn gọn, súc tích (dưới 3-4 câu), thân thiện và thỉnh thoảng dùng emoji. Nếu không biết câu trả lời, hãy khuyên khách hàng để lại thông tin hoặc gọi hotline.`;
 
 app.post('/api/chat', async (req, res) => {
-  if (!genAI) {
-    return res.status(500).json({ error: "Server chưa cấu hình API Key" });
+  if (!chatGenAI) {
+    return res.status(500).json({ error: "Server chưa cấu hình API Key cho Chatbot" });
   }
 
   try {
     const { message, history } = req.body;
     
-    const model = genAI.getGenerativeModel(
+    const model = chatGenAI.getGenerativeModel(
       { 
         model: "gemini-3.5-flash",
         systemInstruction: SYSTEM_INSTRUCTION 
