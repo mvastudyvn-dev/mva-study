@@ -466,6 +466,8 @@ export const StorageService = {
         countdownTargetDate: data.countdown_target_date ?? localSettings.countdownTargetDate ?? '',
         countdownTitle: data.countdown_title ?? localSettings.countdownTitle ?? '',
         countdownSubtitle: data.countdown_subtitle ?? localSettings.countdownSubtitle ?? '',
+        telegramBotToken: data.telegram_bot_token ?? localSettings.telegramBotToken ?? '',
+        telegramChatId: data.telegram_chat_id ?? localSettings.telegramChatId ?? '',
       };
     } catch (_e) {
       console.warn('Fallback to LocalStorage for System Settings');
@@ -483,6 +485,8 @@ export const StorageService = {
         countdownTargetDate: '',
         countdownTitle: '',
         countdownSubtitle: '',
+        telegramBotToken: '',
+        telegramChatId: '',
       };
     }
   },
@@ -501,6 +505,8 @@ export const StorageService = {
         countdown_target_date: settings.countdownTargetDate,
         countdown_title: settings.countdownTitle,
         countdown_subtitle: settings.countdownSubtitle,
+        telegram_bot_token: settings.telegramBotToken,
+        telegram_chat_id: settings.telegramChatId,
       };
       await supabase.from('system_settings').update(dataToSave).eq('id', 'default');
     } catch (e) {

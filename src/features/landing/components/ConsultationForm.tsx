@@ -2,18 +2,45 @@ import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, Button, Grid, Snackbar, Alert, MenuItem } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { StorageService } from '../../../core/services/storage';
+import { useData } from '../../../core/contexts/DataContext';
 
 export const ConsultationForm: React.FC = () => {
+  const { systemSettings } = useData();
   const [form, setForm] = useState({ name: '', phone: '', email: '', courseInterest: '', content: '' });
   const [snackOpen, setSnackOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     StorageService.saveConsultation({
       id: `cons_${Date.now()}`,
       ...form,
       date: new Date().toLocaleDateString('vi-VN'),
     });
+
+    // Gửi thông báo qua Telegram nếu có cấu hình
+    if (systemSettings?.telegramBotToken && systemSettings?.telegramChatId) {
+      const message = `🔔 *CÓ NGƯỜI ĐĂNG KÝ TƯ VẤN MỚI*\n\n` +
+                      `👤 *Họ tên:* ${form.name}\n` +
+                      `📞 *Số điện thoại:* ${form.phone}\n` +
+                      `📧 *Email:* ${form.email}\n` +
+                      `📚 *Quan tâm:* ${form.courseInterest || 'Không chọn'}\n` +
+                      `⏰ *Thời gian:* ${new Date().toLocaleString('vi-VN')}`;
+
+      try {
+        await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: systemSettings.telegramChatId,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+      } catch (error) {
+        console.error('Error sending Telegram message:', error);
+      }
+    }
+
     setForm({ name: '', phone: '', email: '', courseInterest: '', content: '' });
     setSnackOpen(true);
   };

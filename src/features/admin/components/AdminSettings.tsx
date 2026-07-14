@@ -265,6 +265,28 @@ export const AdminSettings: React.FC = () => {
             </CardContent>
           </Card>
 
+          <Card sx={{ borderRadius: 1, boxShadow: '0 4px 6px rgba(0,0,0,0.02)', mb: 3 }}>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#374151' }}>
+                🚀 Cấu hình Thông báo Telegram
+              </Typography>
+              <Typography variant="body2" color="text.secondary" mb={2}>
+                Nhận tin nhắn báo về điện thoại ngay khi có người đăng ký tư vấn. (Để trống nếu không dùng)
+              </Typography>
+              <TextField 
+                fullWidth label="Telegram Bot Token" size="small" sx={{ mb: 2 }}
+                value={settings.telegramBotToken || ''} onChange={(e) => handleChange('telegramBotToken', e.target.value)}
+              />
+              <TextField 
+                fullWidth label="Telegram Chat ID" size="small"
+                value={settings.telegramChatId || ''} onChange={(e) => handleChange('telegramChatId', e.target.value)}
+              />
+              <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#6B7280' }}>
+                * Tạo bot qua @BotFather để lấy Token. Nhắn tin cho bot và dùng API getUpdates để lấy Chat ID.
+              </Typography>
+            </CardContent>
+          </Card>
+
           <Card sx={{ borderRadius: 1, boxShadow: '0 4px 6px rgba(0,0,0,0.02)', bgcolor: '#FFF1F2' }}>
             <CardContent sx={{ p: 3 }}>
               <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#BE123C' }}>

@@ -176,4 +176,6 @@ export interface SystemSettings {
   countdownTargetDate: string;
   countdownTitle: string;
   countdownSubtitle: string;
+  telegramBotToken?: string;
+  telegramChatId?: string;
 }
