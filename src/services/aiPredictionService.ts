@@ -67,11 +67,25 @@ CHỈ TRẢ VỀ DUY NHẤT 1 CHUỖI JSON ĐÚNG ĐỊNH DẠNG SAU, KHÔNG KÈ
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error?.message || 'Có lỗi khi kết nối tới Backend');
+      const errorText = await response.text();
+      let errorMessage = `Lỗi Server (${response.status}): ${errorText}`;
+      try {
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.error?.message || errorMessage;
+      } catch (e) {
+        // Ignore JSON parse error, keep the text error
+      }
+      throw new Error(errorMessage);
     }
 
-    const data = await response.json();
+    const textResponse = await response.text();
+    let data;
+    try {
+      data = JSON.parse(textResponse);
+    } catch (e) {
+      throw new Error(`Server trả về định dạng không hợp lệ: ${textResponse}`);
+    }
+    
     let textResult = data.text;
     
     // Remove markdown code blocks if AI still outputs them despite instructions
