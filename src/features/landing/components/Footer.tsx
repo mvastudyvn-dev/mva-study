@@ -1,0 +1,133 @@
+import React from 'react';
+import { Box, Container, Typography, Grid, IconButton } from '@mui/material';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import { useData } from '../../../core/contexts/DataContext';
+import logo from '../../../assets/logo.png';
+
+export const Footer: React.FC = () => {
+  const { systemSettings } = useData();
+  
+  return (
+  <Box sx={{ bgcolor: '#FF8C2F', color: '#fff', pt: 6, pb: 3 }}>
+    <Container maxWidth="lg">
+      <Grid container spacing={4} sx={{ mb: 4 }}>
+        {/* Logo & Info */}
+        <Grid size={{ xs: 12, md: 3 }}>
+          <Box display="flex" alignItems="center" gap={1} mb={2}>
+            <Box component="img" src={logo} alt="Logo" sx={{ height: 28 }} />
+            <Typography variant="h6" sx={{ fontWeight: 800, color: '#fff' }}>
+              {systemSettings?.contactName || 'MVA Study'}
+            </Typography>
+          </Box>
+          <Typography sx={{ fontSize: '0.8rem', opacity: 0.9, mb: 2, lineHeight: 1.6 }}>
+            Học tin học – Vững tương lai
+          </Typography>
+          <Box display="flex" alignItems="flex-start" gap={1} mb={1}>
+            <LocationOnIcon sx={{ fontSize: 16, mt: 0.3, opacity: 0.9 }} />
+            <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>
+              123 Đường ABC, Quận 1, TP. HCM
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" gap={1} mb={1}>
+            <PhoneIcon sx={{ fontSize: 16, opacity: 0.9 }} />
+            <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>
+              {systemSettings?.contactPhone || '0123 456 789'}
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" gap={1}>
+            <EmailIcon sx={{ fontSize: 16, opacity: 0.9 }} />
+            <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>
+              {systemSettings?.contactEmail || 'info@mvastudy.vn'}
+            </Typography>
+          </Box>
+        </Grid>
+
+        {/* Liên kết nhanh */}
+        <Grid size={{ xs: 6, md: 3 }}>
+          <Typography sx={{ fontWeight: 700, mb: 2, fontSize: '0.95rem' }}>
+            Liên kết nhanh
+          </Typography>
+          {['Trang chủ', 'Khóa học', 'Giảng viên', 'Tin tức'].map((item) => (
+            <Typography
+              key={item}
+              sx={{
+                fontSize: '0.8rem',
+                opacity: 0.9,
+                mb: 1,
+                cursor: 'pointer',
+                transition: 'opacity 0.2s',
+                '&:hover': { opacity: 1 },
+              }}
+            >
+              {item}
+            </Typography>
+          ))}
+        </Grid>
+
+        {/* Chính sách */}
+        <Grid size={{ xs: 6, md: 3 }}>
+          <Typography sx={{ fontWeight: 700, mb: 2, fontSize: '0.95rem' }}>
+            Chính sách
+          </Typography>
+          {['Chính sách bảo mật', 'Điều khoản sử dụng', 'Hướng dẫn thanh toán'].map((item) => (
+            <Typography
+              key={item}
+              sx={{
+                fontSize: '0.8rem',
+                opacity: 0.9,
+                mb: 1,
+                cursor: 'pointer',
+                transition: 'opacity 0.2s',
+                '&:hover': { opacity: 1 },
+              }}
+            >
+              {item}
+            </Typography>
+          ))}
+        </Grid>
+
+        {/* Social */}
+        <Grid size={{ xs: 12, md: 3 }}>
+          <Typography sx={{ fontWeight: 700, mb: 2, fontSize: '0.95rem' }}>
+            Kết nối với MVA Study
+          </Typography>
+          <Box display="flex" gap={1}>
+            {[FacebookIcon, YouTubeIcon].map((Icon, i) => (
+              <IconButton
+                key={i}
+                sx={{
+                  bgcolor: 'rgba(255,255,255,0.2)',
+                  color: '#fff',
+                  width: 36,
+                  height: 36,
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' },
+                }}
+              >
+                <Icon sx={{ fontSize: 20 }} />
+              </IconButton>
+            ))}
+          </Box>
+        </Grid>
+      </Grid>
+
+      {/* Copyright */}
+      <Box
+        sx={{
+          borderTop: '1px solid rgba(255,255,255,0.3)',
+          pt: 2,
+          textAlign: 'center',
+        }}
+      >
+        <Typography sx={{ fontSize: '0.75rem', opacity: 0.8 }}>
+          © 2024 {systemSettings?.contactName || 'MVA Study'}. All rights reserved.
+        </Typography>
+      </Box>
+    </Container>
+  </Box>
+  );
+};

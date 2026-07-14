@@ -1,0 +1,13 @@
+export { AdminSidebar } from './components/AdminSidebar';
+export { AdminOverview } from './components/AdminOverview';
+export { AdminStudentChart } from './components/AdminStudentChart';
+export { AdminTestResults } from './components/AdminTestResults';
+export { ActivationCodesTable } from './components/ActivationCodesTable';
+export { TopStudentsTable } from './components/TopStudentsTable';
+export { AdminCourses } from './components/AdminCourses';
+export { AdminLessons } from './components/AdminLessons';
+export { AdminExams } from './components/AdminExams';
+export { AdminStudents } from './components/AdminStudents';
+export { AdminStats } from './components/AdminStats';
+export { AdminSettings } from './components/AdminSettings';
+export { AdminDocuments } from './components/AdminDocuments';

@@ -1,0 +1,183 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../core/contexts/AuthContext';
+import { StorageService } from '../core/services/storage';
+
+const LoginPage: React.FC = () => {
+  const { loginDemo } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const returnUrl = location.state?.from;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
+  // Trạng thái cho hiệu ứng Tilt 3D thuần React
+  const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    // Add stylesheets dynamically to scope them to this page
+    const links = [
+      '/login-v1/vendor/bootstrap/css/bootstrap.min.css',
+      '/login-v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css',
+      '/login-v1/vendor/animate/animate.css',
+      '/login-v1/vendor/css-hamburgers/hamburgers.min.css',
+      '/login-v1/vendor/select2/select2.min.css',
+      '/login-v1/css/util.css',
+      '/login-v1/css/main.css'
+    ];
+
+    links.forEach(href => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.className = 'login-v1-style';
+      document.head.appendChild(link);
+    });
+
+    return () => {
+      document.querySelectorAll('.login-v1-style').forEach(el => el.remove());
+    };
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - left) / width;
+    const y = (e.clientY - top) / height;
+    const tiltX = (y - 0.5) * 30; // 30 degrees max tilt
+    const tiltY = (x - 0.5) * -30;
+    
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.1, 1.1, 1.1)`,
+      transition: 'transform 0.1s ease-out'
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+      transition: 'transform 0.5s ease-out'
+    });
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    // Xử lý các trường rỗng
+    if (!trimmedEmail || !trimmedPassword) {
+      setError('Vui lòng nhập đầy đủ thông tin đăng nhập.');
+      return;
+    }
+
+    if (trimmedEmail === 'admin@mvastudy.vn' && trimmedPassword === 'admin') {
+      loginDemo('admin', null);
+      navigate(returnUrl || '/admin');
+      return;
+    } 
+    
+    const users = await StorageService.getUsers();
+    const user = users.find(u => (u.email === trimmedEmail || u.username === trimmedEmail) && u.role === 'student');
+    const userPassword = user?.password || '123456';
+
+    if (user && userPassword === trimmedPassword) {
+      if (user.status === 'locked') {
+        setError('Tài khoản của bạn đã bị khóa bởi Quản trị viên!');
+      } else {
+        loginDemo('student', user);
+        navigate(returnUrl || '/student');
+      }
+    } else if (trimmedEmail === 'ngminhanh@gmail.com' && trimmedPassword === '123456') {
+       loginDemo('student', null);
+       navigate(returnUrl || '/student');
+    } else {
+      setError('Tên đăng nhập/Email hoặc mật khẩu không đúng!');
+    }
+  };
+
+  return (
+    <div className="limiter">
+      <div className="container-login100">
+        <div className="wrap-login100">
+          <div 
+            className="login100-pic" 
+            style={tiltStyle}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
+            <img src="/login-v1/images/img-01.png" alt="IMG" style={{ width: '100%', height: 'auto' }} />
+          </div>
+
+          <form className="login100-form validate-form" onSubmit={handleLogin}>
+            <span className="login100-form-title">
+              ĐĂNG NHẬP
+            </span>
+
+            {error && (
+              <div style={{ color: '#c80000', textAlign: 'center', marginBottom: '20px', fontFamily: 'Poppins-Medium', fontSize: '14px' }}>
+                {error}
+              </div>
+            )}
+
+            <div className="wrap-input100 validate-input" data-validate="Vui lòng nhập email hợp lệ">
+              <input 
+                className="input100" 
+                type="text" 
+                name="email" 
+                placeholder="Email hoặc Tên tài khoản" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <i className="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div className="wrap-input100 validate-input" data-validate="Vui lòng nhập mật khẩu">
+              <input 
+                className="input100" 
+                type="password" 
+                name="pass" 
+                placeholder="Mật khẩu" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <i className="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
+            
+            <div className="container-login100-form-btn">
+              <button className="login100-form-btn" type="submit">
+                Đăng nhập
+              </button>
+            </div>
+
+            <div className="text-center p-t-12">
+              <span className="txt1" style={{ marginRight: '5px' }}>
+                Quên
+              </span>
+              <a className="txt2" href="#">
+                Tên đăng nhập / Mật khẩu?
+              </a>
+            </div>
+
+            <div className="text-center p-t-136">
+              <a className="txt2" onClick={() => navigate('/register')} style={{ cursor: 'pointer' }}>
+                Tạo tài khoản của bạn
+                <i className="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVA Study - Hệ thống ôn thi Tin học</title>
+  <script>
+    window.onerror = function (msg, src, lineno, colno, error) {
+      document.body.innerHTML = '<div style="color:red; padding:20px; font-family:sans-serif;"><h1>LỖI RUNTIME</h1><p>' + msg + '</p><pre>' + (error ? error.stack : '') + '</pre></div>';
+    };
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

@@ -1,0 +1,1042 @@
+[
+  {
+    "code": "D01",
+    "subjects": "Toán, Ngữ Văn, Tiếng Anh"
+  },
+  {
+    "code": "A00",
+    "subjects": "Toán, Vật lí, Hóa học"
+  },
+  {
+    "code": "A01",
+    "subjects": "Toán, Vật lí, Tiếng Anh"
+  },
+  {
+    "code": "D07",
+    "subjects": "Toán, Hóa học, Tiếng Anh"
+  },
+  {
+    "code": "B00",
+    "subjects": "Toán, Hóa học, Sinh học"
+  },
+  {
+    "code": "C00",
+    "subjects": "Ngữ văn, Lịch sử, Địa lí"
+  },
+  {
+    "code": "C01",
+    "subjects": "Toán, Ngữ Văn, Vật lí"
+  },
+  {
+    "code": "D14",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Anh"
+  },
+  {
+    "code": "D15",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Anh"
+  },
+  {
+    "code": "A02",
+    "subjects": "Toán, Vật lí, Sinh học"
+  },
+  {
+    "code": "C04",
+    "subjects": "Ngữ văn, Toán, Địa lí"
+  },
+  {
+    "code": "D03",
+    "subjects": "Ngữ văn, Toán, Tiếng Pháp"
+  },
+  {
+    "code": "D04",
+    "subjects": "Ngữ văn, Toán, Tiếng Trung"
+  },
+  {
+    "code": "D10",
+    "subjects": "Toán, Địa lí, Tiếng Anh"
+  },
+  {
+    "code": "B08",
+    "subjects": "Toán, Sinh học, Tiếng Anh"
+  },
+  {
+    "code": "D06",
+    "subjects": "Ngữ văn, Toán, Tiếng Nhật"
+  },
+  {
+    "code": "D08",
+    "subjects": "Toán, Sinh học, Tiếng Anh"
+  },
+  {
+    "code": "X74",
+    "subjects": "Ngữ văn, Địa lí, GDKTPL"
+  },
+  {
+    "code": "D09",
+    "subjects": "Toán, Lịch sử, Tiếng Anh"
+  },
+  {
+    "code": "X70",
+    "subjects": "Ngữ văn, Lịch sử, GDKTPL"
+  },
+  {
+    "code": "X01",
+    "subjects": "Ngữ văn, Toán, GDKTPL"
+  },
+  {
+    "code": "D02",
+    "subjects": "Ngữ văn, Toán, Tiếng Nga"
+  },
+  {
+    "code": "X78",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Anh"
+  },
+  {
+    "code": "D05",
+    "subjects": "Ngữ văn, Toán, Tiếng Đức"
+  },
+  {
+    "code": "C02",
+    "subjects": "Toán, Ngữ Văn, Hóa học"
+  },
+  {
+    "code": "D28",
+    "subjects": "Toán, Vật lí, Tiếng Nhật"
+  },
+  {
+    "code": "D29",
+    "subjects": "Toán, Vật lí, Tiếng Pháp"
+  },
+  {
+    "code": "X21",
+    "subjects": "Toán, Địa lí, GDKTPL"
+  },
+  {
+    "code": "D26",
+    "subjects": "Toán, Vật lí, Tiếng Đức"
+  },
+  {
+    "code": "D24",
+    "subjects": "Toán, Hóa học, Tiếng Pháp"
+  },
+  {
+    "code": "V00",
+    "subjects": "Toán, Vật lí, Vẽ Hình họa mỹ thuật"
+  },
+  {
+    "code": "D23",
+    "subjects": "Toán, Hóa học, Tiếng Nhật"
+  },
+  {
+    "code": "D27",
+    "subjects": "Toán, Vật lí, Tiếng Nga"
+  },
+  {
+    "code": "D46",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Đức"
+  },
+  {
+    "code": "D30",
+    "subjects": "Toán, Vật lí, Tiếng Trung"
+  },
+  {
+    "code": "D21",
+    "subjects": "Toán, Hóa học, Tiếng Đức"
+  },
+  {
+    "code": "D47",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Nga"
+  },
+  {
+    "code": "D22",
+    "subjects": "Toán, Hóa học, Tiếng Nga"
+  },
+  {
+    "code": "D25",
+    "subjects": "Toán, Hóa học, Tiếng Trung"
+  },
+  {
+    "code": "V01",
+    "subjects": "Toán, Ngữ văn, Vẽ Hình họa mỹ thuật"
+  },
+  {
+    "code": "A07",
+    "subjects": "Toán, Lịch sử, Địa lí"
+  },
+  {
+    "code": "C03",
+    "subjects": "Ngữ văn, Toán, Lịch sử"
+  },
+  {
+    "code": "B03",
+    "subjects": "Toán, Ngữ văn, Sinh học"
+  },
+  {
+    "code": "AH1",
+    "subjects": "Toán, Địa lí, Tiếng Hàn"
+  },
+  {
+    "code": "H00",
+    "subjects": "Ngữ văn, Năng khiếu vẽ Nghệ thuật 1, Năng khiếu vẽ Nghệ thuật 2"
+  },
+  {
+    "code": "V02",
+    "subjects": "Toán, Tiếng Anh, Vẽ mỹ thuật"
+  },
+  {
+    "code": "H01",
+    "subjects": "Toán, Ngữ văn, Vẽ Mỹ thuật"
+  },
+  {
+    "code": "C08",
+    "subjects": "Ngữ văn, Hóa học, Sinh học"
+  },
+  {
+    "code": "X25",
+    "subjects": "Toán, Tiếng Anh, GDKTPL"
+  },
+  {
+    "code": "T00",
+    "subjects": "Toán, Sinh học, Năng khiếu TDTT"
+  },
+  {
+    "code": "A04",
+    "subjects": "Toán, Vật lí, Địa lí"
+  },
+  {
+    "code": "X13",
+    "subjects": "Toán, Sinh học, GDKTPL"
+  },
+  {
+    "code": "T05",
+    "subjects": "Ngữ văn, GDKTPL, Năng khiếu thể dục thể thao"
+  },
+  {
+    "code": "X05",
+    "subjects": "Toán, Vật lí, GDKTPL"
+  },
+  {
+    "code": "M01",
+    "subjects": "Ngữ văn, Lịch sử, Năng khiếu"
+  },
+  {
+    "code": "H06",
+    "subjects": "Ngữ văn, Tiếng Anh,Vẽ mỹ thuật"
+  },
+  {
+    "code": "D11",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Anh"
+  },
+  {
+    "code": "N00",
+    "subjects": "Ngữ văn, Năng khiếu Âm nhạc 1, Năng khiếu Âm nhạc 2"
+  },
+  {
+    "code": "M00",
+    "subjects": "Ngữ văn, Toán, Đọc diễn cảm, Hát"
+  },
+  {
+    "code": "T02",
+    "subjects": "Ngữ văn, Sinh, Năng khiếu TDTT"
+  },
+  {
+    "code": "T01",
+    "subjects": "Toán, Ngữ văn, Năng khiếu TDTT"
+  },
+  {
+    "code": "D13",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Anh"
+  },
+  {
+    "code": "H02",
+    "subjects": "Toán, Vẽ Hình họa mỹ thuật, Vẽ trang trí màu"
+  },
+  {
+    "code": "H04",
+    "subjects": "Toán, Tiếng Anh, Vẽ Năng khiếu"
+  },
+  {
+    "code": "A05",
+    "subjects": "Toán, Hóa học, Lịch sử"
+  },
+  {
+    "code": "A06",
+    "subjects": "Toán, Hóa học, Địa lí"
+  },
+  {
+    "code": "X17",
+    "subjects": "Toán, Lịch sử, GDKTPL"
+  },
+  {
+    "code": "T03",
+    "subjects": "Ngữ văn, Địa, Năng khiếu TDTT"
+  },
+  {
+    "code": "B02",
+    "subjects": "Toán, Sinh học, Địa lí"
+  },
+  {
+    "code": "X09",
+    "subjects": "Toán, Hóa học, GDKTPL"
+  },
+  {
+    "code": "M02",
+    "subjects": "Toán, Năng khiếu 1, Năng khiếu 2"
+  },
+  {
+    "code": "C05",
+    "subjects": "Ngữ văn, Vật lí, Hóa học"
+  },
+  {
+    "code": "M09",
+    "subjects": "Toán, NK Mầm non 1( kể chuyện, đọc, diễn cảm), NK Mầm non 2 (Hát)"
+  },
+  {
+    "code": "D12",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Anh"
+  },
+  {
+    "code": "D45",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Trung"
+  },
+  {
+    "code": "M03",
+    "subjects": "Văn, Năng khiếu 1, Năng khiếu 2"
+  },
+  {
+    "code": "N01",
+    "subjects": "Ngữ văn, xướng âm, biểu diễn nghệ thuật"
+  },
+  {
+    "code": "A03",
+    "subjects": "Toán, Vật lí, Lịch sử"
+  },
+  {
+    "code": "D44",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Pháp"
+  },
+  {
+    "code": "D63",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Nhật"
+  },
+  {
+    "code": "M13",
+    "subjects": "Toán, Sinh học, Năng khiếu"
+  },
+  {
+    "code": "V03",
+    "subjects": "Vẽ mỹ thuật, Toán, Hóa"
+  },
+  {
+    "code": "D64",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Pháp"
+  },
+  {
+    "code": "H08",
+    "subjects": "Ngữ văn, Lịch sử, Vẽ mỹ thuật"
+  },
+  {
+    "code": "T04",
+    "subjects": "Toán, Lý, Năng khiếu TDTT"
+  },
+  {
+    "code": "V06",
+    "subjects": "Toán, Địa lí, Vẽ mỹ thuật"
+  },
+  {
+    "code": "C13",
+    "subjects": "Ngữ văn, Sinh học, Địa lí"
+  },
+  {
+    "code": "S00",
+    "subjects": "Ngữ văn, Năng khiếu SKĐA 1, Năng khiếu SKĐA 2"
+  },
+  {
+    "code": "D20",
+    "subjects": "Toán, Địa lí, Tiếng Trung"
+  },
+  {
+    "code": "D32",
+    "subjects": "Toán, Sinh học, Tiếng Nga"
+  },
+  {
+    "code": "D33",
+    "subjects": "Toán, Sinh học, Tiếng Nhật"
+  },
+  {
+    "code": "D34",
+    "subjects": "Toán, Sinh học, Tiếng Pháp"
+  },
+  {
+    "code": "D42",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Nga"
+  },
+  {
+    "code": "H07",
+    "subjects": "Toán, Hình họa, Trang trí"
+  },
+  {
+    "code": "M10",
+    "subjects": "Toán, Tiếng Anh, NK1"
+  },
+  {
+    "code": "M11",
+    "subjects": "Ngữ Văn, năng kiếu báo chí, Tiếng Anh"
+  },
+  {
+    "code": "N05",
+    "subjects": "Ngữ Văn, Xây dựng kịch bản sự kiện, Năng khiếu"
+  },
+  {
+    "code": "V05",
+    "subjects": "Văn, Vật lí, Vẽ mỹ thuật"
+  },
+  {
+    "code": "100",
+    "subjects": "Toán, tiếng Đức, Vẽ mỹ thuật"
+  },
+  {
+    "code": "101",
+    "subjects": "Toán, tiếng Pháp, Vẽ mỹ thuật"
+  },
+  {
+    "code": "102",
+    "subjects": "Toán, Địa lí, Tiếng Đức"
+  },
+  {
+    "code": "103",
+    "subjects": "Toán, Sinh học, Tiếng Đức"
+  },
+  {
+    "code": "104",
+    "subjects": "Toán, Sinh học, Tiếng Trung"
+  },
+  {
+    "code": "105",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Nhật"
+  },
+  {
+    "code": "106",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Trung"
+  },
+  {
+    "code": "107",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Trung"
+  },
+  {
+    "code": "108",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Nga"
+  },
+  {
+    "code": "109",
+    "subjects": "Ngữ Văn, GDKTPL, Tiếng Pháp"
+  },
+  {
+    "code": "110",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Trung"
+  },
+  {
+    "code": "111",
+    "subjects": "Toán, Đọc kể diễn cảm, Hát - Múa"
+  },
+  {
+    "code": "112",
+    "subjects": "Ngữ văn, Năng khiếu báo chí, Toán"
+  },
+  {
+    "code": "113",
+    "subjects": "Ngữ văn, Ký xướng âm, Hát hoặc biểu diễn nhạc cụ"
+  },
+  {
+    "code": "114",
+    "subjects": "Toán, tiếng Nga, Vẽ mỹ thuật"
+  },
+  {
+    "code": "115",
+    "subjects": "Toán, tiếng Nhật, Vẽ mỹ thuật"
+  },
+  {
+    "code": "116",
+    "subjects": "Toán, Tiếng Trung, Vẽ mỹ thuật"
+  },
+  {
+    "code": "117",
+    "subjects": "Toán, Lịch sử, Sinh học"
+  },
+  {
+    "code": "118",
+    "subjects": "Ngữ Văn, Vật lí, Sinh học"
+  },
+  {
+    "code": "119",
+    "subjects": "Ngữ văn, Lịch sử, Vật lí"
+  },
+  {
+    "code": "120",
+    "subjects": "Toán, Địa lí, Công nghệ công nghiệp"
+  },
+  {
+    "code": "121",
+    "subjects": "Ngữ văn, Địa lí, Vật lí"
+  },
+  {
+    "code": "122",
+    "subjects": "Toán, Địa lí, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "123",
+    "subjects": "Ngữ văn, Lịch sử, Hóa học"
+  },
+  {
+    "code": "124",
+    "subjects": "Ngữ văn, Địa lí, Hóa học"
+  },
+  {
+    "code": "125",
+    "subjects": "Ngữ văn, Lịch sử, Sinh học"
+  },
+  {
+    "code": "126",
+    "subjects": "Ngữ văn, Vật lí, GDKTPL"
+  },
+  {
+    "code": "127",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Pháp"
+  },
+  {
+    "code": "128",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Đức"
+  },
+  {
+    "code": "129",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Nga"
+  },
+  {
+    "code": "130",
+    "subjects": "Ngữ Văn, GDKTPL, Tiếng Đức"
+  },
+  {
+    "code": "131",
+    "subjects": "Văn, GDKTPL, Tiếng Nhật"
+  },
+  {
+    "code": "132",
+    "subjects": "Toán, GDKTPL, Tiếng Đức"
+  },
+  {
+    "code": "133",
+    "subjects": "Toán, GDKTPL, Tiếng Nga"
+  },
+  {
+    "code": "134",
+    "subjects": "Ngữ văn, Tiếng Anh, Năng khiếu âm nhạc"
+  },
+  {
+    "code": "135",
+    "subjects": "Ngữ Văn, Năng khiếu thuyết trình, Năng khiếu"
+  },
+  {
+    "code": "136",
+    "subjects": "Ngữ văn, Lịch sử, Năng khiếu báo chí"
+  },
+  {
+    "code": "137",
+    "subjects": "Ngữ văn, Địa lý, Năng khiếu nghệ thuật"
+  },
+  {
+    "code": "138",
+    "subjects": "Ngữ văn, Toán, Năng khiếu nghệ thuật"
+  },
+  {
+    "code": "139",
+    "subjects": "Ngữ văn, tiếng Anh, Năng khiếu nghệ thuật"
+  },
+  {
+    "code": "140",
+    "subjects": "Ngữ văn, Hóa học, GDKTPL"
+  },
+  {
+    "code": "141",
+    "subjects": "Toán, Đọc hiểu, Tư duy Khoa học Giải quyết vấn đề"
+  },
+  {
+    "code": "142",
+    "subjects": "X02, K21, TH6, DK, F01, TH3"
+  },
+  {
+    "code": "143",
+    "subjects": "X06, A0T, GT1, TH1"
+  },
+  {
+    "code": "144",
+    "subjects": "Toán, Vật lí, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "145",
+    "subjects": "X07, A0C, TH3, TH4"
+  },
+  {
+    "code": "146",
+    "subjects": "X11, B0C, TH5"
+  },
+  {
+    "code": "147",
+    "subjects": "X28, K20, D0C"
+  },
+  {
+    "code": "148",
+    "subjects": "X27; D0C; K20; TH5; TH7"
+  },
+  {
+    "code": "149",
+    "subjects": "Toán, Hóa học, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "150",
+    "subjects": "Toán, Sinh học, Công nghệ công nghiệp"
+  },
+  {
+    "code": "151",
+    "subjects": "Toán, Sinh học, Tin học"
+  },
+  {
+    "code": "152",
+    "subjects": "Toán, Sinh học, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "153",
+    "subjects": "Toán, Địa lí, Tiếng Nhật"
+  },
+  {
+    "code": "154",
+    "subjects": "Toán, Lịch sử, Tiếng Pháp"
+  },
+  {
+    "code": "155",
+    "subjects": "X10, TH4"
+  },
+  {
+    "code": "156",
+    "subjects": "(Ngữ văn, Vật lí, Tiếng Hàn)"
+  },
+  {
+    "code": "157",
+    "subjects": "Ngữ văn, Địa lí, Tin học"
+  },
+  {
+    "code": "158",
+    "subjects": "Toán, Tiếng Nhật, Tin học"
+  },
+  {
+    "code": "159",
+    "subjects": "Toán, Địa lí, Tin học"
+  },
+  {
+    "code": "160",
+    "subjects": "Toán, Địa lí, Tiếng Pháp"
+  },
+  {
+    "code": "161",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Đức"
+  },
+  {
+    "code": "162",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Trung"
+  },
+  {
+    "code": "163",
+    "subjects": "X03; TH8; K22; E01"
+  },
+  {
+    "code": "164",
+    "subjects": "Ngữ văn, Khoa học tự nhiên, Tiếng Đức"
+  },
+  {
+    "code": "165",
+    "subjects": "X79; TH9"
+  },
+  {
+    "code": "166",
+    "subjects": "Toán, Văn, Lý/Hóa/Sinh/Tin"
+  },
+  {
+    "code": "167",
+    "subjects": "X04; TH8; K22; E01"
+  },
+  {
+    "code": "168",
+    "subjects": "X71; TH11"
+  },
+  {
+    "code": "169",
+    "subjects": "Tư duy định lượng, Tư duy định tính, Khoa học/ Tiếng Anh"
+  },
+  {
+    "code": "170",
+    "subjects": "Toán, Khoa học xã hội, Tiếng Anh"
+  },
+  {
+    "code": "171",
+    "subjects": "Toán, GDKTPL, Tin học"
+  },
+  {
+    "code": "172",
+    "subjects": "Toán, Vật lí, Tiếng Hàn"
+  },
+  {
+    "code": "173",
+    "subjects": "Ngữ văn, Toán, Tiếng Hàn"
+  },
+  {
+    "code": "174",
+    "subjects": "Toán, Hóa học, Tiếng Hàn"
+  },
+  {
+    "code": "175",
+    "subjects": "Toán, Lịch sử, Tiếng Hàn"
+  },
+  {
+    "code": "176",
+    "subjects": "Toán, Lịch sử, Tiếng Đức"
+  },
+  {
+    "code": "177",
+    "subjects": "Toán, Lịch sử, Tiếng Nga"
+  },
+  {
+    "code": "178",
+    "subjects": "Toán, Lịch sử, Tiếng Nhật"
+  },
+  {
+    "code": "179",
+    "subjects": "Toán, Lịch sử, Tiếng Trung"
+  },
+  {
+    "code": "180",
+    "subjects": "Toán, Tiếng Pháp, Vẽ mỹ thuật"
+  },
+  {
+    "code": "181",
+    "subjects": "Ngữ Văn, Năng Khiếu 1, Năng Khiếu 2"
+  },
+  {
+    "code": "182",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Pháp"
+  },
+  {
+    "code": "183",
+    "subjects": "Ngữ văn, Khoa học xã hội, Năng khiếu"
+  },
+  {
+    "code": "184",
+    "subjects": "Toán, GDKTPL, Tiếng Nhật"
+  },
+  {
+    "code": "185",
+    "subjects": "Toán, GDKTPL, Tiếng Pháp"
+  },
+  {
+    "code": "186",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Nhật"
+  },
+  {
+    "code": "187",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Pháp"
+  },
+  {
+    "code": "188",
+    "subjects": "Toán, Công nghệ nông nghiệp, Tiếng Pháp"
+  },
+  {
+    "code": "189",
+    "subjects": "Toán, Tin học, Tiếng Trung"
+  },
+  {
+    "code": "190",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Đức"
+  },
+  {
+    "code": "191",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Nga"
+  },
+  {
+    "code": "192",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Nhật"
+  },
+  {
+    "code": "193",
+    "subjects": "Toán, Công nghệ công nghiệp, Tiếng Trung"
+  },
+  {
+    "code": "194",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Đức"
+  },
+  {
+    "code": "195",
+    "subjects": "Toán, Công nghệ nông nghiệp, Tiếng Trung"
+  },
+  {
+    "code": "196",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Nga"
+  },
+  {
+    "code": "197",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Nhật"
+  },
+  {
+    "code": "198",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Pháp"
+  },
+  {
+    "code": "199",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Trung"
+  },
+  {
+    "code": "200",
+    "subjects": "Ngữ văn, Hóa học, Tiếng Hàn"
+  },
+  {
+    "code": "201",
+    "subjects": "Ngữ văn, Vật lí, Tiếng Hàn"
+  },
+  {
+    "code": "202",
+    "subjects": "Ngữ văn, Sinh học, Tiếng Hàn"
+  },
+  {
+    "code": "203",
+    "subjects": "Toán, Tin học, Tiếng Nga"
+  },
+  {
+    "code": "204",
+    "subjects": "Toán, Công nghệ công nghiệp, Tiếng Nga"
+  },
+  {
+    "code": "205",
+    "subjects": "X37; D89"
+  },
+  {
+    "code": "206",
+    "subjects": "Toán, Tin học, Tiếng Đức"
+  },
+  {
+    "code": "207",
+    "subjects": "Toán, Công nghệ nông nghiệp, Tiếng Nga"
+  },
+  {
+    "code": "208",
+    "subjects": "Toán, Tin học, Tiếng Pháp"
+  },
+  {
+    "code": "209",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Trung"
+  },
+  {
+    "code": "210",
+    "subjects": "Ngữ văn, Biểu diễn nghệ thuật, Năng khiếu văn hóa nghệ thuật"
+  },
+  {
+    "code": "211",
+    "subjects": "Ngữ Văn, Địa lý, Năng khiếu đọc diễn cảm và Hát"
+  },
+  {
+    "code": "212",
+    "subjects": "Ngữ Văn, Địa, Năng khiếu"
+  },
+  {
+    "code": "213",
+    "subjects": "H10; H11; H06"
+  },
+  {
+    "code": "214",
+    "subjects": "Toán, Vật lý, Năng khiếu Thể dục Thể thao"
+  },
+  {
+    "code": "215",
+    "subjects": "Toán, Công nghệ công nghiệp, Tiếng Pháp"
+  },
+  {
+    "code": "216",
+    "subjects": "Toán, GDKTPL, Tiếng Hàn"
+  },
+  {
+    "code": "217",
+    "subjects": "Toán, Tin học, Tiếng Hàn"
+  },
+  {
+    "code": "218",
+    "subjects": "Ngữ văn, Tin học, Tiếng Nga"
+  },
+  {
+    "code": "219",
+    "subjects": "Toán, Địa lý, Năng khiếu Thể dục thể thao"
+  },
+  {
+    "code": "220",
+    "subjects": "Ngữ văn, Địa lý, Năng khiếu Thể dục Thể thao"
+  },
+  {
+    "code": "221",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Nga"
+  },
+  {
+    "code": "222",
+    "subjects": "Toán, GDKTPL, Năng khiếu Thể dục thể thao"
+  },
+  {
+    "code": "223",
+    "subjects": "Ngữ văn, Công nghệ công nghiệp, Tiếng Nga"
+  },
+  {
+    "code": "224",
+    "subjects": "Ngữ văn, Tin học, Tiếng Pháp"
+  },
+  {
+    "code": "225",
+    "subjects": "Ngữ văn, Lịch sử, năng khiếu thể dục thể thao"
+  },
+  {
+    "code": "226",
+    "subjects": "Ngữ Văn, Toán, Năng khiếu Giáo dục mầm non"
+  },
+  {
+    "code": "227",
+    "subjects": "Toán, GDKTPL, Công nghệ công nghiệp"
+  },
+  {
+    "code": "228",
+    "subjects": "Ngữ văn, Sinh học, GDKT&PL"
+  },
+  {
+    "code": "229",
+    "subjects": "Toán, GDKTPL, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "230",
+    "subjects": "Toán, Tin học, Công nghệ công nghiệp"
+  },
+  {
+    "code": "231",
+    "subjects": "Ngữ văn, Tin học, Tiếng Đức"
+  },
+  {
+    "code": "232",
+    "subjects": "Toán, Tin học, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "233",
+    "subjects": "Toán, Lịch sử, Công nghệ công nghiệp"
+  },
+  {
+    "code": "234",
+    "subjects": "Toán, Lịch sử, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "235",
+    "subjects": "Toán, Lịch sử, Tin học"
+  },
+  {
+    "code": "236",
+    "subjects": "Ngữ văn, Tin học, Tiếng Nhật"
+  },
+  {
+    "code": "237",
+    "subjects": "Ngữ văn, Địa lí, Công nghệ công nghiệp"
+  },
+  {
+    "code": "238",
+    "subjects": "Ngữ văn, GDKTPL, Công nghệ công nghiệp"
+  },
+  {
+    "code": "239",
+    "subjects": "Ngữ văn, Địa lí, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "240",
+    "subjects": "Ngữ văn, GDKTPL, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "241",
+    "subjects": "Ngữ văn, GDKTPL, Tin học"
+  },
+  {
+    "code": "242",
+    "subjects": "Ngữ văn, GDKTPL, Tiếng Hàn"
+  },
+  {
+    "code": "243",
+    "subjects": "Ngữ văn, Hóa học, Công nghệ công nghiệp"
+  },
+  {
+    "code": "244",
+    "subjects": "Ngữ văn, Tin học, Tiếng Hàn"
+  },
+  {
+    "code": "245",
+    "subjects": "Ngữ văn, Hóa học, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "246",
+    "subjects": "Ngữ văn, Hóa học, Tin học"
+  },
+  {
+    "code": "247",
+    "subjects": "Ngữ văn, Lịch sử, Công nghệ công nghiệp"
+  },
+  {
+    "code": "248",
+    "subjects": "Ngữ văn, Lịch sử, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "249",
+    "subjects": "Ngữ văn, Sinh học, Công nghệ công nghiệp"
+  },
+  {
+    "code": "250",
+    "subjects": "Ngữ văn, Sinh học, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "251",
+    "subjects": "Ngữ văn, Sinh học, Tin học"
+  },
+  {
+    "code": "252",
+    "subjects": "Ngữ văn, Tiếng Anh, Công nghệ công nghiệp"
+  },
+  {
+    "code": "253",
+    "subjects": "Ngữ văn, Tiếng Anh, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "254",
+    "subjects": "Ngữ văn, Tin học, Công nghệ công nghiệp"
+  },
+  {
+    "code": "255",
+    "subjects": "Ngữ văn, Tin học, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "256",
+    "subjects": "Ngữ văn, Vật lí, Công nghệ công nghiệp"
+  },
+  {
+    "code": "257",
+    "subjects": "Ngữ văn, Địa lí, Tiếng Hàn"
+  },
+  {
+    "code": "258",
+    "subjects": "Ngữ văn, Vật lí, Công nghệ nông nghiệp"
+  },
+  {
+    "code": "259",
+    "subjects": "Ngữ văn, Lịch sử, Tiếng Hàn"
+  },
+  {
+    "code": "260",
+    "subjects": "Ngữ văn, Vật lí, Tin học"
+  },
+  {
+    "code": "261",
+    "subjects": "Toán, Sinh học, Tiếng Hàn"
+  }
+]

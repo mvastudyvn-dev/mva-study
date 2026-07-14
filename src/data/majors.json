@@ -1,0 +1,1810 @@
+[
+  {
+    "code": "1",
+    "name": "Quản trị tài chính kế toán"
+  },
+  {
+    "code": "2",
+    "name": "Kế toán"
+  },
+  {
+    "code": "3",
+    "name": "Kiểm toán"
+  },
+  {
+    "code": "4",
+    "name": "Kinh tế và quản lý bất động sản"
+  },
+  {
+    "code": "5",
+    "name": "Tài chính"
+  },
+  {
+    "code": "6",
+    "name": "Ngân hàng"
+  },
+  {
+    "code": "7",
+    "name": "Tài chính - Ngân hàng"
+  },
+  {
+    "code": "8",
+    "name": "Bảo hiểm"
+  },
+  {
+    "code": "9",
+    "name": "Bất động sản"
+  },
+  {
+    "code": "10",
+    "name": "Công nghệ tài chính"
+  },
+  {
+    "code": "11",
+    "name": "Thị trường chứng khoán"
+  },
+  {
+    "code": "12",
+    "name": "Đầu tư tài chính"
+  },
+  {
+    "code": "13",
+    "name": "Phân tích dữ liệu kinh doanh"
+  },
+  {
+    "code": "14",
+    "name": "Kinh tế đầu tư"
+  },
+  {
+    "code": "15",
+    "name": "Quản lý tài chính công"
+  },
+  {
+    "code": "16",
+    "name": "Quản trị doanh nghiệp"
+  },
+  {
+    "code": "17",
+    "name": "Quản trị logistics"
+  },
+  {
+    "code": "18",
+    "name": "Thống kê kinh tế"
+  },
+  {
+    "code": "19",
+    "name": "Kinh doanh số"
+  },
+  {
+    "code": "20",
+    "name": "Thương mại số"
+  },
+  {
+    "code": "21",
+    "name": "Kinh doanh"
+  },
+  {
+    "code": "22",
+    "name": "Kinh tế"
+  },
+  {
+    "code": "23",
+    "name": "Quản trị kinh doanh"
+  },
+  {
+    "code": "24",
+    "name": "Logistics và chuỗi cung ứng"
+  },
+  {
+    "code": "25",
+    "name": "Kinh tế phát triển"
+  },
+  {
+    "code": "26",
+    "name": "Kinh tế quốc tế"
+  },
+  {
+    "code": "27",
+    "name": "Kinh tế số"
+  },
+  {
+    "code": "28",
+    "name": "Kinh tế vận tải"
+  },
+  {
+    "code": "29",
+    "name": "Phân tích kinh doanh, tài chính"
+  },
+  {
+    "code": "30",
+    "name": "Hệ thống thông tin quản lý"
+  },
+  {
+    "code": "31",
+    "name": "Quản lý, quản trị"
+  },
+  {
+    "code": "32",
+    "name": "Khoa học quản lý"
+  },
+  {
+    "code": "33",
+    "name": "Quản trị và phân tích dữ liệu"
+  },
+  {
+    "code": "34",
+    "name": "Thẩm định giá và quản trị tài sản"
+  },
+  {
+    "code": "35",
+    "name": "Truyền thông doanh nghiệp"
+  },
+  {
+    "code": "36",
+    "name": "Thương mại điện tử"
+  },
+  {
+    "code": "37",
+    "name": "Tin học"
+  },
+  {
+    "code": "38",
+    "name": "An toàn dữ liệu và an ninh mạng"
+  },
+  {
+    "code": "39",
+    "name": "Công nghệ phần mềm"
+  },
+  {
+    "code": "40",
+    "name": "Công nghệ thông tin"
+  },
+  {
+    "code": "41",
+    "name": "An toàn thông tin"
+  },
+  {
+    "code": "42",
+    "name": "Công nghệ bán dẫn"
+  },
+  {
+    "code": "43",
+    "name": "Công nghệ đa phương tiện"
+  },
+  {
+    "code": "44",
+    "name": "Khoa học Máy tính"
+  },
+  {
+    "code": "45",
+    "name": "Trí tuệ nhân tạo"
+  },
+  {
+    "code": "46",
+    "name": "Công nghệ kỹ thuật điện tử - viễn thông"
+  },
+  {
+    "code": "47",
+    "name": "Công nghệ kỹ thuật máy tính"
+  },
+  {
+    "code": "48",
+    "name": "Công nghệ và đổi mới sáng tạo"
+  },
+  {
+    "code": "49",
+    "name": "Hệ thống nhúng và IoT"
+  },
+  {
+    "code": "50",
+    "name": "Hệ thống thông tin"
+  },
+  {
+    "code": "51",
+    "name": "Khoa học dữ liệu và Trí tuệ nhân tạo"
+  },
+  {
+    "code": "52",
+    "name": "Kỹ thuật dữ liệu"
+  },
+  {
+    "code": "53",
+    "name": "Kỹ thuật điện tử - viễn thông"
+  },
+  {
+    "code": "54",
+    "name": "Kỹ thuật Máy tính"
+  },
+  {
+    "code": "55",
+    "name": "Kỹ thuật phần mềm"
+  },
+  {
+    "code": "56",
+    "name": "Mạng máy tính & truyền thông dữ liệu"
+  },
+  {
+    "code": "57",
+    "name": "Quản lý thông tin"
+  },
+  {
+    "code": "58",
+    "name": "Robot và trí tuệ nhân tạo"
+  },
+  {
+    "code": "59",
+    "name": "Thiết kế vi mạch"
+  },
+  {
+    "code": "60",
+    "name": "Truyền thông đa phương tiện"
+  },
+  {
+    "code": "61",
+    "name": "Cơ học"
+  },
+  {
+    "code": "62",
+    "name": "Hóa học"
+  },
+  {
+    "code": "63",
+    "name": "Khoa học tính toán"
+  },
+  {
+    "code": "64",
+    "name": "Kỹ thuật vật liệu kim loại"
+  },
+  {
+    "code": "65",
+    "name": "An ninh mạng và phòng chống tội phạm công nghệ cao"
+  },
+  {
+    "code": "66",
+    "name": "Công nghệ kỹ thuật cơ khí"
+  },
+  {
+    "code": "67",
+    "name": "Kỹ thuật cơ điện tử"
+  },
+  {
+    "code": "68",
+    "name": "Kỹ thuật cơ khí"
+  },
+  {
+    "code": "69",
+    "name": "Vật lý Kỹ thuật"
+  },
+  {
+    "code": "70",
+    "name": "Cơ Kỹ thuật"
+  },
+  {
+    "code": "71",
+    "name": "Kỹ thuật công nghiệp"
+  },
+  {
+    "code": "72",
+    "name": "Công nghệ kỹ thuật cơ điện tử"
+  },
+  {
+    "code": "73",
+    "name": "Công nghệ kỹ thuật điện, điện tử"
+  },
+  {
+    "code": "74",
+    "name": "Công nghệ kỹ thuật điều khiển và tự động hóa"
+  },
+  {
+    "code": "75",
+    "name": "Kỹ thuật điện"
+  },
+  {
+    "code": "76",
+    "name": "Kỹ thuật Nhiệt"
+  },
+  {
+    "code": "77",
+    "name": "Công nghệ kỹ thuật nhiệt"
+  },
+  {
+    "code": "78",
+    "name": "Kỹ thuật Robot"
+  },
+  {
+    "code": "79",
+    "name": "Kỹ thuật Điện - Điện tử"
+  },
+  {
+    "code": "80",
+    "name": "Kỹ thuật Vật liệu"
+  },
+  {
+    "code": "81",
+    "name": "Công nghệ vật liệu"
+  },
+  {
+    "code": "82",
+    "name": "Khoa học Vật liệu"
+  },
+  {
+    "code": "83",
+    "name": "Công nghệ kỹ thuật hoá học"
+  },
+  {
+    "code": "84",
+    "name": "Kỹ thuật Hóa học"
+  },
+  {
+    "code": "85",
+    "name": "Vật lý học"
+  },
+  {
+    "code": "86",
+    "name": "Công nghệ truyền thông"
+  },
+  {
+    "code": "87",
+    "name": "Quay phim"
+  },
+  {
+    "code": "88",
+    "name": "Nhiếp ảnh báo chí"
+  },
+  {
+    "code": "89",
+    "name": "Quản trị Marketing"
+  },
+  {
+    "code": "90",
+    "name": "Tổ chức sự kiện"
+  },
+  {
+    "code": "91",
+    "name": "Báo chí"
+  },
+  {
+    "code": "92",
+    "name": "Marketing"
+  },
+  {
+    "code": "93",
+    "name": "Truyền thông Marketing"
+  },
+  {
+    "code": "94",
+    "name": "Quan hệ công chúng"
+  },
+  {
+    "code": "95",
+    "name": "Quản lí giải trí và sự kiện"
+  },
+  {
+    "code": "96",
+    "name": "Quản trị kinh doanh & Marketing"
+  },
+  {
+    "code": "97",
+    "name": "Quản trị thương hiệu"
+  },
+  {
+    "code": "98",
+    "name": "Truền thông, quảng cáo"
+  },
+  {
+    "code": "99",
+    "name": "Truyền thông, quảng cáo"
+  },
+  {
+    "code": "100",
+    "name": "Xuất bản và kinh doanh xuất bản phẩm"
+  },
+  {
+    "code": "101",
+    "name": "Quan hệ quốc tế"
+  },
+  {
+    "code": "102",
+    "name": "Digital Marketing"
+  },
+  {
+    "code": "103",
+    "name": "Công nghệ giáo dục"
+  },
+  {
+    "code": "104",
+    "name": "Sư phạm Toán"
+  },
+  {
+    "code": "105",
+    "name": "Sư phạm Vật lý"
+  },
+  {
+    "code": "106",
+    "name": "Sư phạm Ngữ văn"
+  },
+  {
+    "code": "107",
+    "name": "Sư phạm Tiếng Anh"
+  },
+  {
+    "code": "108",
+    "name": "Sư phạm Hóa học"
+  },
+  {
+    "code": "109",
+    "name": "Sư phạm Sinh học"
+  },
+  {
+    "code": "110",
+    "name": "Sư phạm Lịch sử"
+  },
+  {
+    "code": "111",
+    "name": "Sư phạm Địa lý"
+  },
+  {
+    "code": "112",
+    "name": "Sư phạm Lịch sử - Địa lý"
+  },
+  {
+    "code": "113",
+    "name": "Sư phạm Khoa học tự nhiên"
+  },
+  {
+    "code": "114",
+    "name": "Sư phạm Âm nhạc"
+  },
+  {
+    "code": "115",
+    "name": "Sư phạm Công nghệ"
+  },
+  {
+    "code": "116",
+    "name": "Sư phạm Mỹ thuật"
+  },
+  {
+    "code": "117",
+    "name": "Sư phạm Tiếng Đức"
+  },
+  {
+    "code": "118",
+    "name": "Sư phạm Tiếng H'mong"
+  },
+  {
+    "code": "119",
+    "name": "Sư phạm Tiếng Hàn Quốc"
+  },
+  {
+    "code": "120",
+    "name": "Sư phạm Tiếng Nga"
+  },
+  {
+    "code": "121",
+    "name": "Sư phạm Tiếng Nhật"
+  },
+  {
+    "code": "122",
+    "name": "Sư phạm Tiếng Pháp"
+  },
+  {
+    "code": "123",
+    "name": "Sư phạm Tiếng Trung"
+  },
+  {
+    "code": "124",
+    "name": "Sư phạm Tin học"
+  },
+  {
+    "code": "125",
+    "name": "Sư phạm Kỹ thuật công nghiệp"
+  },
+  {
+    "code": "126",
+    "name": "Giáo dục Chính trị"
+  },
+  {
+    "code": "127",
+    "name": "Giáo dục Công dân"
+  },
+  {
+    "code": "128",
+    "name": "Giáo dục Đặc biệt"
+  },
+  {
+    "code": "129",
+    "name": "Giáo dục học"
+  },
+  {
+    "code": "130",
+    "name": "Giáo dục Mầm non"
+  },
+  {
+    "code": "131",
+    "name": "Giáo dục pháp luật"
+  },
+  {
+    "code": "132",
+    "name": "Giáo dục Quốc phòng - An ninh"
+  },
+  {
+    "code": "133",
+    "name": "Giáo dục Thể chất"
+  },
+  {
+    "code": "134",
+    "name": "Giáo dục Tiểu học"
+  },
+  {
+    "code": "135",
+    "name": "Hỗ trợ giáo dục người khuyết tật"
+  },
+  {
+    "code": "136",
+    "name": "Khoa học Giáo dục và Khác"
+  },
+  {
+    "code": "137",
+    "name": "Quản lý giáo dục"
+  },
+  {
+    "code": "138",
+    "name": "Kỹ thuật phục hình răng"
+  },
+  {
+    "code": "139",
+    "name": "Kỹ thuật Xét nghiệm Y học"
+  },
+  {
+    "code": "140",
+    "name": "Y khoa"
+  },
+  {
+    "code": "141",
+    "name": "Răng Hàm Mặt"
+  },
+  {
+    "code": "142",
+    "name": "Dược học"
+  },
+  {
+    "code": "143",
+    "name": "Điều dưỡng"
+  },
+  {
+    "code": "144",
+    "name": "Y học cổ truyền"
+  },
+  {
+    "code": "145",
+    "name": "Y học dự phòng"
+  },
+  {
+    "code": "146",
+    "name": "Y tế công cộng"
+  },
+  {
+    "code": "147",
+    "name": "Dinh dưỡng"
+  },
+  {
+    "code": "148",
+    "name": "Hóa dược"
+  },
+  {
+    "code": "149",
+    "name": "Hộ Sinh"
+  },
+  {
+    "code": "150",
+    "name": "Khoa học và Công nghệ y khoa"
+  },
+  {
+    "code": "151",
+    "name": "Kỹ thuật hình ảnh y học"
+  },
+  {
+    "code": "152",
+    "name": "Kỹ Thuật Phục Hồi Chức Năng"
+  },
+  {
+    "code": "153",
+    "name": "Quản lý bệnh viện"
+  },
+  {
+    "code": "154",
+    "name": "Vật lý Y khoa"
+  },
+  {
+    "code": "155",
+    "name": "Công nghệ sinh học Y Dược"
+  },
+  {
+    "code": "156",
+    "name": "Công nghệ thẩm mỹ"
+  },
+  {
+    "code": "157",
+    "name": "Dược liệu và hợp chất thiên nhiên"
+  },
+  {
+    "code": "158",
+    "name": "Khúc xạ nhãn khoa"
+  },
+  {
+    "code": "159",
+    "name": "Công nghệ kỹ thuật điện tử y sinh"
+  },
+  {
+    "code": "160",
+    "name": "Thú y"
+  },
+  {
+    "code": "161",
+    "name": "Chăn nuôi"
+  },
+  {
+    "code": "162",
+    "name": "Chăn nuôi thú y"
+  },
+  {
+    "code": "163",
+    "name": "Công nghệ thông tin - CAQĐ"
+  },
+  {
+    "code": "164",
+    "name": "An toàn thông tin - CAQĐ"
+  },
+  {
+    "code": "165",
+    "name": "Y khoa - CAQĐ"
+  },
+  {
+    "code": "166",
+    "name": "Biên phòng"
+  },
+  {
+    "code": "167",
+    "name": "Chỉ huy kỹ thuật Công binh"
+  },
+  {
+    "code": "168",
+    "name": "Chỉ huy Kỹ thuật hóa học"
+  },
+  {
+    "code": "169",
+    "name": "Chỉ huy Tham mưu - thông tin"
+  },
+  {
+    "code": "170",
+    "name": "Chỉ huy tham mưu Đặc công"
+  },
+  {
+    "code": "171",
+    "name": "Chỉ huy tham mưu Hải quân"
+  },
+  {
+    "code": "172",
+    "name": "Chỉ huy tham mưu không quân (Phi công quân sự)"
+  },
+  {
+    "code": "173",
+    "name": "Chỉ huy tham mưu Lục quân"
+  },
+  {
+    "code": "174",
+    "name": "Chỉ huy tham mưu Pháo binh"
+  },
+  {
+    "code": "175",
+    "name": "Chỉ huy Tham mưu Phòng không, Không quân và Tác chiến điện tử"
+  },
+  {
+    "code": "176",
+    "name": "Chỉ huy tham mưu Tăng Thiết giáp"
+  },
+  {
+    "code": "177",
+    "name": "Chỉ huy quản lý kỹ thuật"
+  },
+  {
+    "code": "178",
+    "name": "Hậu cần quân sự"
+  },
+  {
+    "code": "179",
+    "name": "Kỹ thuật - Hậu cần"
+  },
+  {
+    "code": "180",
+    "name": "Nghiệp vụ an ninh"
+  },
+  {
+    "code": "181",
+    "name": "Phòng cháy chữa cháy và cứu nạn, cứu hộ"
+  },
+  {
+    "code": "182",
+    "name": "Trinh sát kỹ thuật"
+  },
+  {
+    "code": "183",
+    "name": "Ngôn ngữ Anh - CAQĐ"
+  },
+  {
+    "code": "184",
+    "name": "Ngôn ngữ Trung Quốc - CAQĐ"
+  },
+  {
+    "code": "185",
+    "name": "Ngôn ngữ Nga - CAQĐ"
+  },
+  {
+    "code": "186",
+    "name": "Quan hệ quốc tế - CAQĐ"
+  },
+  {
+    "code": "187",
+    "name": "Kỹ thuật, công nghệ Hàng không - CAQĐ"
+  },
+  {
+    "code": "188",
+    "name": "Luật - CAQĐ"
+  },
+  {
+    "code": "189",
+    "name": "Xây dựng Đảng & CQNN - CAQĐ"
+  },
+  {
+    "code": "190",
+    "name": "Thiết kế mỹ thuật hoạt hình"
+  },
+  {
+    "code": "191",
+    "name": "Thiết kế Đồ hoạ"
+  },
+  {
+    "code": "192",
+    "name": "Thiết kế Mỹ thuật số"
+  },
+  {
+    "code": "193",
+    "name": "Thiết kế Công nghiệp"
+  },
+  {
+    "code": "194",
+    "name": "Kỹ thuật an toàn giao thông"
+  },
+  {
+    "code": "195",
+    "name": "Xây dựng dân dụng và công nghiệp"
+  },
+  {
+    "code": "196",
+    "name": "Kinh tế Xây dựng"
+  },
+  {
+    "code": "197",
+    "name": "Kỹ thuật xây dựng"
+  },
+  {
+    "code": "198",
+    "name": "Công nghệ kỹ thuật Xây dựng"
+  },
+  {
+    "code": "199",
+    "name": "Công nghệ kỹ thuật giao thông"
+  },
+  {
+    "code": "200",
+    "name": "Kiến trúc"
+  },
+  {
+    "code": "201",
+    "name": "Kiến trúc Cảnh quan"
+  },
+  {
+    "code": "202",
+    "name": "Kiến trúc nội thất"
+  },
+  {
+    "code": "203",
+    "name": "Kỹ thuật cơ sở hạ tầng"
+  },
+  {
+    "code": "204",
+    "name": "Kỹ thuật xây dựng công trình giao thông"
+  },
+  {
+    "code": "205",
+    "name": "Thiết kế nội thất"
+  },
+  {
+    "code": "206",
+    "name": "Quản lý xây dựng"
+  },
+  {
+    "code": "207",
+    "name": "Khai thác vận tải"
+  },
+  {
+    "code": "208",
+    "name": "Đô thị, mỹ thuật đô thị"
+  },
+  {
+    "code": "209",
+    "name": "Quản lý phát triển đô thị và bất động sản"
+  },
+  {
+    "code": "210",
+    "name": "Quản lý, khai thác và bảo trì đường cao tốc"
+  },
+  {
+    "code": "211",
+    "name": "Quy hoạch vùng và đô thị"
+  },
+  {
+    "code": "212",
+    "name": "Thiết kế, quản trị đô thị"
+  },
+  {
+    "code": "213",
+    "name": "Xây dựng, quản lý Cầu - đường sắt"
+  },
+  {
+    "code": "214",
+    "name": "Xây dựng công trình"
+  },
+  {
+    "code": "215",
+    "name": "Xây dựng và quản lý hạ tầng đô thị"
+  },
+  {
+    "code": "216",
+    "name": "Kỹ thuật xây dựng công trình thủy"
+  },
+  {
+    "code": "217",
+    "name": "Ngôn ngữ Tây Ban Nha"
+  },
+  {
+    "code": "218",
+    "name": "Tiếng Anh du lịch"
+  },
+  {
+    "code": "219",
+    "name": "Ngôn ngữ Anh"
+  },
+  {
+    "code": "220",
+    "name": "Ngôn ngữ Trung Quốc"
+  },
+  {
+    "code": "221",
+    "name": "Ngôn ngữ Đức"
+  },
+  {
+    "code": "222",
+    "name": "Ngôn ngữ Nga"
+  },
+  {
+    "code": "223",
+    "name": "Ngôn ngữ Nhật"
+  },
+  {
+    "code": "224",
+    "name": "Ngôn ngữ Pháp"
+  },
+  {
+    "code": "225",
+    "name": "Ngôn ngữ Ả Rập"
+  },
+  {
+    "code": "226",
+    "name": "Thương mại quốc tế"
+  },
+  {
+    "code": "227",
+    "name": "Ngôn ngữ Bồ Đào Nha"
+  },
+  {
+    "code": "228",
+    "name": "Ngôn ngữ Hàn Quốc"
+  },
+  {
+    "code": "229",
+    "name": "Ngôn ngữ Italia"
+  },
+  {
+    "code": "230",
+    "name": "Ngôn ngữ Khmer"
+  },
+  {
+    "code": "231",
+    "name": "Ngôn ngữ Thái Lan"
+  },
+  {
+    "code": "232",
+    "name": "Ngôn ngữ và Văn hóa các dân tộc thiểu số Việt Nam"
+  },
+  {
+    "code": "233",
+    "name": "Quản trị kinh doanh & Luật"
+  },
+  {
+    "code": "234",
+    "name": "Tiếng Anh chuyên nghiệp quốc tế"
+  },
+  {
+    "code": "235",
+    "name": "Tiếng Anh KHKT và Công nghệ"
+  },
+  {
+    "code": "236",
+    "name": "Tiếng Anh Thương mại"
+  },
+  {
+    "code": "237",
+    "name": "Tiếng Nhật thương mại"
+  },
+  {
+    "code": "238",
+    "name": "Tiếng Pháp thương mại"
+  },
+  {
+    "code": "239",
+    "name": "Tiếng Trung Thương mại"
+  },
+  {
+    "code": "240",
+    "name": "Văn hóa và truyền thông xuyên quốc gia"
+  },
+  {
+    "code": "241",
+    "name": "Kinh doanh quốc tế"
+  },
+  {
+    "code": "242",
+    "name": "Logistics"
+  },
+  {
+    "code": "243",
+    "name": "Logistics và Quản lý chuỗi cung ứng"
+  },
+  {
+    "code": "244",
+    "name": "Kinh tế đối ngoại"
+  },
+  {
+    "code": "245",
+    "name": "Tài chính quốc tế"
+  },
+  {
+    "code": "246",
+    "name": "Hải quan và Logistics"
+  },
+  {
+    "code": "247",
+    "name": "Quản trị Hải quan - Ngoại thương"
+  },
+  {
+    "code": "248",
+    "name": "Quản trị và Kinh doanh Quốc tế"
+  },
+  {
+    "code": "249",
+    "name": "Truyền thông quốc tế"
+  },
+  {
+    "code": "250",
+    "name": "Quản trị lữ hành, khách sạn"
+  },
+  {
+    "code": "251",
+    "name": "Du lịch"
+  },
+  {
+    "code": "252",
+    "name": "Hướng dẫn du lịch"
+  },
+  {
+    "code": "253",
+    "name": "Quản trị dịch vụ du lịch và lữ hành"
+  },
+  {
+    "code": "254",
+    "name": "Quản trị du lịch và khách sạn"
+  },
+  {
+    "code": "255",
+    "name": "Quản trị khách sạn"
+  },
+  {
+    "code": "256",
+    "name": "Quản trị nhà hàng - khách sạn"
+  },
+  {
+    "code": "257",
+    "name": "Quản trị nhà hàng và dịch vụ ăn uống"
+  },
+  {
+    "code": "258",
+    "name": "Quản trị sự kiện"
+  },
+  {
+    "code": "259",
+    "name": "Quốc tế học"
+  },
+  {
+    "code": "260",
+    "name": "Tài nguyên và Du lịch sinh thái"
+  },
+  {
+    "code": "261",
+    "name": "Văn hóa Du lịch"
+  },
+  {
+    "code": "262",
+    "name": "Địa lý học"
+  },
+  {
+    "code": "263",
+    "name": "Công nghệ ô tô điện"
+  },
+  {
+    "code": "264",
+    "name": "Cơ điện tử ô tô"
+  },
+  {
+    "code": "265",
+    "name": "Quản lý công nghiệp"
+  },
+  {
+    "code": "266",
+    "name": "Công nghệ kỹ thuật ô tô"
+  },
+  {
+    "code": "267",
+    "name": "Kỹ thuật ô tô"
+  },
+  {
+    "code": "268",
+    "name": "Công nghệ chế tạo máy"
+  },
+  {
+    "code": "269",
+    "name": "Công nghệ kỹ thuật"
+  },
+  {
+    "code": "270",
+    "name": "Kỹ thuật cơ khí động lực"
+  },
+  {
+    "code": "271",
+    "name": "Kỹ thuật hệ thống công nghiệp"
+  },
+  {
+    "code": "272",
+    "name": "Năng lượng tái tạo"
+  },
+  {
+    "code": "273",
+    "name": "Công nghệ sản xuất tự động"
+  },
+  {
+    "code": "274",
+    "name": "Điện"
+  },
+  {
+    "code": "275",
+    "name": "Kỹ thuật Điều khiển - Tự động hoá"
+  },
+  {
+    "code": "276",
+    "name": "Kỹ thuật robot và trí tuệ nhân tạo"
+  },
+  {
+    "code": "277",
+    "name": "Công nghệ kỹ thuật năng lượng"
+  },
+  {
+    "code": "278",
+    "name": "Tự động hóa"
+  },
+  {
+    "code": "279",
+    "name": "Điện tự động"
+  },
+  {
+    "code": "280",
+    "name": "Kỹ thuật cơ khí, cơ điện"
+  },
+  {
+    "code": "281",
+    "name": "Quản lý năng lượng"
+  },
+  {
+    "code": "282",
+    "name": "Vi mạch bán dẫn"
+  },
+  {
+    "code": "283",
+    "name": "CNKT cơ khí tàu thủy và công trình nổi"
+  },
+  {
+    "code": "284",
+    "name": "Khoa học hàng hải"
+  },
+  {
+    "code": "285",
+    "name": "Biến đổi khí hậu và Phát triển bền vững"
+  },
+  {
+    "code": "286",
+    "name": "Khí tượng và Khí hậu học"
+  },
+  {
+    "code": "287",
+    "name": "Kinh tế, kỹ thuật, quản lý Hàng Hải"
+  },
+  {
+    "code": "288",
+    "name": "Điều khiển tàu biển"
+  },
+  {
+    "code": "289",
+    "name": "Đóng tàu & công trình ngoài khơi"
+  },
+  {
+    "code": "290",
+    "name": "Hải dương học"
+  },
+  {
+    "code": "291",
+    "name": "Khai thác máy tàu biển"
+  },
+  {
+    "code": "292",
+    "name": "Kỹ thuật biển"
+  },
+  {
+    "code": "293",
+    "name": "Kỹ thuật Tài nguyên nước"
+  },
+  {
+    "code": "294",
+    "name": "Kỹ thuật Tàu thủy"
+  },
+  {
+    "code": "295",
+    "name": "Thiết kế tàu & công trình ngoài khơi"
+  },
+  {
+    "code": "296",
+    "name": "Thủy văn học"
+  },
+  {
+    "code": "297",
+    "name": "Xây dựng công trình thủy"
+  },
+  {
+    "code": "298",
+    "name": "Kỹ thuật, công nghệ Hàng không"
+  },
+  {
+    "code": "299",
+    "name": "Kỹ thuật hạt nhân"
+  },
+  {
+    "code": "300",
+    "name": "Quản lý hoạt động bay"
+  },
+  {
+    "code": "301",
+    "name": "Phi công quân sự"
+  },
+  {
+    "code": "302",
+    "name": "Khoa học thông tin địa không gian"
+  },
+  {
+    "code": "303",
+    "name": "Quản trị kinh doanh hàng không"
+  },
+  {
+    "code": "304",
+    "name": "Công nghệ kỹ thuật Vật liệu xây dựng"
+  },
+  {
+    "code": "305",
+    "name": "Khoa học Vũ trụ và Công nghệ Vệ tinh"
+  },
+  {
+    "code": "306",
+    "name": "Khoa học Y Sinh"
+  },
+  {
+    "code": "307",
+    "name": "Vật liệu thông minh và trí tuệ nhân tạo"
+  },
+  {
+    "code": "308",
+    "name": "Vật liệu tiên tiến và công nghệ nano"
+  },
+  {
+    "code": "309",
+    "name": "Công nghệ Thực phẩm"
+  },
+  {
+    "code": "310",
+    "name": "Đảm bảo chất lượng và an toàn thực phẩm"
+  },
+  {
+    "code": "311",
+    "name": "Kỹ thuật thực phẩm"
+  },
+  {
+    "code": "312",
+    "name": "Quản trị kinh doanh thực phẩm"
+  },
+  {
+    "code": "313",
+    "name": "Khoa học chế biến món ăn"
+  },
+  {
+    "code": "314",
+    "name": "Công nghệ kỹ thuật in"
+  },
+  {
+    "code": "315",
+    "name": "Kỹ thuật in"
+  },
+  {
+    "code": "316",
+    "name": "Hóa học mỹ phẩm"
+  },
+  {
+    "code": "317",
+    "name": "Công nghệ hóa học"
+  },
+  {
+    "code": "318",
+    "name": "Công nghệ Sinh học"
+  },
+  {
+    "code": "319",
+    "name": "Sinh học"
+  },
+  {
+    "code": "320",
+    "name": "Hoá học"
+  },
+  {
+    "code": "321",
+    "name": "Kỹ thuật Sinh học"
+  },
+  {
+    "code": "322",
+    "name": "Kỹ thuật Y Sinh"
+  },
+  {
+    "code": "323",
+    "name": "Sinh học ứng dụng"
+  },
+  {
+    "code": "324",
+    "name": "Luật dân sự và tố tụng dân sự"
+  },
+  {
+    "code": "325",
+    "name": "Luật hiến pháp và luật hành chính"
+  },
+  {
+    "code": "326",
+    "name": "Luật"
+  },
+  {
+    "code": "327",
+    "name": "Luật hàng hải"
+  },
+  {
+    "code": "328",
+    "name": "Luật hình sự và tố tụng hình sự"
+  },
+  {
+    "code": "329",
+    "name": "Luật kinh doanh"
+  },
+  {
+    "code": "330",
+    "name": "Luật kinh tế"
+  },
+  {
+    "code": "331",
+    "name": "Luật quốc tế"
+  },
+  {
+    "code": "332",
+    "name": "Luật thương mại quốc tế"
+  },
+  {
+    "code": "333",
+    "name": "Quản trị - Luật"
+  },
+  {
+    "code": "334",
+    "name": "Tài chính ngân hàng & Luật"
+  },
+  {
+    "code": "335",
+    "name": "Kỹ thuật trắc địa - bản đồ"
+  },
+  {
+    "code": "336",
+    "name": "Kỹ thuật địa chất"
+  },
+  {
+    "code": "337",
+    "name": "Địa chất học"
+  },
+  {
+    "code": "338",
+    "name": "Công nghệ, kỹ thuật dầu khí"
+  },
+  {
+    "code": "339",
+    "name": "Đá quý Đá mỹ nghệ"
+  },
+  {
+    "code": "340",
+    "name": "Kỹ thuật mỏ"
+  },
+  {
+    "code": "341",
+    "name": "Kỹ thuật địa vật lý"
+  },
+  {
+    "code": "342",
+    "name": "Kỹ thuật tuyển khoáng"
+  },
+  {
+    "code": "343",
+    "name": "Biên đạo múa"
+  },
+  {
+    "code": "344",
+    "name": "CTĐT Nghệ thuật và thiết kế"
+  },
+  {
+    "code": "345",
+    "name": "Sáng tác âm nhạc"
+  },
+  {
+    "code": "346",
+    "name": "Chỉ huy âm nhạc"
+  },
+  {
+    "code": "347",
+    "name": "Biểu diễn nhạc cụ phương Tây"
+  },
+  {
+    "code": "348",
+    "name": "Nhạc Jazz"
+  },
+  {
+    "code": "349",
+    "name": "Nghệ thuật thị giác"
+  },
+  {
+    "code": "350",
+    "name": "Thiết kế sáng tạo"
+  },
+  {
+    "code": "351",
+    "name": "Công nghệ điện ảnh, truyền hình"
+  },
+  {
+    "code": "352",
+    "name": "Diễn viên Kịch - Điện ảnh"
+  },
+  {
+    "code": "353",
+    "name": "Đạo diễn Điện ảnh, Truyền hình"
+  },
+  {
+    "code": "354",
+    "name": "Piano"
+  },
+  {
+    "code": "355",
+    "name": "Thanh nhạc"
+  },
+  {
+    "code": "356",
+    "name": "Điêu khắc"
+  },
+  {
+    "code": "357",
+    "name": "Hội họa"
+  },
+  {
+    "code": "358",
+    "name": "Nhiếp ảnh nghệ thuật"
+  },
+  {
+    "code": "359",
+    "name": "Âm nhạc"
+  },
+  {
+    "code": "360",
+    "name": "Digital Art"
+  },
+  {
+    "code": "361",
+    "name": "Biểu diễn nhạc cụ truyền thống"
+  },
+  {
+    "code": "362",
+    "name": "Công nghệ nghệ thuật (Arttech)"
+  },
+  {
+    "code": "363",
+    "name": "Nghệ thuật học"
+  },
+  {
+    "code": "364",
+    "name": "Nghệ thuật tạo hình đương đại"
+  },
+  {
+    "code": "365",
+    "name": "Công nghệ kĩ thuật môi trường"
+  },
+  {
+    "code": "366",
+    "name": "Khoa học môi trường"
+  },
+  {
+    "code": "367",
+    "name": "Kỹ thuật môi trường"
+  },
+  {
+    "code": "368",
+    "name": "Kỹ thuật cấp thoát nước"
+  },
+  {
+    "code": "369",
+    "name": "Quản lý tài nguyên rừng"
+  },
+  {
+    "code": "370",
+    "name": "Quản lý đất đai"
+  },
+  {
+    "code": "371",
+    "name": "Quản lý tài nguyên và môi trường"
+  },
+  {
+    "code": "372",
+    "name": "Tài nguyên và Môi trường"
+  },
+  {
+    "code": "373",
+    "name": "Quản lý tài nguyên"
+  },
+  {
+    "code": "374",
+    "name": "Bảo hộ, an toàn lao động"
+  },
+  {
+    "code": "375",
+    "name": "Kỹ thuật khí thiên nhiên"
+  },
+  {
+    "code": "376",
+    "name": "Kỹ thuật môi trường đô thị"
+  },
+  {
+    "code": "377",
+    "name": "Tài nguyên nước và môi trường"
+  },
+  {
+    "code": "378",
+    "name": "Quản lý biển"
+  },
+  {
+    "code": "379",
+    "name": "Tâm lý học"
+  },
+  {
+    "code": "380",
+    "name": "Tâm lý học giáo dục"
+  },
+  {
+    "code": "381",
+    "name": "Huấn luyện thể thao"
+  },
+  {
+    "code": "382",
+    "name": "Quản lý thể dục thể thao"
+  },
+  {
+    "code": "383",
+    "name": "Công nghệ Dệt May"
+  },
+  {
+    "code": "384",
+    "name": "Công nghệ may"
+  },
+  {
+    "code": "385",
+    "name": "Công nghệ sợi dệt"
+  },
+  {
+    "code": "386",
+    "name": "Kinh doanh thời trang và Dệt may"
+  },
+  {
+    "code": "387",
+    "name": "Thiết kế thời trang"
+  },
+  {
+    "code": "388",
+    "name": "Công nghệ nông nghiệp"
+  },
+  {
+    "code": "389",
+    "name": "Công nghệ chế biến thủy sản"
+  },
+  {
+    "code": "390",
+    "name": "Chăn nuôi thủy sản"
+  },
+  {
+    "code": "391",
+    "name": "Lâm nghiệp"
+  },
+  {
+    "code": "392",
+    "name": "Lâm học"
+  },
+  {
+    "code": "393",
+    "name": "Nông nghiệp"
+  },
+  {
+    "code": "394",
+    "name": "Nông học"
+  },
+  {
+    "code": "395",
+    "name": "Bảo vệ thực vật"
+  },
+  {
+    "code": "396",
+    "name": "Khoa học cây trồng"
+  },
+  {
+    "code": "397",
+    "name": "Kinh doanh nông nghiệp"
+  },
+  {
+    "code": "398",
+    "name": "Nuôi trồng thủy sản"
+  },
+  {
+    "code": "399",
+    "name": "Phát triển nông thôn"
+  },
+  {
+    "code": "400",
+    "name": "Quản lý thủy sản"
+  },
+  {
+    "code": "401",
+    "name": "Công nghệ chế biến lâm sản"
+  },
+  {
+    "code": "402",
+    "name": "Công nghệ sau thu hoạch"
+  },
+  {
+    "code": "403",
+    "name": "Bệnh học thủy sản"
+  },
+  {
+    "code": "404",
+    "name": "Khoa học đất"
+  },
+  {
+    "code": "405",
+    "name": "Khoa học thủy sản"
+  },
+  {
+    "code": "406",
+    "name": "Khuyến nông"
+  },
+  {
+    "code": "407",
+    "name": "Kỹ nghệ gỗ và nội thất"
+  },
+  {
+    "code": "408",
+    "name": "Toán học"
+  },
+  {
+    "code": "409",
+    "name": "Toán Kinh tế"
+  },
+  {
+    "code": "410",
+    "name": "Toán ứng dụng"
+  },
+  {
+    "code": "411",
+    "name": "Thống kê kinh doanh"
+  },
+  {
+    "code": "412",
+    "name": "Toán tin"
+  },
+  {
+    "code": "413",
+    "name": "Thống kê"
+  },
+  {
+    "code": "414",
+    "name": "Toán tài chính"
+  },
+  {
+    "code": "415",
+    "name": "Quản lý công"
+  },
+  {
+    "code": "416",
+    "name": "Quản trị nhân lực"
+  },
+  {
+    "code": "417",
+    "name": "Quản trị văn phòng"
+  },
+  {
+    "code": "418",
+    "name": "Hệ thống hoạch định nguồn lực doanh nghiệp"
+  },
+  {
+    "code": "419",
+    "name": "Quan hệ lao động"
+  },
+  {
+    "code": "420",
+    "name": "Di sản"
+  },
+  {
+    "code": "421",
+    "name": "Văn hóa học"
+  },
+  {
+    "code": "422",
+    "name": "Quản lý văn hóa"
+  },
+  {
+    "code": "423",
+    "name": "Chính trị học"
+  },
+  {
+    "code": "424",
+    "name": "Văn học"
+  },
+  {
+    "code": "425",
+    "name": "Việt Nam Học"
+  },
+  {
+    "code": "426",
+    "name": "Xã hội học"
+  },
+  {
+    "code": "427",
+    "name": "Xây dựng Đảng & CQNN"
+  },
+  {
+    "code": "428",
+    "name": "Đông phương học"
+  },
+  {
+    "code": "429",
+    "name": "Công tác xã hội, thanh thiếu niên"
+  },
+  {
+    "code": "430",
+    "name": "Đông Nam Á học"
+  },
+  {
+    "code": "431",
+    "name": "Lịch sử"
+  },
+  {
+    "code": "432",
+    "name": "Ngôn ngữ học"
+  },
+  {
+    "code": "433",
+    "name": "Trung Quốc học"
+  },
+  {
+    "code": "434",
+    "name": "Hán Quốc học"
+  },
+  {
+    "code": "435",
+    "name": "Nhật Bản học"
+  },
+  {
+    "code": "436",
+    "name": "Quản lý công, nhà nước"
+  },
+  {
+    "code": "437",
+    "name": "Thông tin - Thư viện"
+  },
+  {
+    "code": "438",
+    "name": "Triết học"
+  },
+  {
+    "code": "439",
+    "name": "Kinh tế chính trị"
+  },
+  {
+    "code": "440",
+    "name": "Lưu trữ học"
+  },
+  {
+    "code": "441",
+    "name": "Tiếng Việt & Văn hóa Việt Nam"
+  },
+  {
+    "code": "442",
+    "name": "Hán - Nôm"
+  },
+  {
+    "code": "443",
+    "name": "Nhân học"
+  },
+  {
+    "code": "444",
+    "name": "Bảo tàng học"
+  },
+  {
+    "code": "445",
+    "name": "Tôn giáo học"
+  },
+  {
+    "code": "446",
+    "name": "Giới và phát triển"
+  },
+  {
+    "code": "447",
+    "name": "Nghiên cứu phát triển"
+  },
+  {
+    "code": "448",
+    "name": "Hoa Kỳ học"
+  },
+  {
+    "code": "449",
+    "name": "Quản lý phân tích dữ liệu khoa học trái đất"
+  },
+  {
+    "code": "450",
+    "name": "Khoa học tự nhiên tích hợp"
+  },
+  {
+    "code": "451",
+    "name": "Công nghệ Vật lý điện tử và tin học"
+  },
+  {
+    "code": "452",
+    "name": "Công nghệ điện tử, vi mạch và bán dẫn"
+  }
+]
