@@ -3,22 +3,21 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-// Tải biến môi trường từ file .env
+// Tải biến môi trường
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT || 3001;
-const API_KEY = process.env.GEMINI_API_KEY;
+const API_KEY = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 
 let genAI = null;
 if (API_KEY && API_KEY !== 'your_api_key_here') {
   genAI = new GoogleGenerativeAI(API_KEY);
 }
 
-// 1. API: Tư vấn tuyển sinh đỗ/trượt (Dùng cho PredictionResults)
+// 1. API: Tư vấn tuyển sinh
 app.post('/api/predict', async (req, res) => {
   if (!genAI) {
     return res.status(500).json({ error: { message: "Server chưa cấu hình API Key" } });
@@ -27,7 +26,6 @@ app.post('/api/predict', async (req, res) => {
   try {
     const { promptText } = req.body;
     
-    // Sử dụng model 3.5 flash
     const model = genAI.getGenerativeModel(
       { model: "gemini-3.5-flash" },
       { apiVersion: 'v1' }
@@ -43,7 +41,7 @@ app.post('/api/predict', async (req, res) => {
   }
 });
 
-// 2. API: Trợ lý Chatbot (Dùng cho Chatbot ngoài Landing Page)
+// 2. API: Trợ lý Chatbot
 const SYSTEM_INSTRUCTION = `Bạn là nhân viên tư vấn xuất sắc của trung tâm luyện thi MVA Study. 
 Nhiệm vụ của bạn là tư vấn khóa học, giải đáp thắc mắc và hỗ trợ kỹ thuật cho học sinh và phụ huynh một cách nhiệt tình, chuyên nghiệp.
 Một số thông tin về trung tâm: 
@@ -69,7 +67,6 @@ app.post('/api/chat', async (req, res) => {
       { apiVersion: 'v1' }
     );
 
-    // Bắt đầu chat session với history truyền lên từ Client
     const chatSession = model.startChat({
       history: history || []
     });
@@ -84,10 +81,5 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Chạy Server
-app.listen(port, () => {
-  console.log(`✅ Backend Server đang chạy tại http://localhost:${port}`);
-  if (!API_KEY) {
-    console.log(`⚠️ Lưu ý: Chưa cấu hình GEMINI_API_KEY trong thư mục server`);
-  }
-});
+// Xuất ứng dụng để Vercel chạy thay vì app.listen()
+module.exports = app;

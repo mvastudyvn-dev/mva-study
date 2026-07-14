@@ -58,7 +58,7 @@ CHỈ TRẢ VỀ DUY NHẤT 1 CHUỖI JSON ĐÚNG ĐỊNH DẠNG SAU, KHÔNG KÈ
 `;
 
   try {
-    const response = await fetch('http://localhost:3001/api/predict', {
+    const response = await fetch('/api/predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

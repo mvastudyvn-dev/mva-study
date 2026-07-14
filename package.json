@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "node dev-server.js",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
@@ -17,6 +18,9 @@
     "@mui/material": "^9.2.0",
     "@supabase/supabase-js": "^2.110.2",
     "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "lucide-react": "^1.24.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
