@@ -494,7 +494,6 @@ const CheckDHPage: React.FC = () => {
         </Alert>
       </Snackbar>
 
-      <CheckDHFeatures />
       <CheckDHFooter />
     </Box>
   );
