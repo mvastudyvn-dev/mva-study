@@ -27,11 +27,11 @@ export const ConsultationForm: React.FC = () => {
                       `⏰ <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}`;
 
       try {
-        await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken}/sendMessage`, {
+        await fetch(`https://api.telegram.org/bot${systemSettings.telegramBotToken.trim()}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            chat_id: systemSettings.telegramChatId,
+            chat_id: systemSettings.telegramChatId.trim(),
             text: message,
             parse_mode: 'HTML'
           })

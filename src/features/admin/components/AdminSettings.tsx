@@ -281,9 +281,41 @@ export const AdminSettings: React.FC = () => {
                 fullWidth label="Telegram Chat ID" size="small"
                 value={settings.telegramChatId || ''} onChange={(e) => handleChange('telegramChatId', e.target.value)}
               />
-              <Typography variant="caption" sx={{ display: 'block', mt: 1, color: '#6B7280' }}>
-                * Tạo bot qua @BotFather để lấy Token. Nhắn tin cho bot và dùng API getUpdates để lấy Chat ID.
+              <Typography variant="caption" sx={{ display: 'block', mt: 1, mb: 2, color: '#6B7280' }}>
+                * Tạo bot qua @BotFather để lấy Token. Nhắn tin cho bot và dùng API getUpdates để lấy Chat ID. Hoặc dùng bot @userinfobot để lấy trực tiếp Chat ID.
               </Typography>
+              <Button 
+                variant="outlined" 
+                color="info" 
+                size="small"
+                onClick={async () => {
+                  if (!settings.telegramBotToken || !settings.telegramChatId) {
+                    alert('Vui lòng nhập Token và Chat ID trước khi test!');
+                    return;
+                  }
+                  try {
+                    const res = await fetch(`https://api.telegram.org/bot${settings.telegramBotToken.trim()}/sendMessage`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        chat_id: settings.telegramChatId.trim(),
+                        text: '✅ <b>Test thành công!</b> Hệ thống đã kết nối được với Telegram của bạn.',
+                        parse_mode: 'HTML'
+                      })
+                    });
+                    const data = await res.json();
+                    if (data.ok) {
+                      alert('Thành công! Hãy kiểm tra tin nhắn Telegram của bạn.');
+                    } else {
+                      alert('Lỗi từ Telegram: ' + data.description);
+                    }
+                  } catch (e) {
+                    alert('Lỗi kết nối tới Telegram. Vui lòng kiểm tra mạng.');
+                  }
+                }}
+              >
+                Gửi tin nhắn thử nghiệm
+              </Button>
             </CardContent>
           </Card>
 
