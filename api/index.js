@@ -34,15 +34,22 @@ app.post('/api/predict', async (req, res) => {
     const { promptText } = req.body;
     
     let textResult = "";
-    try {
-      const model = predictGenAI.getGenerativeModel({ model: "gemini-3.5-flash" }, { apiVersion: 'v1' });
-      const result = await model.generateContent(promptText);
-      textResult = result.response.text();
-    } catch (e) {
-      console.warn("gemini-3.5-flash failed, falling back to gemini-2.5-flash:", e.message);
-      const fallbackModel = predictGenAI.getGenerativeModel({ model: "gemini-2.5-flash" }, { apiVersion: 'v1' });
-      const fallbackResult = await fallbackModel.generateContent(promptText);
-      textResult = fallbackResult.response.text();
+    let attempt = 0;
+    while (attempt < 3) {
+      try {
+        const model = predictGenAI.getGenerativeModel({ model: "gemini-3.5-flash" }, { apiVersion: 'v1' });
+        const result = await model.generateContent(promptText);
+        textResult = result.response.text();
+        break; // Thành công
+      } catch (e) {
+        attempt++;
+        if (e.message.includes("503") && attempt < 3) {
+          console.warn(`gemini-3.5-flash overloaded. Retrying attempt ${attempt}...`);
+          await new Promise(resolve => setTimeout(resolve, 2000 * attempt)); // Đợi 2s, 4s
+        } else {
+          throw e;
+        }
+      }
     }
     
     res.json({ text: textResult });
@@ -72,17 +79,23 @@ app.post('/api/chat', async (req, res) => {
     const { message, history } = req.body;
     
     let textResult = "";
-    try {
-      const model = chatGenAI.getGenerativeModel({ model: "gemini-3.5-flash", systemInstruction: SYSTEM_INSTRUCTION }, { apiVersion: 'v1' });
-      const chatSession = model.startChat({ history: history || [] });
-      const result = await chatSession.sendMessage(message);
-      textResult = result.response.text();
-    } catch (e) {
-      console.warn("gemini-3.5-flash failed in chat, falling back to gemini-2.5-flash:", e.message);
-      const fallbackModel = chatGenAI.getGenerativeModel({ model: "gemini-2.5-flash", systemInstruction: SYSTEM_INSTRUCTION }, { apiVersion: 'v1' });
-      const fallbackChatSession = fallbackModel.startChat({ history: history || [] });
-      const fallbackResult = await fallbackChatSession.sendMessage(message);
-      textResult = fallbackResult.response.text();
+    let attempt = 0;
+    while (attempt < 3) {
+      try {
+        const model = chatGenAI.getGenerativeModel({ model: "gemini-3.5-flash", systemInstruction: SYSTEM_INSTRUCTION }, { apiVersion: 'v1' });
+        const chatSession = model.startChat({ history: history || [] });
+        const result = await chatSession.sendMessage(message);
+        textResult = result.response.text();
+        break; // Thành công thì thoát vòng lặp
+      } catch (e) {
+        attempt++;
+        if (e.message.includes("503") && attempt < 3) {
+          console.warn(`gemini-3.5-flash overloaded in chat. Retrying attempt ${attempt}...`);
+          await new Promise(resolve => setTimeout(resolve, 2000 * attempt)); // Đợi 2s, 4s
+        } else {
+          throw e; // Báo lỗi ra ngoài nếu không phải 503 hoặc hết số lần thử
+        }
+      }
     }
 
     res.json({ text: textResult });
