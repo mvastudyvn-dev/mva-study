@@ -39,8 +39,8 @@ app.post('/api/predict', async (req, res) => {
       const result = await model.generateContent(promptText);
       textResult = result.response.text();
     } catch (e) {
-      console.warn("gemini-3.5-flash failed, falling back to gemini-1.5-flash:", e.message);
-      const fallbackModel = predictGenAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      console.warn("gemini-3.5-flash failed, falling back to gemini-2.5-flash:", e.message);
+      const fallbackModel = predictGenAI.getGenerativeModel({ model: "gemini-2.5-flash" }, { apiVersion: 'v1' });
       const fallbackResult = await fallbackModel.generateContent(promptText);
       textResult = fallbackResult.response.text();
     }
@@ -78,8 +78,8 @@ app.post('/api/chat', async (req, res) => {
       const result = await chatSession.sendMessage(message);
       textResult = result.response.text();
     } catch (e) {
-      console.warn("gemini-3.5-flash failed in chat, falling back to gemini-1.5-flash:", e.message);
-      const fallbackModel = chatGenAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction: SYSTEM_INSTRUCTION });
+      console.warn("gemini-3.5-flash failed in chat, falling back to gemini-2.5-flash:", e.message);
+      const fallbackModel = chatGenAI.getGenerativeModel({ model: "gemini-2.5-flash", systemInstruction: SYSTEM_INSTRUCTION }, { apiVersion: 'v1' });
       const fallbackChatSession = fallbackModel.startChat({ history: history || [] });
       const fallbackResult = await fallbackChatSession.sendMessage(message);
       textResult = fallbackResult.response.text();
