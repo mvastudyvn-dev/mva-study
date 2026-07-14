@@ -39,8 +39,7 @@ app.post('/api/predict', async (req, res) => {
       try {
         const predictSystemInstruction = "Bạn là hệ thống tự động xuất dữ liệu JSON. TUYỆT ĐỐI TUÂN THỦ: Chỉ trả về định dạng JSON cực kỳ ngắn gọn, không giải thích dài dòng. Mỗi yêu cầu trả về KHÔNG QUÁ 3 trường, mỗi trường TỐI ĐA 2 ngành. Không xuất bất kỳ văn bản nào ngoài JSON.\n\n";
         const model = predictGenAI.getGenerativeModel({ 
-          model: "gemini-3.5-flash", 
-          generationConfig: { maxOutputTokens: 1024 }
+          model: "gemini-3.5-flash"
         }, { apiVersion: 'v1' });
         const result = await model.generateContent(predictSystemInstruction + promptText);
         textResult = result.response.text();
@@ -86,8 +85,7 @@ app.post('/api/chat', async (req, res) => {
     while (attempt < 3) {
       try {
         const model = chatGenAI.getGenerativeModel({ 
-          model: "gemini-3.5-flash", 
-          generationConfig: { maxOutputTokens: 200 }
+          model: "gemini-3.5-flash"
         }, { apiVersion: 'v1' });
         const chatSession = model.startChat({ history: history || [] });
         
