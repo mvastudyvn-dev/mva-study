@@ -37,13 +37,12 @@ app.post('/api/predict', async (req, res) => {
     let attempt = 0;
     while (attempt < 3) {
       try {
-        const predictSystemInstruction = "Bạn là hệ thống tự động xuất dữ liệu JSON. TUYỆT ĐỐI TUÂN THỦ: Chỉ trả về định dạng JSON cực kỳ ngắn gọn, không giải thích dài dòng. Mỗi yêu cầu trả về KHÔNG QUÁ 3 trường, mỗi trường TỐI ĐA 2 ngành. Không xuất bất kỳ văn bản nào ngoài JSON.";
+        const predictSystemInstruction = "Bạn là hệ thống tự động xuất dữ liệu JSON. TUYỆT ĐỐI TUÂN THỦ: Chỉ trả về định dạng JSON cực kỳ ngắn gọn, không giải thích dài dòng. Mỗi yêu cầu trả về KHÔNG QUÁ 3 trường, mỗi trường TỐI ĐA 2 ngành. Không xuất bất kỳ văn bản nào ngoài JSON.\n\n";
         const model = predictGenAI.getGenerativeModel({ 
           model: "gemini-3.5-flash", 
-          systemInstruction: predictSystemInstruction,
           generationConfig: { maxOutputTokens: 1024 }
         }, { apiVersion: 'v1' });
-        const result = await model.generateContent(promptText);
+        const result = await model.generateContent(predictSystemInstruction + promptText);
         textResult = result.response.text();
         break; // Thành công
       } catch (e) {
@@ -88,11 +87,14 @@ app.post('/api/chat', async (req, res) => {
       try {
         const model = chatGenAI.getGenerativeModel({ 
           model: "gemini-3.5-flash", 
-          systemInstruction: SYSTEM_INSTRUCTION,
           generationConfig: { maxOutputTokens: 200 }
         }, { apiVersion: 'v1' });
         const chatSession = model.startChat({ history: history || [] });
-        const result = await chatSession.sendMessage(message);
+        
+        // V1 không hỗ trợ systemInstruction trong config, nên ta chèn thẳng vào tin nhắn
+        const finalMessage = "HƯỚNG DẪN HỆ THỐNG:\n" + SYSTEM_INSTRUCTION + "\n\nLỜI KHÁCH HÀNG:\n" + message;
+        const result = await chatSession.sendMessage(finalMessage);
+        
         textResult = result.response.text();
         break; // Thành công thì thoát vòng lặp
       } catch (e) {
