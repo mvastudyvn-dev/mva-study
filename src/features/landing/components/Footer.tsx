@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, IconButton } from '@mui/material';
+import { Box, Container, Typography, Grid, IconButton, Stack } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -7,7 +7,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { useData } from '../../../core/contexts/DataContext';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/logo1.png';
 
 export const Footer: React.FC = () => {
   const { systemSettings } = useData();
@@ -18,33 +18,33 @@ export const Footer: React.FC = () => {
       <Grid container spacing={4} sx={{ mb: 4 }}>
         {/* Logo & Info */}
         <Grid size={{ xs: 12, md: 3 }}>
-          <Box display="flex" alignItems="center" gap={1} mb={2}>
-            <Box component="img" src={logo} alt="Logo" sx={{ height: 28 }} />
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#fff' }}>
+          <Stack direction="row" alignItems="center" spacing={1} mb={2}>
+            <Box component="img" src={logo} alt="Logo" sx={{ height: 32 }} />
+            <Typography variant="h5" sx={{ fontWeight: 800, color: '#fff', whiteSpace: 'nowrap' }}>
               {systemSettings?.contactName || 'MVA Study'}
             </Typography>
-          </Box>
+          </Stack>
           <Typography sx={{ fontSize: '0.8rem', opacity: 0.9, mb: 2, lineHeight: 1.6 }}>
             Học tin học – Vững tương lai
           </Typography>
-          <Box display="flex" alignItems="flex-start" gap={1} mb={1}>
+          <Stack direction="row" alignItems="flex-start" spacing={1} mb={1}>
             <LocationOnIcon sx={{ fontSize: 16, mt: 0.3, opacity: 0.9 }} />
             <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>
               123 Đường ABC, Quận 1, TP. HCM
             </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" gap={1} mb={1}>
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={1} mb={1}>
             <PhoneIcon sx={{ fontSize: 16, opacity: 0.9 }} />
             <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>
               {systemSettings?.contactPhone || '0123 456 789'}
             </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" gap={1}>
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={1}>
             <EmailIcon sx={{ fontSize: 16, opacity: 0.9 }} />
             <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>
               {systemSettings?.contactEmail || 'info@mvastudy.vn'}
             </Typography>
-          </Box>
+          </Stack>
         </Grid>
 
         {/* Liên kết nhanh */}

@@ -7,4 +7,5 @@ export * from './components/CountdownSection';
 export * from './components/ConsultationForm';
 export * from './components/Footer';
 export * from './components/FeedbackSection';
+export * from './components/PartnerSection';
 export * from './components/Chatbot';

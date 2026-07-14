@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Dialog, DialogTitle, Typography, IconButton, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Header, Hero, CourseSection, TeacherSection, NewsLeaderboardSection, CountdownSection, ConsultationForm, Footer, FeedbackSection, Chatbot } from '../features/landing';
+import { Header, Hero, CourseSection, TeacherSection, NewsLeaderboardSection, CountdownSection, ConsultationForm, Footer, FeedbackSection, PartnerSection, Chatbot } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
 
 const LandingPage: React.FC = () => {
@@ -35,6 +35,7 @@ const LandingPage: React.FC = () => {
         <Box id="section-news"><NewsLeaderboardSection /></Box>
         <Box id="section-teachers"><TeacherSection /></Box>
         <Box id="section-feedback"><FeedbackSection /></Box>
+        <Box id="section-partners"><PartnerSection /></Box>
         {systemSettings?.countdownEnabled && (
           <Box id="section-countdown"><CountdownSection /></Box>
         )}
