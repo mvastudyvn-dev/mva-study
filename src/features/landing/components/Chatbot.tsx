@@ -27,8 +27,8 @@ const KNOWLEDGE_BASE = [
     answer: "MVA Study hiện có trụ sở chính tại 123 Đường Học Tập, Quận 1, TP.HCM. Bạn có thể học trực tiếp hoặc online nhé."
   },
   {
-    keywords: ["khóa học", "môn", "toán", "lý", "hóa", "anh", "văn", "tìm hiểu"],
-    answer: "Trung tâm chuyên giảng dạy Toán, Lý, Hóa, Văn, Anh từ lớp 6 đến lớp 12. Bạn cần đăng ký môn nào?"
+    keywords: ["khóa học", "môn", "mos", "ic3", "tin học", "chứng chỉ", "tìm hiểu", "đăng ký"],
+    answer: "MVA Study chuyên đào tạo các chứng chỉ tin học văn phòng quốc tế như MOS (Word, Excel, PowerPoint) và IC3 (GS6). Bạn quan tâm đến khóa nào ạ?"
   },
   {
     keywords: ["chào", "hi", "hello", "dạ"],
