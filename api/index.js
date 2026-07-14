@@ -37,7 +37,12 @@ app.post('/api/predict', async (req, res) => {
     let attempt = 0;
     while (attempt < 3) {
       try {
-        const model = predictGenAI.getGenerativeModel({ model: "gemini-3.5-flash" }, { apiVersion: 'v1' });
+        const predictSystemInstruction = "Bạn là hệ thống tự động xuất dữ liệu JSON. TUYỆT ĐỐI TUÂN THỦ: Chỉ trả về định dạng JSON cực kỳ ngắn gọn, không giải thích dài dòng. Mỗi yêu cầu trả về KHÔNG QUÁ 3 trường, mỗi trường TỐI ĐA 2 ngành. Không xuất bất kỳ văn bản nào ngoài JSON.";
+        const model = predictGenAI.getGenerativeModel({ 
+          model: "gemini-3.5-flash", 
+          systemInstruction: predictSystemInstruction,
+          generationConfig: { maxOutputTokens: 1024 }
+        }, { apiVersion: 'v1' });
         const result = await model.generateContent(promptText);
         textResult = result.response.text();
         break; // Thành công
@@ -59,7 +64,6 @@ app.post('/api/predict', async (req, res) => {
   }
 });
 
-// 2. API: Trợ lý Chatbot
 const SYSTEM_INSTRUCTION = `Bạn là nhân viên tư vấn xuất sắc của MVA Study - Trung tâm đào tạo tin học hàng đầu.
 Nhiệm vụ của bạn là tư vấn các khóa học tin học, giải đáp thắc mắc và hỗ trợ kỹ thuật cho học viên một cách nhiệt tình, chuyên nghiệp.
 Một số thông tin về trung tâm: 
@@ -68,7 +72,7 @@ Một số thông tin về trung tâm:
 - Có các khóa học lẻ và Combo tiết kiệm (MOS + IC3).
 - Phương pháp dạy: Học đi đôi với hành, cam kết chuẩn đầu ra.
 - Hotline hỗ trợ: 1900 xxxx.
-Luôn trả lời ngắn gọn, súc tích (dưới 3-4 câu), thân thiện và thỉnh thoảng dùng emoji. Nếu không biết câu trả lời, hãy khuyên khách hàng để lại thông tin hoặc gọi hotline.`;
+Luôn trả lời cực kỳ ngắn gọn (TỐI ĐA 50 TỪ), thân thiện và thỉnh thoảng dùng emoji. Rất quan trọng: Không bao giờ trả lời quá dài. Nếu không biết câu trả lời, hãy khuyên khách hàng để lại thông tin.`;
 
 app.post('/api/chat', async (req, res) => {
   if (!chatGenAI) {
@@ -82,7 +86,11 @@ app.post('/api/chat', async (req, res) => {
     let attempt = 0;
     while (attempt < 3) {
       try {
-        const model = chatGenAI.getGenerativeModel({ model: "gemini-3.5-flash", systemInstruction: SYSTEM_INSTRUCTION }, { apiVersion: 'v1' });
+        const model = chatGenAI.getGenerativeModel({ 
+          model: "gemini-3.5-flash", 
+          systemInstruction: SYSTEM_INSTRUCTION,
+          generationConfig: { maxOutputTokens: 200 }
+        }, { apiVersion: 'v1' });
         const chatSession = model.startChat({ history: history || [] });
         const result = await chatSession.sendMessage(message);
         textResult = result.response.text();
