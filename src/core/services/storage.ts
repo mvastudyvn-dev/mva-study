@@ -511,7 +511,10 @@ export const StorageService = {
         telegram_bot_token: settings.telegramBotToken,
         telegram_chat_id: settings.telegramChatId,
       };
-      const { error } = await supabase.from('system_settings').update(dataToSave).eq('id', 'default');
+      const { error } = await supabase.from('system_settings').upsert({
+        id: 'default',
+        ...dataToSave
+      });
       if (error) {
         alert('Lỗi lưu máy chủ: ' + error.message);
       }
