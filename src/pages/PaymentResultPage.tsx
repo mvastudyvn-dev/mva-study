@@ -8,7 +8,11 @@ import { Header, Footer } from '../features/landing';
 const PaymentResultPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const status = searchParams.get('status'); // 'success' hoặc 'cancel'
+  const status = searchParams.get('status');
+  const cancel = searchParams.get('cancel');
+  
+  // PayOS ghi đè tham số status thành 'PAID' hoặc 'CANCELLED'
+  const isSuccess = status === 'PAID' || status === 'success' || cancel === 'false';
   const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
@@ -32,7 +36,7 @@ const PaymentResultPage: React.FC = () => {
       <Box component="main" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', py: 8 }}>
         <Container maxWidth="sm">
           <Paper elevation={0} sx={{ p: 5, textAlign: 'center', borderRadius: 4, border: '1px solid #E5E7EB' }}>
-            {status === 'success' ? (
+            {isSuccess ? (
               <>
                 <CheckCircleOutlinedIcon sx={{ fontSize: 80, color: '#10B981', mb: 2 }} />
                 <Typography variant="h4" sx={{ fontWeight: 800, mb: 2, color: '#1F2937' }}>
