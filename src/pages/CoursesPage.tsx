@@ -3,6 +3,8 @@ import { Box, Container, Typography, Grid, Card, CardContent, Rating, Tabs, Tab,
 import SearchIcon from '@mui/icons-material/Search';
 import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
+import PaymentModal from '../features/payment/PaymentModal';
+import type { Course } from '../core/types/global';
 
 const courseIcons: Record<string, React.ReactNode> = {
   c1: (
@@ -39,6 +41,8 @@ const CoursesPage: React.FC = () => {
   const { courses } = useData();
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const filteredCourses = useMemo(() => {
     let result = courses;
@@ -143,7 +147,10 @@ const CoursesPage: React.FC = () => {
             {filteredCourses.map((course) => (
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={course.id}>
                 <Card
-                  onClick={() => {/* Navigate to detail later */}}
+                  onClick={() => {
+                    setSelectedCourse(course);
+                    setIsPaymentModalOpen(true);
+                  }}
                   sx={{
                     height: '100%',
                     borderRadius: 1,
@@ -239,6 +246,12 @@ const CoursesPage: React.FC = () => {
 
         </Container>
       </Box>
+
+      <PaymentModal 
+        open={isPaymentModalOpen} 
+        course={selectedCourse} 
+        onClose={() => setIsPaymentModalOpen(false)} 
+      />
 
       <Footer />
     </Box>

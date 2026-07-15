@@ -113,5 +113,9 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// Mount payment API
+import paymentRouter from './payment.js';
+app.use('/api/payment', paymentRouter);
+
 // Xuất ứng dụng để Vercel chạy thay vì app.listen()
 export default app;

@@ -16,6 +16,7 @@ import CheckDHPage from './pages/CheckDHPage';
 import CoursesPage from './pages/CoursesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import PaymentResultPage from './pages/PaymentResultPage';
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
@@ -32,6 +33,7 @@ const App: React.FC = () => (
             <Route path="/courses" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><CoursesPage /></RouteGuard>} />
             <Route path="/student" element={<RouteGuard allowedRoles={['student']}><StudentPage /></RouteGuard>} />
             <Route path="/admin" element={<RouteGuard allowedRoles={['admin']}><AdminPage /></RouteGuard>} />
+            <Route path="/payment-result" element={<PaymentResultPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
