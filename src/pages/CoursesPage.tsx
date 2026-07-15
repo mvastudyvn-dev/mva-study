@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, Rating, Tabs, Tab, TextField, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Header, Footer } from '../features/landing';
@@ -40,8 +40,12 @@ const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(pri
 const CATEGORIES = ['Tất cả', 'IC3', 'MOS'];
 
 const CoursesPage: React.FC = () => {
-  const { courses, activationCodes } = useData();
+  const { courses, activationCodes, refreshData } = useData();
   const { user } = useAuth();
+  
+  useEffect(() => {
+    refreshData();
+  }, [refreshData]);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
