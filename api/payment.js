@@ -109,10 +109,10 @@ router.post('/webhook', async (req, res) => {
   // Nếu đây chỉ là request xác nhận URL của PayOS (thường data webhook xác nhận sẽ khác một chút)
   // PayOS sẽ yêu cầu HTTP status code là 200
   try {
-    const webhookData = await payos.webhooks.verify(req.body);
+    const verifiedData = await payos.webhooks.verify(req.body);
 
-    if (webhookData.code === '00') {
-      const orderCode = webhookData.data.orderCode;
+    if (req.body.code === '00' || req.body.code === '0') { // Đôi khi PayOS dùng '0' hoặc '00'
+      const orderCode = verifiedData.orderCode;
 
       // 1. Lấy thông tin đơn hàng từ database
       const { data: order, error: orderError } = await supabase
