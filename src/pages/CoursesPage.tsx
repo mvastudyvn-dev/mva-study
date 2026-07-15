@@ -49,7 +49,7 @@ const CoursesPage: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const userCodes = useMemo(() => {
-    return activationCodes.filter((c) => c.isUsed && c.usedByEmail === user?.email);
+    return activationCodes.filter((c) => c.usedByEmail === user?.email);
   }, [activationCodes, user]);
 
   const filteredCourses = useMemo(() => {
