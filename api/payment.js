@@ -140,14 +140,6 @@ router.post('/webhook', async (req, res) => {
         .or('status.eq.Chưa sử dụng,used_by_email.is.null') // Đảm bảo mã thực sự trống
         .limit(1);
 
-      if (codeError || !codes || codes.length === 0) {
-        console.error('Hết mã kích hoạt cho khóa học:', order.course_id);
-        // Có thể cập nhật order status = 'needs_manual_code' ở đây
-        return res.json({ error: 'Out of activation codes' });
-      }
-
-      const activationCode = codes[0];
-
       // 3. Lấy thông tin User để lấy email
       const { data: user, error: userError } = await supabase
         .from('users')
@@ -159,6 +151,39 @@ router.post('/webhook', async (req, res) => {
         console.error('Không tìm thấy user email cho đơn hàng:', orderCode);
         return res.json({ error: 'User email not found' });
       }
+
+      if (codeError || !codes || codes.length === 0) {
+        console.error('Hết mã kích hoạt cho khóa học:', order.course_id);
+        
+        // Cập nhật đơn hàng thành công nhưng thiếu mã
+        await supabase
+          .from('orders')
+          .update({ status: 'needs_manual_code' })
+          .eq('order_code', orderCode);
+
+        // Gửi email báo hết mã
+        const outOfCodeMailOptions = {
+          from: `"MVA Study" <${process.env.GMAIL_USER}>`,
+          to: user.email,
+          subject: 'Xác nhận thanh toán thành công khóa học MVA Study',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+              <h2 style="color: #FF8C2F; text-align: center;">Thanh toán thành công!</h2>
+              <p>Chào <strong>${user.name}</strong>,</p>
+              <p>Hệ thống đã ghi nhận thanh toán của bạn cho khóa học thành công.</p>
+              <p>Hiện tại, kho mã tự động của hệ thống đang tạm hết. Bạn đừng lo lắng nhé! Quản trị viên của chúng tôi đã nhận được thông báo và sẽ <strong>gửi mã kích hoạt thủ công cho bạn qua Email này trong thời gian sớm nhất (tối đa 24h)</strong>.</p>
+              <p>Cảm ơn bạn đã đồng hành cùng MVA Study!</p>
+            </div>
+          `
+        };
+        await transporter.sendMail(outOfCodeMailOptions);
+
+        return res.json({ success: true, message: 'Out of activation codes, manual email sent' });
+      }
+
+      const activationCode = codes[0];
+
+      // Đoạn code phía trên đã xử lý kiểm tra User Email.
 
       // 4. Cập nhật mã đã được bán (Gán email người mua, NHƯNG chưa kích hoạt)
       // Để học sinh phải tự nhập mã vào web để kích hoạt
