@@ -89,11 +89,11 @@ const LoginPage: React.FC = () => {
         setError('Tài khoản của bạn đã bị khóa bởi Quản trị viên!');
       } else {
         loginDemo('student', user);
-        navigate(returnUrl || '/student');
+        navigate(returnUrl || '/');
       }
     } else if (trimmedEmail === 'ngminhanh@gmail.com' && trimmedPassword === '123456') {
        loginDemo('student', null);
-       navigate(returnUrl || '/student');
+       navigate(returnUrl || '/');
     } else {
       setError('Tên đăng nhập/Email hoặc mật khẩu không đúng!');
     }
