@@ -96,15 +96,15 @@ export const ActivationCodesTable: React.FC = () => {
                   <TableCell sx={{ fontSize: '0.8rem', color: '#6B7280' }}>{code.courseName}</TableCell>
                   <TableCell>
                     <Chip
-                      label={code.status}
+                      label={code.isUsed ? 'Đã sử dụng' : code.usedByEmail ? 'Đã bán' : 'Chưa sử dụng'}
                       size="small"
                       sx={{
                         fontSize: '0.7rem',
                         fontWeight: 600,
                         height: 24,
-                        bgcolor: code.isUsed ? '#ECFDF5' : '#FFF8F2',
-                        color: code.isUsed ? '#059669' : '#FF8C2F',
-                        border: `1px solid ${code.isUsed ? '#A7F3D0' : '#FFD4A8'}`,
+                        bgcolor: code.isUsed ? '#ECFDF5' : code.usedByEmail ? '#EFF6FF' : '#FFF8F2',
+                        color: code.isUsed ? '#059669' : code.usedByEmail ? '#3B82F6' : '#FF8C2F',
+                        border: `1px solid ${code.isUsed ? '#A7F3D0' : code.usedByEmail ? '#BFDBFE' : '#FFD4A8'}`,
                       }}
                     />
                   </TableCell>
@@ -115,8 +115,8 @@ export const ActivationCodesTable: React.FC = () => {
                     <IconButton 
                       size="small" 
                       onClick={() => handleDelete(code.code)} 
-                      disabled={code.status !== 'Chưa sử dụng'}
-                      sx={{ color: code.status !== 'Chưa sử dụng' ? '#E5E7EB' : '#EF4444' }}
+                      disabled={code.isUsed || !!code.usedByEmail}
+                      sx={{ color: (code.isUsed || !!code.usedByEmail) ? '#E5E7EB' : '#EF4444' }}
                     >
                       <DeleteIcon fontSize="small" />
                     </IconButton>

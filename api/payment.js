@@ -185,11 +185,11 @@ router.post('/webhook', async (req, res) => {
 
       // Đoạn code phía trên đã xử lý kiểm tra User Email.
 
-      // 4. Cập nhật mã đã được bán (Gán email người mua, NHƯNG chưa kích hoạt)
-      // Để học sinh phải tự nhập mã vào web để kích hoạt
+      // 4. Cập nhật mã (Gán email người mua)
+      // KHÔNG CẬP NHẬT status: 'Đã bán' VÌ SẼ VI PHẠM CHECK CONSTRAINT CỦA SUPABASE ('Chưa sử dụng' hoặc 'Đã sử dụng')
       await supabase
         .from('activation_codes')
-        .update({ status: 'Đã bán', used_by_email: user.email })
+        .update({ used_by_email: user.email })
         .eq('code', activationCode.code);
 
       // 5. Cập nhật đơn hàng thành công
@@ -290,10 +290,11 @@ router.post('/issue-code', async (req, res) => {
 
     const activationCode = codes[0];
 
-    // 4. Cập nhật mã thành đã bán
+    // 4. Cập nhật mã (Gán email)
+    // Giữ nguyên status vì DB check constraint
     await supabase
       .from('activation_codes')
-      .update({ status: 'Đã bán', used_by_email: user.email })
+      .update({ used_by_email: user.email })
       .eq('code', activationCode.code);
 
     // 5. Cập nhật đơn hàng thành paid
