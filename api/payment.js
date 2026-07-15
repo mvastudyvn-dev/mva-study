@@ -9,25 +9,34 @@ dotenv.config();
 const router = express.Router();
 
 // 1. Initialize Supabase Client
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || '';
+let supabase = null;
+if (supabaseUrl && supabaseKey) {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}
 
 // 2. Initialize PayOS
-const payos = new PayOS(
-  process.env.PAYOS_CLIENT_ID,
-  process.env.PAYOS_API_KEY,
-  process.env.PAYOS_CHECKSUM_KEY
-);
+let payos = null;
+if (process.env.PAYOS_CLIENT_ID && process.env.PAYOS_API_KEY && process.env.PAYOS_CHECKSUM_KEY) {
+  payos = new PayOS(
+    process.env.PAYOS_CLIENT_ID,
+    process.env.PAYOS_API_KEY,
+    process.env.PAYOS_CHECKSUM_KEY
+  );
+}
 
 // 3. Initialize Nodemailer
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
-  },
-});
+let transporter = null;
+if (process.env.GMAIL_USER && process.env.GMAIL_PASS) {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS,
+    },
+  });
+}
 
 // Helper: Lấy Domain hiện tại
 const getDomain = (req) => {
@@ -39,6 +48,10 @@ const getDomain = (req) => {
 
 // API: Tạo link thanh toán
 router.post('/create-payment-link', async (req, res) => {
+  if (!payos || !supabase) {
+    return res.status(500).json({ error: 'Server chưa được cấu hình biến môi trường đầy đủ (PayOS hoặc Supabase).' });
+  }
+
   try {
     const { userId, courseId, courseName, amount } = req.body;
 
@@ -87,6 +100,13 @@ router.post('/create-payment-link', async (req, res) => {
 
 // API: Webhook nhận thông báo thanh toán thành công từ PayOS
 router.post('/webhook', async (req, res) => {
+  if (!payos || !supabase || !transporter) {
+    console.error('Lỗi Webhook: Server thiếu biến môi trường.');
+    return res.json({ error: 'Thiếu cấu hình biến môi trường' }); // Vẫn trả về 200 để PayOS không báo lỗi 500
+  }
+
+  // Nếu đây chỉ là request xác nhận URL của PayOS (thường data webhook xác nhận sẽ khác một chút)
+  // PayOS sẽ yêu cầu HTTP status code là 200
   try {
     const webhookData = payos.verifyPaymentWebhookData(req.body);
 
