@@ -20,11 +20,11 @@ if (supabaseUrl && supabaseKey) {
 // 2. Initialize PayOS
 let payos = null;
 if (process.env.PAYOS_CLIENT_ID && process.env.PAYOS_API_KEY && process.env.PAYOS_CHECKSUM_KEY) {
-  payos = new PayOSClass(
-    process.env.PAYOS_CLIENT_ID,
-    process.env.PAYOS_API_KEY,
-    process.env.PAYOS_CHECKSUM_KEY
-  );
+  payos = new PayOSClass({
+    clientId: process.env.PAYOS_CLIENT_ID,
+    apiKey: process.env.PAYOS_API_KEY,
+    checksumKey: process.env.PAYOS_CHECKSUM_KEY
+  });
 }
 
 // 3. Initialize Nodemailer
@@ -89,7 +89,7 @@ router.post('/create-payment-link', async (req, res) => {
       cancelUrl: `${domain}/payment-result?status=cancel&orderCode=${orderCode}`
     };
 
-    const paymentLinkRes = await payos.createPaymentLink(body);
+    const paymentLinkRes = await payos.paymentRequests.create(body);
 
     res.json({ checkoutUrl: paymentLinkRes.checkoutUrl });
 
@@ -109,7 +109,7 @@ router.post('/webhook', async (req, res) => {
   // Nếu đây chỉ là request xác nhận URL của PayOS (thường data webhook xác nhận sẽ khác một chút)
   // PayOS sẽ yêu cầu HTTP status code là 200
   try {
-    const webhookData = payos.verifyPaymentWebhookData(req.body);
+    const webhookData = await payos.webhooks.verify(req.body);
 
     if (webhookData.code === '00') {
       const orderCode = webhookData.data.orderCode;
