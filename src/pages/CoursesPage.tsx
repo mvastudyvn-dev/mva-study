@@ -240,15 +240,24 @@ const CoursesPage: React.FC = () => {
                         </Typography>
                       </Box>
 
-                      <Box display="flex" alignItems="center" justifyContent="space-between">
+                      <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
                         {isOwned ? (
-                          <Button variant="outlined" size="small" sx={{ borderColor: '#10B981', color: '#10B981', pointerEvents: 'none', fontWeight: 'bold' }}>
+                          <Button variant="outlined" size="small" sx={{ borderColor: '#10B981', color: '#10B981', pointerEvents: 'none', fontWeight: 'bold', width: '100%' }}>
                             Đã sở hữu
                           </Button>
                         ) : (
-                          <Typography sx={{ fontWeight: 800, color: '#FF8C2F', fontSize: '1.2rem' }}>
-                            {formatPrice(course.price)}
-                          </Typography>
+                          <>
+                            <Typography sx={{ fontWeight: 800, color: '#FF8C2F', fontSize: '1.1rem' }}>
+                              {formatPrice(course.price)}
+                            </Typography>
+                            <Button 
+                              variant="contained" 
+                              size="small"
+                              sx={{ bgcolor: '#FF8C2F', '&:hover': { bgcolor: '#E07B29' }, fontWeight: 'bold', borderRadius: 1.5, px: 2 }}
+                            >
+                              Mua ngay
+                            </Button>
+                          </>
                         )}
                       </Box>
                     </Box>
