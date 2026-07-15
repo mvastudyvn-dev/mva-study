@@ -3,6 +3,8 @@ import { Box, Container, Typography, Grid, Card, CardContent, Rating, Tabs, Tab,
 import SearchIcon from '@mui/icons-material/Search';
 import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
+import { useAuth } from '../core/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import PaymentModal from '../features/payment/PaymentModal';
 import type { Course } from '../core/types/global';
 
@@ -38,11 +40,17 @@ const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(pri
 const CATEGORIES = ['Tất cả', 'IC3', 'MOS'];
 
 const CoursesPage: React.FC = () => {
-  const { courses } = useData();
+  const { courses, activationCodes } = useData();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  const userCodes = useMemo(() => {
+    return activationCodes.filter((c) => c.isUsed && c.usedByEmail === user?.email);
+  }, [activationCodes, user]);
 
   const filteredCourses = useMemo(() => {
     let result = courses;
@@ -144,12 +152,18 @@ const CoursesPage: React.FC = () => {
 
           {/* Courses Grid */}
           <Grid container spacing={3}>
-            {filteredCourses.map((course) => (
+            {filteredCourses.map((course) => {
+              const isOwned = userCodes.some((c) => c.courseId === course.id);
+              return (
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={course.id}>
                 <Card
                   onClick={() => {
-                    setSelectedCourse(course);
-                    setIsPaymentModalOpen(true);
+                    if (isOwned) {
+                      navigate('/dashboard');
+                    } else {
+                      setSelectedCourse(course);
+                      setIsPaymentModalOpen(true);
+                    }
                   }}
                   sx={{
                     height: '100%',
@@ -227,15 +241,21 @@ const CoursesPage: React.FC = () => {
                       </Box>
 
                       <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <Typography sx={{ fontWeight: 800, color: '#FF8C2F', fontSize: '1.2rem' }}>
-                          {formatPrice(course.price)}
-                        </Typography>
+                        {isOwned ? (
+                          <Button variant="outlined" size="small" sx={{ borderColor: '#10B981', color: '#10B981', pointerEvents: 'none', fontWeight: 'bold' }}>
+                            Đã sở hữu
+                          </Button>
+                        ) : (
+                          <Typography sx={{ fontWeight: 800, color: '#FF8C2F', fontSize: '1.2rem' }}>
+                            {formatPrice(course.price)}
+                          </Typography>
+                        )}
                       </Box>
                     </Box>
                   </CardContent>
                 </Card>
               </Grid>
-            ))}
+            )})}
           </Grid>
           
           {filteredCourses.length === 0 && (
