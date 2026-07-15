@@ -137,6 +137,7 @@ router.post('/webhook', async (req, res) => {
         .select('*')
         .eq('course_id', order.course_id)
         .eq('is_used', false)
+        .or('status.eq.Chưa sử dụng,used_by_email.is.null') // Đảm bảo mã thực sự trống
         .limit(1);
 
       if (codeError || !codes || codes.length === 0) {
@@ -159,10 +160,11 @@ router.post('/webhook', async (req, res) => {
         return res.json({ error: 'User email not found' });
       }
 
-      // 4. Cập nhật mã đã sử dụng
+      // 4. Cập nhật mã đã được bán (Gán email người mua, NHƯNG chưa kích hoạt)
+      // Để học sinh phải tự nhập mã vào web để kích hoạt
       await supabase
         .from('activation_codes')
-        .update({ is_used: true, used_by_email: user.email, activation_date: new Date().toISOString() })
+        .update({ status: 'Đã bán', used_by_email: user.email })
         .eq('code', activationCode.code);
 
       // 5. Cập nhật đơn hàng thành công
