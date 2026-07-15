@@ -160,7 +160,7 @@ export const CourseSection: React.FC = () => {
 
                   <Box sx={{ mt: 'auto' }}>
                     {/* Rating */}
-                    <Box display="flex" alignItems="center" gap={0.5} mb={1.5}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'nowrap', gap: 0.5, mb: 1.5 }}>
                       <Rating
                         value={course.rating}
                         precision={0.1}
@@ -171,10 +171,10 @@ export const CourseSection: React.FC = () => {
                           fontSize: '1rem',
                         }}
                       />
-                      <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#1F2937' }}>
+                      <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#1F2937', whiteSpace: 'nowrap' }}>
                         {course.rating}
                       </Typography>
-                      <Typography sx={{ fontSize: '0.75rem', color: '#9CA3AF' }}>
+                      <Typography sx={{ fontSize: '0.75rem', color: '#9CA3AF', whiteSpace: 'nowrap' }}>
                         ({course.ratingCount.toLocaleString()})
                       </Typography>
                     </Box>
