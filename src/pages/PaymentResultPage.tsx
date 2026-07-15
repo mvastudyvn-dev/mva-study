@@ -4,10 +4,12 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { Header, Footer } from '../features/landing';
+import { useData } from '../core/contexts/DataContext';
 
 const PaymentResultPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { refreshData } = useData();
   const status = searchParams.get('status');
   const cancel = searchParams.get('cancel');
   
@@ -16,6 +18,9 @@ const PaymentResultPage: React.FC = () => {
   const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
+    if (isSuccess) {
+      refreshData();
+    }
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
