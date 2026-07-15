@@ -24,7 +24,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, course, onClose }) =>
       
       const userId = currentUser?.id || 'guest_123'; // Tạm thời dùng guest nếu chưa login
 
-      const response = await fetch('http://localhost:3001/api/payment/create-payment-link', {
+      const response = await fetch('/api/payment/create-payment-link', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
