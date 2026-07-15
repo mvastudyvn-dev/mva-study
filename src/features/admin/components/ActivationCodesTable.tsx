@@ -19,8 +19,9 @@ export const ActivationCodesTable: React.FC = () => {
   const handleGen = async () => {
     const course = courses.find((c) => c.id === selectedCourse);
     for (let i = 0; i < quantity; i++) {
+      const randomPart = Array.from({ length: 9 }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]).join('');
       await StorageService.saveActivationCode({
-        code: `MVA-${(course?.shortTitle || 'NEW').replace(/\n/g, '-').toUpperCase()}-${String(Math.floor(Math.random() * 90000) + 10000)}`,
+        code: `MVA${randomPart}`,
         courseId: selectedCourse || 'c1',
         courseName: course?.title || 'IC3 GS6',
         status: 'Chưa sử dụng',
