@@ -117,5 +117,9 @@ app.post('/api/chat', async (req, res) => {
 import paymentRouter from './payment.js';
 app.use('/api/payment', paymentRouter);
 
+// Mount cron API
+import cronRouter from './cron.js';
+app.use('/api/cron', cronRouter);
+
 // Xuất ứng dụng để Vercel chạy thay vì app.listen()
 export default app;
