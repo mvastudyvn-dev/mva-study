@@ -112,7 +112,14 @@ export const ActivationCodesTable: React.FC = () => {
                   <TableCell sx={{ fontSize: '0.8rem', color: '#6B7280' }}>{code.activationDate || '—'}</TableCell>
                   <TableCell align="right">
                     <IconButton size="small" onClick={() => handleCopy(code.code)} sx={{ color: '#6B7280' }}><ContentCopyIcon fontSize="small" /></IconButton>
-                    <IconButton size="small" onClick={() => handleDelete(code.code)} sx={{ color: '#EF4444' }}><DeleteIcon fontSize="small" /></IconButton>
+                    <IconButton 
+                      size="small" 
+                      onClick={() => handleDelete(code.code)} 
+                      disabled={code.status !== 'Chưa sử dụng'}
+                      sx={{ color: code.status !== 'Chưa sử dụng' ? '#E5E7EB' : '#EF4444' }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
