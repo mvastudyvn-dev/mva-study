@@ -137,7 +137,7 @@ router.post('/webhook', async (req, res) => {
         .select('*')
         .eq('course_id', order.course_id)
         .eq('is_used', false)
-        .or('status.eq.Chưa sử dụng,used_by_email.is.null') // Đảm bảo mã thực sự trống
+        .is('used_by_email', null) // Đảm bảo chưa có ai sở hữu mã này
         .limit(1);
 
       // 3. Lấy thông tin User để lấy email
@@ -281,7 +281,7 @@ router.post('/issue-code', async (req, res) => {
       .select('*')
       .eq('course_id', order.course_id)
       .eq('is_used', false)
-      .or('status.eq.Chưa sử dụng,used_by_email.is.null')
+      .is('used_by_email', null)
       .limit(1);
 
     if (codeError || !codes || codes.length === 0) {
