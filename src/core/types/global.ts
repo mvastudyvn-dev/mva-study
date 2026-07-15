@@ -52,10 +52,19 @@ export interface ActivationCode {
   code: string;
   courseId: string;
   courseName: string;
-  status: 'Đã sử dụng' | 'Chưa sử dụng';
+  status: 'Đã sử dụng' | 'Chưa sử dụng' | 'Đã bán';
   isUsed: boolean;
   usedByEmail?: string;
   activationDate?: string;
+}
+
+export interface Order {
+  order_code: string | number;
+  user_id: string;
+  course_id: string;
+  amount: number;
+  status: 'pending' | 'paid' | 'cancelled' | 'needs_manual_code';
+  created_at?: string;
 }
 
 export interface NewsItem {

@@ -16,6 +16,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/logo1.png';
@@ -28,6 +29,7 @@ const menuItems = [
   { id: 'documents', label: 'Quản lý tài liệu', icon: <DescriptionIcon /> },
   { id: 'students', label: 'Quản lý học viên', icon: <PeopleIcon /> },
   { id: 'codes', label: 'Mã kích hoạt', icon: <VpnKeyIcon /> },
+  { id: 'orders', label: 'Quản lý đơn hàng', icon: <ShoppingCartIcon /> },
   { id: 'stats', label: 'Thống kê & Báo cáo', icon: <BarChartIcon /> },
   { id: 'settings', label: 'Cài đặt hệ thống', icon: <SettingsIcon /> },
 ];

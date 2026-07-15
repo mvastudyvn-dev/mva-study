@@ -237,4 +237,104 @@ router.post('/webhook', async (req, res) => {
   }
 });
 
+// API: Cấp mã bù thủ công cho đơn hàng bị thiếu mã
+router.post('/issue-code', async (req, res) => {
+  if (!supabase || !transporter) {
+    return res.status(500).json({ error: 'Server chưa cấu hình Supabase hoặc Email' });
+  }
+
+  try {
+    const { orderCode } = req.body;
+    if (!orderCode) {
+      return res.status(400).json({ error: 'Thiếu orderCode' });
+    }
+
+    // 1. Lấy thông tin đơn hàng
+    const { data: order, error: orderError } = await supabase
+      .from('orders')
+      .select('*')
+      .eq('order_code', orderCode)
+      .single();
+
+    if (orderError || !order) {
+      return res.status(404).json({ error: 'Không tìm thấy đơn hàng' });
+    }
+
+    if (order.status !== 'needs_manual_code') {
+      return res.status(400).json({ error: 'Đơn hàng không ở trạng thái cần cấp mã bù' });
+    }
+
+    // 2. Lấy thông tin User
+    const { data: user, error: userError } = await supabase
+      .from('users')
+      .select('email, name')
+      .eq('id', order.user_id)
+      .single();
+
+    if (userError || !user || !user.email) {
+      return res.status(404).json({ error: 'Không tìm thấy email học sinh' });
+    }
+
+    // 3. Tìm mã chưa bán
+    const { data: codes, error: codeError } = await supabase
+      .from('activation_codes')
+      .select('*')
+      .eq('course_id', order.course_id)
+      .eq('is_used', false)
+      .or('status.eq.Chưa sử dụng,used_by_email.is.null')
+      .limit(1);
+
+    if (codeError || !codes || codes.length === 0) {
+      return res.status(400).json({ error: 'Vẫn chưa có mã kích hoạt mới trong kho. Vui lòng tạo thêm mã!' });
+    }
+
+    const activationCode = codes[0];
+
+    // 4. Cập nhật mã thành đã bán
+    await supabase
+      .from('activation_codes')
+      .update({ status: 'Đã bán', used_by_email: user.email })
+      .eq('code', activationCode.code);
+
+    // 5. Cập nhật đơn hàng thành paid
+    await supabase
+      .from('orders')
+      .update({ status: 'paid' })
+      .eq('order_code', orderCode);
+
+    // 6. Gửi email
+    const mailOptions = {
+      from: `"MVA Study" <${process.env.GMAIL_USER}>`,
+      to: user.email,
+      subject: 'Mã kích hoạt khóa học MVA Study (Cấp bù)',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+          <h2 style="color: #FF8C2F; text-align: center;">Cảm ơn bạn đã kiên nhẫn chờ đợi!</h2>
+          <p>Chào <strong>${user.name}</strong>,</p>
+          <p>Quản trị viên đã cấp mã kích hoạt khóa học cho giao dịch của bạn. Dưới đây là mã kích hoạt của bạn:</p>
+          <div style="background-color: #f5f5f5; padding: 15px; text-align: center; border-radius: 5px; margin: 20px 0;">
+            <span style="font-size: 24px; font-weight: bold; color: #1E3A8A; letter-spacing: 2px;">${activationCode.code}</span>
+          </div>
+          <p><strong>Hướng dẫn kích hoạt:</strong></p>
+          <ol>
+            <li>Đăng nhập vào tài khoản của bạn trên trang web MVA Study.</li>
+            <li>Truy cập vào trang cá nhân (hoặc bấm vào hình dấu cộng "Kích hoạt khóa học").</li>
+            <li>Nhập mã kích hoạt phía trên để mở khóa khóa học.</li>
+          </ol>
+          <p>Chúc bạn học tập hiệu quả!</p>
+          <hr style="border-top: 1px solid #e0e0e0; margin-top: 30px;">
+          <p style="font-size: 12px; color: #888; text-align: center;">Đây là email tự động, vui lòng không trả lời.</p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: 'Đã cấp mã và gửi email thành công' });
+  } catch (error) {
+    console.error('Lỗi khi cấp mã bù:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống khi cấp mã' });
+  }
+});
+
 export default router;

@@ -1,7 +1,7 @@
 import type {
   Course, ActivationCode, ConsultationForm,
   Teacher, NewsItem, LeaderboardEntry, NotificationItem,
-  TopStudent, MonthlyStudentData, Lesson, Exam
+  TopStudent, MonthlyStudentData, Lesson, Exam, Order
 } from '../types/global';
 
 export const STORAGE_KEYS = {
@@ -419,6 +419,18 @@ export const StorageService = {
     const c = JSON.parse(localStorage.getItem(STORAGE_KEYS.CODES) || '[]');
     const newC = c.filter((x: ActivationCode) => x.code !== codeString);
     localStorage.setItem(STORAGE_KEYS.CODES, JSON.stringify(newC));
+  },
+
+  // Orders
+  async getOrders(): Promise<Order[]> {
+    try {
+      const { data, error } = await supabase.from('orders').select('*');
+      if (error) throw error;
+      return data as Order[];
+    } catch (e) {
+      console.error('Error fetching orders:', e);
+      return [];
+    }
   },
 
   // Consultations

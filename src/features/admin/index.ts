@@ -11,3 +11,4 @@ export { AdminStudents } from './components/AdminStudents';
 export { AdminStats } from './components/AdminStats';
 export { AdminSettings } from './components/AdminSettings';
 export { AdminDocuments } from './components/AdminDocuments';
+export { AdminOrders } from './components/AdminOrders';

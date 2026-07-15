@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import {
   AdminSidebar, AdminOverview, AdminStudentChart, AdminTestResults,
   ActivationCodesTable, TopStudentsTable, AdminCourses, AdminLessons, AdminExams,
-  AdminStudents, AdminStats, AdminSettings, AdminDocuments
+  AdminStudents, AdminStats, AdminSettings, AdminDocuments, AdminOrders
 } from '../features/admin';
 
 const AdminPage: React.FC = () => {
@@ -61,6 +61,8 @@ const AdminPage: React.FC = () => {
         return <AdminStats />;
       case 'settings':
         return <AdminSettings />;
+      case 'orders':
+        return <AdminOrders />;
       default:
         return (
           <Box sx={{ p: 4, textAlign: 'center' }}>
