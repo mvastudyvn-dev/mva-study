@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography, Button, Paper } from '@mui/material';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { Header, Footer } from '../features/landing';
 
@@ -34,7 +34,7 @@ const PaymentResultPage: React.FC = () => {
           <Paper elevation={0} sx={{ p: 5, textAlign: 'center', borderRadius: 4, border: '1px solid #E5E7EB' }}>
             {status === 'success' ? (
               <>
-                <CheckCircleOutlineIcon sx={{ fontSize: 80, color: '#10B981', mb: 2 }} />
+                <CheckCircleOutlinedIcon sx={{ fontSize: 80, color: '#10B981', mb: 2 }} />
                 <Typography variant="h4" sx={{ fontWeight: 800, mb: 2, color: '#1F2937' }}>
                   Thanh toán thành công!
                 </Typography>
