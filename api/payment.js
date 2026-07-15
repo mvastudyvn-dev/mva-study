@@ -1,5 +1,6 @@
 import express from 'express';
 import PayOS from '@payos/node';
+const PayOSClass = PayOS.PayOS || PayOS;
 import nodemailer from 'nodemailer';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
@@ -19,7 +20,7 @@ if (supabaseUrl && supabaseKey) {
 // 2. Initialize PayOS
 let payos = null;
 if (process.env.PAYOS_CLIENT_ID && process.env.PAYOS_API_KEY && process.env.PAYOS_CHECKSUM_KEY) {
-  payos = new PayOS(
+  payos = new PayOSClass(
     process.env.PAYOS_CLIENT_ID,
     process.env.PAYOS_API_KEY,
     process.env.PAYOS_CHECKSUM_KEY
