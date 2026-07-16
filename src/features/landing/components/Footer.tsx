@@ -79,10 +79,10 @@ export const Footer: React.FC = () => {
               Liên kết nhanh
             </Typography>
             {[
-              { label: 'Trang chủ', action: () => { navigate('/'); window.scrollTo(0, 0); } },
-              { label: 'Khóa học', action: () => handleNavigation('section-courses') },
+              { label: 'Trang chủ', action: () => location.pathname !== '/' ? navigate('/') : window.scrollTo({ top: 0, behavior: 'smooth' }) },
+              { label: 'Khóa học', action: () => navigate('/courses') },
               { label: 'Giảng viên', action: () => handleNavigation('section-teachers') },
-              { label: 'Tiện ích', action: () => navigate('/uni') }
+              { label: 'Tiện ích', action: () => handleNavigation('section-news') }
             ].map((item) => (
               <Typography
                 key={item.label}
