@@ -155,7 +155,7 @@ export const AdminTuition: React.FC = () => {
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
                 Chọn học sinh ({selectedUsers.length} đã chọn):
               </Typography>
-              <Paper variant="outlined" sx={{ width: '100%', maxHeight: 300, overflow: 'auto', p: 1 }}>
+              <Paper variant="outlined" sx={{ width: '100%', maxHeight: 300, overflowY: 'auto', overflowX: 'hidden', p: 1 }}>
                 {students.length === 0 ? (
                   <Typography variant="body2" sx={{ p: 2, color: 'text.secondary' }}>Không có học sinh nào trong hệ thống.</Typography>
                 ) : (
