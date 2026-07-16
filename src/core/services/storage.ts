@@ -126,6 +126,7 @@ export const StorageService = {
       username: userData.username,
       phone: userData.phone,
       school: userData.school,
+      dob: userData.birthYear,
       password: userData.password,
       role: 'student',
       status: 'active',
