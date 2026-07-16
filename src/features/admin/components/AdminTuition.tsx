@@ -149,10 +149,13 @@ export const AdminTuition: React.FC = () => {
           <IconButton onClick={() => setOpenModal(false)}><CloseIcon /></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Chọn học sinh ({selectedUsers.length} đã chọn):</Typography>
-              <Paper variant="outlined" sx={{ flexGrow: 1, width: '100%', minWidth: '100%', maxHeight: 350, overflow: 'auto', p: 1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* Chọn học sinh (Trải dài 100%) */}
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
+                Chọn học sinh ({selectedUsers.length} đã chọn):
+              </Typography>
+              <Paper variant="outlined" sx={{ width: '100%', maxHeight: 300, overflow: 'auto', p: 1 }}>
                 {students.length === 0 ? (
                   <Typography variant="body2" sx={{ p: 2, color: 'text.secondary' }}>Không có học sinh nào trong hệ thống.</Typography>
                 ) : (
@@ -177,41 +180,39 @@ export const AdminTuition: React.FC = () => {
                   ))
                 )}
               </Paper>
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Thông tin hóa đơn:</Typography>
-            </Grid>
+            </Box>
 
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Số tiền (VNĐ)"
-                type="number"
-                value={amount}
-                onChange={e => setAmount(e.target.value)}
-                InputProps={{ inputProps: { min: 1000 } }}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Nội dung"
-                placeholder="VD: Học phí tháng 7 - Toán"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Box sx={{ mt: 1, p: 2, bgcolor: '#FFF8F2', borderRadius: 1 }}>
-                <Typography variant="body2" color="warning.dark">
-                  * Hệ thống sẽ tạo hóa đơn và tự động gửi email nhắc nhở thanh toán đến <strong>{selectedUsers.length}</strong> học sinh đã chọn.
-                </Typography>
+            {/* Thông tin hóa đơn */}
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
+                Thông tin hóa đơn:
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
+                <TextField
+                  fullWidth
+                  label="Số tiền (VNĐ)"
+                  type="number"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value)}
+                  InputProps={{ inputProps: { min: 1000 } }}
+                />
+                <TextField
+                  fullWidth
+                  label="Nội dung"
+                  placeholder="VD: Học phí tháng 7 - Toán"
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
+                />
               </Box>
-            </Grid>
-          </Grid>
+            </Box>
+
+            {/* Lưu ý */}
+            <Box sx={{ p: 2, bgcolor: '#FFF8F2', borderRadius: 1 }}>
+              <Typography variant="body2" color="warning.dark">
+                * Hệ thống sẽ tạo hóa đơn và tự động gửi email nhắc nhở thanh toán đến <strong>{selectedUsers.length}</strong> học sinh đã chọn.
+              </Typography>
+            </Box>
+          </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button onClick={() => setOpenModal(false)} color="inherit">Hủy</Button>
