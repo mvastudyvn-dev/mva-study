@@ -13,7 +13,7 @@ const PrivacyPolicyPage: React.FC = () => {
       <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
         <Container maxWidth="lg">
           <Box sx={{ bgcolor: '#fff', borderRadius: 2, p: { xs: 3, md: 6 }, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}>
-            <Typography variant="h4" sx={{ fontWeight: 800, color: '#1E3A8A', textAlign: 'center', mb: 4, textTransform: 'uppercase' }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: 'primary.main', textAlign: 'center', mb: 4, textTransform: 'uppercase' }}>
               CHÍNH SÁCH BẢO MẬT
             </Typography>
 
@@ -23,7 +23,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Mục I */}
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
                 Ⅰ. Thông Tin Chúng Tôi Thu Thập:
               </Typography>
               <Typography variant="body1" sx={{ color: '#4B5563', mb: 1, lineHeight: 1.8 }}>
@@ -36,7 +36,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Mục II */}
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
                 Ⅱ. Mục Đích Sử Dụng Thông Tin:
               </Typography>
               <Typography variant="body1" sx={{ color: '#4B5563', mb: 1, lineHeight: 1.8 }}>
@@ -52,7 +52,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Mục III */}
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
                 Ⅲ. Chia Sẻ Thông Tin:
               </Typography>
               <Typography variant="body1" sx={{ color: '#4B5563', mb: 1, lineHeight: 1.8 }}>
@@ -62,7 +62,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Mục IV */}
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
                 Ⅳ. Bảo Mật Thông Tin:
               </Typography>
               <Typography variant="body1" sx={{ color: '#4B5563', mb: 1, lineHeight: 1.8 }}>
@@ -75,7 +75,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Mục V */}
             <Box sx={{ mb: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
                 Ⅴ. Thay Đổi Chính Sách Bảo Mật:
               </Typography>
               <Typography variant="body1" sx={{ color: '#4B5563', mb: 1, lineHeight: 1.8 }}>
@@ -85,7 +85,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
             {/* Mục VI */}
             <Box>
-              <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 2 }}>
                 Ⅵ. Liên Hệ:
               </Typography>
               <Typography variant="body1" sx={{ color: '#4B5563', mb: 1, lineHeight: 1.8 }}>
