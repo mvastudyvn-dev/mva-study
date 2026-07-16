@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Container, Typography, Grid, IconButton, Stack } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -13,6 +13,30 @@ import logo from '../../../assets/logo1.png';
 export const Footer: React.FC = () => {
   const { systemSettings } = useData();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigation = (id: string, path: string = '/') => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <Box sx={{ bgcolor: '#FF8C2F', color: '#fff', pt: 6, pb: 3 }}>
@@ -54,9 +78,15 @@ export const Footer: React.FC = () => {
             <Typography sx={{ fontWeight: 700, mb: 2, fontSize: '0.95rem' }}>
               Liên kết nhanh
             </Typography>
-            {['Trang chủ', 'Khóa học', 'Giảng viên', 'Tin tức'].map((item) => (
+            {[
+              { label: 'Trang chủ', action: () => { navigate('/'); window.scrollTo(0, 0); } },
+              { label: 'Khóa học', action: () => handleNavigation('section-courses') },
+              { label: 'Giảng viên', action: () => handleNavigation('section-teachers') },
+              { label: 'Tiện ích', action: () => navigate('/uni') }
+            ].map((item) => (
               <Typography
-                key={item}
+                key={item.label}
+                onClick={item.action}
                 sx={{
                   fontSize: '0.8rem',
                   opacity: 0.9,
@@ -66,7 +96,7 @@ export const Footer: React.FC = () => {
                   '&:hover': { opacity: 1 },
                 }}
               >
-                {item}
+                {item.label}
               </Typography>
             ))}
           </Grid>
@@ -131,7 +161,7 @@ export const Footer: React.FC = () => {
           }}
         >
           <Typography sx={{ fontSize: '0.75rem', opacity: 0.8 }}>
-            © 2024 {systemSettings?.contactName || 'MVA Study'}. All rights reserved.
+            © 2026 {systemSettings?.contactName || 'MVA Study'}. All rights reserved.
           </Typography>
         </Box>
       </Container>
