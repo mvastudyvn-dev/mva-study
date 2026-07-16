@@ -150,9 +150,9 @@ export const AdminTuition: React.FC = () => {
         </DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={7} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Chọn học sinh ({selectedUsers.length} đã chọn):</Typography>
-              <Paper variant="outlined" sx={{ width: '100%', maxHeight: 350, overflow: 'auto', p: 1 }}>
+              <Paper variant="outlined" sx={{ flexGrow: 1, width: '100%', minWidth: '100%', maxHeight: 350, overflow: 'auto', p: 1 }}>
                 {students.length === 0 ? (
                   <Typography variant="body2" sx={{ p: 2, color: 'text.secondary' }}>Không có học sinh nào trong hệ thống.</Typography>
                 ) : (
@@ -179,7 +179,7 @@ export const AdminTuition: React.FC = () => {
               </Paper>
             </Grid>
             
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Thông tin hóa đơn:</Typography>
               <TextField
                 fullWidth
