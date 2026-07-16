@@ -82,7 +82,7 @@ export const Footer: React.FC = () => {
               { label: 'Trang chủ', action: () => location.pathname !== '/' ? navigate('/') : window.scrollTo({ top: 0, behavior: 'smooth' }) },
               { label: 'Khóa học', action: () => navigate('/courses') },
               { label: 'Giảng viên', action: () => handleNavigation('section-teachers') },
-              { label: 'Tiện ích', action: () => navigate('/uni') }
+              { label: 'Tiện ích', action: () => handleNavigation('section-partners') }
             ].map((item) => (
               <Typography
                 key={item.label}
