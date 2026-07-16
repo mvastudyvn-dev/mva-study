@@ -24,6 +24,7 @@ const menuItems = [
   { id: 'videos', label: 'Bài giảng', icon: <VideoLibraryIcon /> },
   { id: 'exams', label: 'Đề thi thử', icon: <AssignmentIcon /> },
   { id: 'documents', label: 'Tài liệu', icon: <DescriptionIcon /> },
+  { id: 'tuition', label: 'Học phí', icon: <MenuBookIcon /> },
 
   { id: 'notifications', label: 'Thông báo', icon: <NotificationsIcon /> },
   { id: 'settings', label: 'Cài đặt tài khoản', icon: <SettingsIcon /> },

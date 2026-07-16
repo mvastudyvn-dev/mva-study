@@ -10,3 +10,4 @@ export * from './components/StudentExamPlayer';
 export * from './components/StudentVideos';
 export * from './components/StudentSettings';
 export * from './components/StudentLeaderboard';
+export * from './components/StudentTuition';

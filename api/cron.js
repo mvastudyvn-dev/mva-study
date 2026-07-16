@@ -71,9 +71,36 @@ router.get('/cleanup', async (req, res) => {
       deletedCount = codesToDelete.length;
     }
 
+    // 5. Xóa các hóa đơn học phí đã thanh toán quá 10 ngày
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+    const tenDaysAgoISO = tenDaysAgo.toISOString();
+
+    const { data: tuitionToDelete, error: tuitionFetchError } = await supabase
+      .from('tuition_invoices')
+      .select('id')
+      .eq('status', 'paid')
+      .lt('paid_at', tenDaysAgoISO);
+
+    if (tuitionFetchError) throw tuitionFetchError;
+
+    let tuitionDeletedCount = 0;
+    if (tuitionToDelete && tuitionToDelete.length > 0) {
+      const tuitionIdsToDelete = tuitionToDelete.map(t => t.id);
+      const { error: tuitionDeleteError } = await supabase
+        .from('tuition_invoices')
+        .delete()
+        .in('id', tuitionIdsToDelete);
+
+      if (tuitionDeleteError) throw tuitionDeleteError;
+      tuitionDeletedCount = tuitionIdsToDelete.length;
+    }
+    
+    console.log(`Cron Job: Tìm thấy ${tuitionDeletedCount} hóa đơn học phí quá hạn cần xóa.`);
+
     return res.status(200).json({ 
       success: true, 
-      message: `Đã dọn dẹp ${deletedCount} mã hết hạn.` 
+      message: `Đã dọn dẹp ${deletedCount} mã hết hạn và ${tuitionDeletedCount} hóa đơn học phí.` 
     });
 
   } catch (error) {

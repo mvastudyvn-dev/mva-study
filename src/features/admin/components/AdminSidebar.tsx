@@ -30,6 +30,7 @@ const menuItems = [
   { id: 'students', label: 'Quản lý học viên', icon: <PeopleIcon /> },
   { id: 'codes', label: 'Mã kích hoạt', icon: <VpnKeyIcon /> },
   { id: 'orders', label: 'Quản lý đơn hàng', icon: <ShoppingCartIcon /> },
+  { id: 'tuition', label: 'Quản lý học phí', icon: <MenuBookIcon /> },
   { id: 'stats', label: 'Thống kê & Báo cáo', icon: <BarChartIcon /> },
   { id: 'settings', label: 'Cài đặt hệ thống', icon: <SettingsIcon /> },
 ];

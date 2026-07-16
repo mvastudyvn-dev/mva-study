@@ -114,7 +114,58 @@ router.post('/webhook', async (req, res) => {
     if (req.body.code === '00' || req.body.code === '0') { // Đôi khi PayOS dùng '0' hoặc '00'
       const orderCode = verifiedData.orderCode;
 
-      // 1. Lấy thông tin đơn hàng từ database
+      // 0. Kiểm tra xem orderCode này thuộc về tuition_invoices (Học phí) hay orders (Khóa học)
+      const { data: tuition, error: tuitionError } = await supabase
+        .from('tuition_invoices')
+        .select('*')
+        .eq('order_code', orderCode)
+        .single();
+
+      if (tuition && !tuitionError) {
+        // Đơn này là đơn học phí
+        if (tuition.status === 'paid') {
+          return res.json({ success: true, message: 'Tuition already paid' });
+        }
+
+        // Cập nhật trạng thái
+        await supabase
+          .from('tuition_invoices')
+          .update({ status: 'paid', paid_at: new Date().toISOString() })
+          .eq('order_code', orderCode);
+
+        // Lấy thông tin User để gửi email
+        const { data: user } = await supabase
+          .from('users')
+          .select('email, name')
+          .eq('id', tuition.user_id)
+          .single();
+
+        if (user && user.email) {
+          const mailOptions = {
+            from: `"MVA Study" <${process.env.GMAIL_USER}>`,
+            to: user.email,
+            subject: 'Xác nhận thanh toán học phí thành công - MVA Study',
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+                <h2 style="color: #FF8C2F; text-align: center;">Thanh toán thành công!</h2>
+                <p>Chào <strong>${user.name}</strong>,</p>
+                <p>Hệ thống MVA Study đã ghi nhận thanh toán thành công cho hóa đơn học phí của bạn.</p>
+                <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                  <p><strong>Nội dung:</strong> ${tuition.description}</p>
+                  <p><strong>Số tiền:</strong> ${tuition.amount.toLocaleString()} VNĐ</p>
+                </div>
+                <p>Cảm ơn bạn đã luôn đồng hành cùng MVA Study. Chúc bạn học tập hiệu quả!</p>
+                <hr style="border-top: 1px solid #e0e0e0; margin-top: 30px;">
+                <p style="font-size: 12px; color: #888; text-align: center;">Đây là email tự động, vui lòng không trả lời.</p>
+              </div>
+            `
+          };
+          await transporter.sendMail(mailOptions);
+        }
+        return res.json({ success: true, message: 'Tuition paid successfully' });
+      }
+
+      // 1. Lấy thông tin đơn hàng từ database (Đơn mua khóa học)
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .select('*')
@@ -335,6 +386,177 @@ router.post('/issue-code', async (req, res) => {
   } catch (error) {
     console.error('Lỗi khi cấp mã bù:', error);
     res.status(500).json({ error: 'Lỗi hệ thống khi cấp mã' });
+  }
+});
+
+// API: Admin tạo hóa đơn học phí (Tuition Invoice)
+router.post('/create-tuition-invoice', async (req, res) => {
+  if (!supabase || !transporter) {
+    return res.status(500).json({ error: 'Server chưa cấu hình Supabase hoặc Email' });
+  }
+
+  try {
+    const { userIds, amount, description } = req.body;
+    if (!userIds || !Array.isArray(userIds) || userIds.length === 0 || !amount || !description) {
+      return res.status(400).json({ error: 'Thiếu thông tin bắt buộc' });
+    }
+
+    // Lấy thông tin users
+    const { data: users, error: usersError } = await supabase
+      .from('users')
+      .select('id, email, name')
+      .in('id', userIds);
+
+    if (usersError || !users) {
+      return res.status(400).json({ error: 'Không tìm thấy thông tin học sinh' });
+    }
+
+    const invoicesToInsert = users.map(user => ({
+      user_id: user.id,
+      amount: amount,
+      description: description,
+      status: 'pending'
+    }));
+
+    const { error: insertError } = await supabase
+      .from('tuition_invoices')
+      .insert(invoicesToInsert);
+
+    if (insertError) {
+      console.error('Lỗi khi tạo hóa đơn:', insertError);
+      return res.status(500).json({ error: 'Không thể tạo hóa đơn trong Database' });
+    }
+
+    // Gửi email nhắc nhở cho từng học sinh
+    for (const user of users) {
+      if (user.email) {
+        const mailOptions = {
+          from: `"MVA Study" <${process.env.GMAIL_USER}>`,
+          to: user.email,
+          subject: 'Thông báo thanh toán học phí - MVA Study',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+              <h2 style="color: #FF8C2F; text-align: center;">Thông báo học phí</h2>
+              <p>Chào <strong>${user.name}</strong>,</p>
+              <p>Bạn có một hóa đơn học phí mới trên hệ thống MVA Study cần được thanh toán.</p>
+              <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <p><strong>Nội dung:</strong> ${description}</p>
+                <p><strong>Số tiền cần thanh toán:</strong> ${amount.toLocaleString()} VNĐ</p>
+              </div>
+              <p>Vui lòng đăng nhập vào tài khoản của bạn trên trang web MVA Study, truy cập mục <strong>Học phí</strong> để tiến hành thanh toán.</p>
+              <p>Cảm ơn bạn!</p>
+              <hr style="border-top: 1px solid #e0e0e0; margin-top: 30px;">
+              <p style="font-size: 12px; color: #888; text-align: center;">Đây là email tự động, vui lòng không trả lời.</p>
+            </div>
+          `
+        };
+        await transporter.sendMail(mailOptions).catch(e => console.error('Lỗi gửi email cho', user.email, e));
+      }
+    }
+
+    res.json({ success: true, message: 'Đã tạo hóa đơn và gửi email thành công' });
+  } catch (error) {
+    console.error('Lỗi create-tuition-invoice:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống khi tạo hóa đơn' });
+  }
+});
+
+// API: Lấy danh sách hóa đơn học phí của Admin
+router.get('/tuition', async (req, res) => {
+  if (!supabase) return res.status(500).json({ error: 'Database not connected' });
+  try {
+    const { data, error } = await supabase
+      .from('tuition_invoices')
+      .select('*, users!inner(name, email)')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    // Transform data
+    const formattedData = data.map(item => ({
+      id: item.id,
+      userId: item.user_id,
+      userName: item.users?.name,
+      userEmail: item.users?.email,
+      amount: item.amount,
+      description: item.description,
+      status: item.status,
+      orderCode: item.order_code,
+      createdAt: item.created_at,
+      paidAt: item.paid_at
+    }));
+
+    res.json(formattedData);
+  } catch (error) {
+    res.status(500).json({ error: 'Lỗi lấy danh sách học phí' });
+  }
+});
+
+// API: Lấy danh sách hóa đơn học phí của 1 Học sinh
+router.get('/tuition/:userId', async (req, res) => {
+  if (!supabase) return res.status(500).json({ error: 'Database not connected' });
+  try {
+    const { data, error } = await supabase
+      .from('tuition_invoices')
+      .select('*')
+      .eq('user_id', req.params.userId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Lỗi lấy danh sách học phí' });
+  }
+});
+
+// API: Học sinh tạo link thanh toán PayOS cho 1 hóa đơn
+router.post('/create-tuition-payment-link', async (req, res) => {
+  if (!payos || !supabase) return res.status(500).json({ error: 'Chưa cấu hình API' });
+
+  try {
+    const { invoiceId } = req.body;
+    if (!invoiceId) return res.status(400).json({ error: 'Thiếu mã hóa đơn' });
+
+    // 1. Lấy thông tin hóa đơn
+    const { data: invoice, error: invoiceError } = await supabase
+      .from('tuition_invoices')
+      .select('*')
+      .eq('id', invoiceId)
+      .single();
+
+    if (invoiceError || !invoice) {
+      return res.status(404).json({ error: 'Không tìm thấy hóa đơn' });
+    }
+
+    if (invoice.status === 'paid') {
+      return res.status(400).json({ error: 'Hóa đơn này đã được thanh toán' });
+    }
+
+    // 2. Tạo Order Code mới cho PayOS
+    const orderCode = Number(String(Date.now()).slice(-6) + Math.floor(Math.random() * 1000));
+
+    // Cập nhật order_code vào hóa đơn
+    await supabase
+      .from('tuition_invoices')
+      .update({ order_code: orderCode })
+      .eq('id', invoiceId);
+
+    // 3. Gọi PayOS
+    const domain = getDomain(req);
+    const body = {
+      orderCode: orderCode,
+      amount: invoice.amount,
+      description: `Hoc phi MVA`.substring(0, 25), // PayOS giới hạn 25 ký tự
+      returnUrl: `${domain}/student?tab=tuition`,
+      cancelUrl: `${domain}/student?tab=tuition`
+    };
+
+    const paymentLinkRes = await payos.paymentRequests.create(body);
+
+    res.json({ checkoutUrl: paymentLinkRes.checkoutUrl });
+  } catch (error) {
+    console.error('Lỗi create-tuition-payment-link:', error);
+    res.status(500).json({ error: 'Lỗi khi tạo link thanh toán học phí' });
   }
 });
 

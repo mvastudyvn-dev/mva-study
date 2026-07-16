@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import {
-  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentExams, StudentExamPlayer, StudentVideos, StudentDocuments, StudentSettings
+  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentExams, StudentExamPlayer, StudentVideos, StudentDocuments, StudentSettings, StudentTuition
 } from '../features/student';
 
 const StudentPage: React.FC = () => {
@@ -40,6 +40,8 @@ const StudentPage: React.FC = () => {
         return <StudentDocuments />;
       case 'notifications':
         return <StudentNotifications />;
+      case 'tuition':
+        return <StudentTuition />;
       case 'settings':
         return <StudentSettings />;
       default:
