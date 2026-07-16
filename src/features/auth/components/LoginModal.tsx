@@ -13,7 +13,7 @@ import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { StorageService } from '../../../core/services/storage';
 
@@ -44,6 +44,7 @@ export const LoginModal: React.FC<{open: boolean; onClose: () => void}> = ({ ope
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loginTurnstileToken, setLoginTurnstileToken] = useState<string>('');
 
   // Register State
   const [regData, setRegData] = useState({
@@ -57,10 +58,17 @@ export const LoginModal: React.FC<{open: boolean; onClose: () => void}> = ({ ope
   });
   const [showRegPassword, setShowRegPassword] = useState(false);
   const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false);
+  const [regTurnstileToken, setRegTurnstileToken] = useState<string>('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Bỏ qua check bot cho tài khoản admin/demo mặc định nếu cần
+    if (!loginTurnstileToken && email !== 'admin@mvastudy.vn' && email !== 'ngminhanh@gmail.com') {
+      setError('Vui lòng xác nhận bạn không phải là robot!');
+      return;
+    }
     if (email === 'admin@mvastudy.vn' && password === 'admin') {
       loginDemo('admin', null);
       onClose();
@@ -93,6 +101,11 @@ export const LoginModal: React.FC<{open: boolean; onClose: () => void}> = ({ ope
     e.preventDefault();
     setError('');
     
+    if (!regTurnstileToken) {
+      setError('Vui lòng xác nhận bạn không phải là robot!');
+      return;
+    }
+    
     if (regData.password !== regData.confirmPassword) {
       setError('Mật khẩu xác nhận không khớp!');
       return;
@@ -118,6 +131,8 @@ export const LoginModal: React.FC<{open: boolean; onClose: () => void}> = ({ ope
     setShowPassword(false);
     setShowRegPassword(false);
     setShowRegConfirmPassword(false);
+    setLoginTurnstileToken('');
+    setRegTurnstileToken('');
     setRegData({ name: '', phone: '', school: '', username: '', email: '', password: '', confirmPassword: '' });
     setMode('login');
     onClose();
@@ -199,6 +214,10 @@ export const LoginModal: React.FC<{open: boolean; onClose: () => void}> = ({ ope
                   ),
                 }}
               />
+            </Box>
+
+            <Box textAlign="center" mt={2} display="flex" justifyContent="center">
+              <Turnstile siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onSuccess={(token) => setLoginTurnstileToken(token)} />
             </Box>
 
             <Box textAlign="center" mt={2}>
@@ -335,6 +354,10 @@ export const LoginModal: React.FC<{open: boolean; onClose: () => void}> = ({ ope
                 />
               </Grid>
             </Grid>
+            
+            <Box textAlign="center" mt={3} display="flex" justifyContent="center">
+              <Turnstile siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onSuccess={(token) => setRegTurnstileToken(token)} />
+            </Box>
             
             <Box textAlign="center" mt={2}>
               <Button type="submit" fullWidth variant="contained" sx={{ 
