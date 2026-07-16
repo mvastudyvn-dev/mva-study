@@ -143,14 +143,14 @@ export const AdminTuition: React.FC = () => {
       )}
 
       {/* Modal Tạo Hóa Đơn */}
-      <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="lg" fullWidth>
+      <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="md" fullWidth>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           Tạo hóa đơn học phí
           <IconButton onClick={() => setOpenModal(false)}><CloseIcon /></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={7} sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Chọn học sinh ({selectedUsers.length} đã chọn):</Typography>
               <Paper variant="outlined" sx={{ flexGrow: 1, width: '100%', minWidth: '100%', maxHeight: 350, overflow: 'auto', p: 1 }}>
                 {students.length === 0 ? (
@@ -179,28 +179,33 @@ export const AdminTuition: React.FC = () => {
               </Paper>
             </Grid>
             
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Thông tin hóa đơn:</Typography>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 label="Số tiền (VNĐ)"
                 type="number"
                 value={amount}
                 onChange={e => setAmount(e.target.value)}
-                sx={{ mb: 3 }}
                 InputProps={{ inputProps: { min: 1000 } }}
               />
+            </Grid>
+
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 label="Nội dung"
                 placeholder="VD: Học phí tháng 7 - Toán"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                multiline
-                rows={3}
-                sx={{ mb: 3 }}
               />
-              <Box sx={{ p: 2, bgcolor: '#FFF8F2', borderRadius: 1 }}>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Box sx={{ mt: 1, p: 2, bgcolor: '#FFF8F2', borderRadius: 1 }}>
                 <Typography variant="body2" color="warning.dark">
                   * Hệ thống sẽ tạo hóa đơn và tự động gửi email nhắc nhở thanh toán đến <strong>{selectedUsers.length}</strong> học sinh đã chọn.
                 </Typography>
