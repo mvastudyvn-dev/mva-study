@@ -19,7 +19,7 @@ import RegisterPage from './pages/RegisterPage';
 import PaymentResultPage from './pages/PaymentResultPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfUsePage from './pages/TermsOfUsePage';
-import PaymentGuidePage from './pages/PaymentGuidePage';
+import PaymentPolicyPage from './pages/PaymentPolicyPage';
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
@@ -39,7 +39,7 @@ const App: React.FC = () => (
             <Route path="/payment-result" element={<PaymentResultPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-            <Route path="/payment-guide" element={<PaymentGuidePage />} />
+            <Route path="/payment-policy" element={<PaymentPolicyPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>

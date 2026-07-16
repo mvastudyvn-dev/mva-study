@@ -79,7 +79,7 @@ export const Footer: React.FC = () => {
             {[
               { label: 'Chính sách bảo mật', path: '/privacy-policy' },
               { label: 'Điều khoản sử dụng', path: '/terms-of-use' },
-              { label: 'Hướng dẫn thanh toán', path: '/payment-guide' }
+              { label: 'Chính sách thanh toán', path: '/payment-policy' }
             ].map((item) => (
               <Typography
                 key={item.label}
