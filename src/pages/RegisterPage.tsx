@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../core/contexts/AuthContext';
 import { StorageService } from '../core/services/storage';
 import { AuthLayout } from '../features/auth/components/AuthLayout';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const customInputStyles = {
   bgcolor: '#FFF8F2', 
@@ -42,6 +43,7 @@ const RegisterPage: React.FC = () => {
   const { loginDemo } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [regTurnstileToken, setRegTurnstileToken] = useState<string>('');
   const [regData, setRegData] = useState({
     name: '',
     username: '',
@@ -60,6 +62,11 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
     setError('');
     
+    if (!regTurnstileToken) {
+      setError('Vui lòng xác nhận bạn không phải là robot!');
+      return;
+    }
+
     if (regData.password !== regData.confirmPassword) {
       setError('Mật khẩu xác nhận không khớp!');
       return;
@@ -140,8 +147,12 @@ const RegisterPage: React.FC = () => {
             ))}
           </Grid>
           <Typography variant="body2" color="#6B7280" textAlign="center" sx={{ mb: 4, mt: 3, fontSize: '0.8rem' }}>
-            Trang web này được bảo vệ bởi reCAPTCHA và <span style={{ color: '#F59E42' }}>Chính sách quyền riêng tư</span> và <span style={{ color: '#F59E42' }}>Điều khoản dịch vụ</span> của Google được áp dụng.
+            Trang web này được bảo vệ bởi Cloudflare Turnstile và <span style={{ color: '#F59E42' }}>Chính sách quyền riêng tư</span> và <span style={{ color: '#F59E42' }}>Điều khoản dịch vụ</span> được áp dụng.
           </Typography>
+
+          <Box textAlign="center" mt={2} mb={2} display="flex" justifyContent="center">
+            <Turnstile siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onSuccess={(token) => setRegTurnstileToken(token)} />
+          </Box>
 
           <Box textAlign="center" mt={2} mb={2}>
             <Button 

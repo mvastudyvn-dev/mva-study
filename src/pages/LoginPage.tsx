@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../core/contexts/AuthContext';
 import { StorageService } from '../core/services/storage';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const LoginPage: React.FC = () => {
   const { loginDemo } = useAuth();
@@ -12,6 +13,7 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loginTurnstileToken, setLoginTurnstileToken] = useState<string>('');
   
   // Trạng thái cho hiệu ứng Tilt 3D thuần React
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
@@ -71,6 +73,11 @@ const LoginPage: React.FC = () => {
     // Xử lý các trường rỗng
     if (!trimmedEmail || !trimmedPassword) {
       setError('Vui lòng nhập đầy đủ thông tin đăng nhập.');
+      return;
+    }
+
+    if (!loginTurnstileToken && trimmedEmail !== 'admin@mvastudy.vn' && trimmedEmail !== 'ngminhanh@gmail.com') {
+      setError('Vui lòng xác nhận bạn không phải là robot!');
       return;
     }
 
@@ -159,6 +166,10 @@ const LoginPage: React.FC = () => {
               </span>
             </div>
             
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <Turnstile siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onSuccess={(token) => setLoginTurnstileToken(token)} />
+            </div>
+
             <div className="container-login100-form-btn">
               <button className="login100-form-btn" type="submit">
                 Đăng nhập
