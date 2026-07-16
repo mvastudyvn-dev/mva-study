@@ -4,26 +4,7 @@
 
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
-
-@font-face {
-  font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
-}
-
-@font-face {
-  font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
-}
-
-@font-face {
-  font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
-}
-
-@font-face {
-  font-family: Montserrat-Bold;
-  src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
@@ -36,12 +17,12 @@
 
 body, html {
 	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+	font-family: 'Inter', sans-serif;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins-Regular;
+	font-family: 'Inter', sans-serif;
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -67,7 +48,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 p {
-	font-family: Poppins-Regular;
+	font-family: 'Inter', sans-serif;
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -134,14 +115,14 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
 .txt1 {
-  font-family: Poppins-Regular;
+  font-family: 'Inter', sans-serif;
   font-size: 13px;
   line-height: 1.5;
   color: #999999;
 }
 
 .txt2 {
-  font-family: Poppins-Regular;
+  font-family: 'Inter', sans-serif;
   font-size: 13px;
   line-height: 1.5;
   color: #666666;
@@ -205,7 +186,7 @@ iframe {
 
 .wrap-login100 {
   z-index: 1;
-  width: 960px;
+  width: 850px;
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -217,7 +198,7 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 177px 130px 33px 95px;
+  padding: 80px 100px 33px 95px;
 }
 
 /*------------------------------------------------------------------
@@ -238,7 +219,8 @@ iframe {
 }
 
 .login100-form-title {
-  font-family: Poppins-Bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
   font-size: 24px;
   color: #333333;
   line-height: 1.2;
@@ -259,7 +241,8 @@ iframe {
 }
 
 .input100 {
-  font-family: Poppins-Medium;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   font-size: 15px;
   line-height: 1.5;
   color: #666666;
@@ -352,7 +335,8 @@ iframe {
 }
 
 .login100-form-btn {
-  font-family: Montserrat-Bold;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
   font-size: 15px;
   line-height: 1.5;
   color: #fff;
@@ -390,7 +374,7 @@ iframe {
 
 @media (max-width: 992px) {
   .wrap-login100 {
-    padding: 177px 90px 33px 85px;
+    padding: 80px 90px 33px 85px;
   }
 
   .login100-pic {
@@ -404,7 +388,7 @@ iframe {
 
 @media (max-width: 768px) {
   .wrap-login100 {
-    padding: 100px 80px 33px 80px;
+    padding: 60px 80px 33px 80px;
   }
 
   .login100-pic {
@@ -418,7 +402,7 @@ iframe {
 
 @media (max-width: 576px) {
   .wrap-login100 {
-    padding: 100px 15px 33px 15px;
+    padding: 50px 15px 33px 15px;
   }
 }
 
@@ -447,7 +431,8 @@ iframe {
   right: 8px;
   pointer-events: none;
 
-  font-family: Poppins-Medium;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   color: #c80000;
   font-size: 13px;
   line-height: 1.4;
