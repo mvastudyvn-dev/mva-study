@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Divider
+  Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Avatar, Divider, Badge
 } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HomeIcon from '@mui/icons-material/Home';
@@ -38,6 +38,21 @@ interface StudentSidebarProps {
 export const StudentSidebar: React.FC<StudentSidebarProps> = ({ activeTab, onTabChange }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [pendingTuitionCount, setPendingTuitionCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (user?.id) {
+      fetch(`/api/payment/tuition/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            const pending = data.filter(inv => inv.status === 'pending');
+            setPendingTuitionCount(pending.length);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user]);
 
   return (
     <Box
@@ -128,7 +143,11 @@ export const StudentSidebar: React.FC<StudentSidebarProps> = ({ activeTab, onTab
                 }}
               >
                 <ListItemIcon sx={{ minWidth: 36, color: isActive ? '#FF8C2F' : '#6B7280' }}>
-                  {item.icon}
+                  {item.id === 'tuition' ? (
+                    <Badge badgeContent={pendingTuitionCount} color="error">
+                      {item.icon}
+                    </Badge>
+                  ) : item.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={

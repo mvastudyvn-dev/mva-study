@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Box, Typography, Table, TableBody, TableCell, TableContainer, 
-  TableHead, TableRow, Paper, Chip, Button, CircularProgress
+  TableHead, TableRow, Paper, Chip, Button, CircularProgress, Alert
 } from '@mui/material';
 import { useAuth } from '../../../core/contexts/AuthContext';
 
@@ -74,6 +74,12 @@ export const StudentTuition: React.FC = () => {
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
         Danh sách các khoản học phí cần thanh toán. Cảm ơn bạn đã đồng hành cùng MVA Study!
       </Typography>
+
+      {invoices.filter(i => i.status === 'pending').length > 0 && (
+        <Alert severity="error" sx={{ mb: 4, borderRadius: 2, fontWeight: 500 }}>
+          Bạn đang có {invoices.filter(i => i.status === 'pending').length} hóa đơn học phí chưa thanh toán. Vui lòng thanh toán sớm nhé!
+        </Alert>
+      )}
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', p: 5 }}>
