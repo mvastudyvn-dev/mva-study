@@ -149,10 +149,10 @@ export const AdminTuition: React.FC = () => {
           <IconButton onClick={() => setOpenModal(false)}><CloseIcon /></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Chọn học sinh ({selectedUsers.length} đã chọn):</Typography>
-              <Paper variant="outlined" sx={{ maxHeight: 300, overflow: 'auto', p: 1 }}>
+              <Paper variant="outlined" sx={{ width: '100%', maxHeight: 350, overflow: 'auto', p: 1 }}>
                 {students.length === 0 ? (
                   <Typography variant="body2" sx={{ p: 2, color: 'text.secondary' }}>Không có học sinh nào trong hệ thống.</Typography>
                 ) : (
@@ -168,7 +168,7 @@ export const AdminTuition: React.FC = () => {
                         label={
                           <Box sx={{ pr: 2 }}>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{student.name}</Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ wordBreak: 'break-all', display: 'block' }}>{student.email}</Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', wordBreak: 'break-word' }}>{student.email}</Typography>
                           </Box>
                         }
                         sx={{ ml: 0, width: '100%', py: 0.5 }}
@@ -179,33 +179,28 @@ export const AdminTuition: React.FC = () => {
               </Paper>
             </Grid>
             
-            <Grid item xs={12}>
-              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Thông tin hóa đơn:</Typography>
-            </Grid>
-
             <Grid item xs={12} md={6}>
+              <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Thông tin hóa đơn:</Typography>
               <TextField
                 fullWidth
                 label="Số tiền (VNĐ)"
                 type="number"
                 value={amount}
                 onChange={e => setAmount(e.target.value)}
+                sx={{ mb: 3 }}
                 InputProps={{ inputProps: { min: 1000 } }}
               />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 label="Nội dung"
                 placeholder="VD: Học phí tháng 7 - Toán"
                 value={description}
                 onChange={e => setDescription(e.target.value)}
+                multiline
+                rows={3}
+                sx={{ mb: 3 }}
               />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Box sx={{ mt: 1, p: 2, bgcolor: '#FFF8F2', borderRadius: 1 }}>
+              <Box sx={{ p: 2, bgcolor: '#FFF8F2', borderRadius: 1 }}>
                 <Typography variant="body2" color="warning.dark">
                   * Hệ thống sẽ tạo hóa đơn và tự động gửi email nhắc nhở thanh toán đến <strong>{selectedUsers.length}</strong> học sinh đã chọn.
                 </Typography>
