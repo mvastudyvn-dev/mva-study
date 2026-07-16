@@ -143,14 +143,14 @@ export const AdminTuition: React.FC = () => {
       )}
 
       {/* Modal Tạo Hóa Đơn */}
-      <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="md" fullWidth>
+      <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="lg" fullWidth>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           Tạo hóa đơn học phí
           <IconButton onClick={() => setOpenModal(false)}><CloseIcon /></IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={7}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Chọn học sinh ({selectedUsers.length} đã chọn):</Typography>
               <Paper variant="outlined" sx={{ maxHeight: 300, overflow: 'auto', p: 1 }}>
                 {students.length === 0 ? (
@@ -166,9 +166,9 @@ export const AdminTuition: React.FC = () => {
                           />
                         }
                         label={
-                          <Box>
+                          <Box sx={{ pr: 2 }}>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{student.name}</Typography>
-                            <Typography variant="caption" color="text.secondary">{student.email}</Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ wordBreak: 'break-all', display: 'block' }}>{student.email}</Typography>
                           </Box>
                         }
                         sx={{ ml: 0, width: '100%', py: 0.5 }}
@@ -178,7 +178,7 @@ export const AdminTuition: React.FC = () => {
                 )}
               </Paper>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>Thông tin hóa đơn:</Typography>
               <TextField
                 fullWidth
