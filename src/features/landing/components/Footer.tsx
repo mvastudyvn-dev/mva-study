@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Container, Typography, Grid, IconButton, Stack } from '@mui/material';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -11,6 +12,7 @@ import logo from '../../../assets/logo1.png';
 
 export const Footer: React.FC = () => {
   const { systemSettings } = useData();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ bgcolor: '#FF8C2F', color: '#fff', pt: 6, pb: 3 }}>
@@ -74,9 +76,14 @@ export const Footer: React.FC = () => {
             <Typography sx={{ fontWeight: 700, mb: 2, fontSize: '0.95rem' }}>
               Chính sách
             </Typography>
-            {['Chính sách bảo mật', 'Điều khoản sử dụng', 'Hướng dẫn thanh toán'].map((item) => (
+            {[
+              { label: 'Chính sách bảo mật', path: '/privacy-policy' },
+              { label: 'Điều khoản sử dụng', path: '#' },
+              { label: 'Hướng dẫn thanh toán', path: '#' }
+            ].map((item) => (
               <Typography
-                key={item}
+                key={item.label}
+                onClick={() => item.path !== '#' && navigate(item.path)}
                 sx={{
                   fontSize: '0.8rem',
                   opacity: 0.9,
@@ -86,7 +93,7 @@ export const Footer: React.FC = () => {
                   '&:hover': { opacity: 1 },
                 }}
               >
-                {item}
+                {item.label}
               </Typography>
             ))}
           </Grid>
