@@ -3,6 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../core/contexts/AuthContext';
 import { StorageService } from '../core/services/storage';
 import { Turnstile } from '@marsidev/react-turnstile';
+import SchoolIcon from '@mui/icons-material/School';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import CreateIcon from '@mui/icons-material/Create';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 const LoginPage: React.FC = () => {
   const { loginDemo } = useAuth();
@@ -109,6 +113,17 @@ const LoginPage: React.FC = () => {
   return (
     <div className="limiter">
       <div className="container-login100">
+        {/* Floating Icons Background */}
+        <div className="floating-icons-container">
+          <SchoolIcon className="floating-icon" style={{ top: '15%', left: '10%', fontSize: '80px', animationDelay: '0s' }} />
+          <MenuBookIcon className="floating-icon" style={{ top: '70%', left: '15%', fontSize: '60px', animationDelay: '2s' }} />
+          <CreateIcon className="floating-icon" style={{ top: '20%', right: '15%', fontSize: '70px', animationDelay: '1s', transform: 'rotate(45deg)' }} />
+          <AutoStoriesIcon className="floating-icon" style={{ top: '75%', right: '10%', fontSize: '90px', animationDelay: '3s' }} />
+          <SchoolIcon className="floating-icon" style={{ top: '45%', left: '45%', fontSize: '150px', animationDelay: '1.5s', opacity: 0.3 }} />
+          <CreateIcon className="floating-icon" style={{ top: '85%', left: '40%', fontSize: '50px', animationDelay: '4s' }} />
+          <MenuBookIcon className="floating-icon" style={{ top: '10%', left: '60%', fontSize: '50px', animationDelay: '2.5s' }} />
+        </div>
+
         <div className="wrap-login100">
           <div 
             className="login100-pic" 

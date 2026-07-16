@@ -168,14 +168,43 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: #F59E42;
-  background: -webkit-linear-gradient(-135deg, #F59E42, #EA8A1A);
-  background: -o-linear-gradient(-135deg, #F59E42, #EA8A1A);
-  background: -moz-linear-gradient(-135deg, #F59E42, #EA8A1A);
-  background: linear-gradient(-135deg, #F59E42, #EA8A1A);
+  position: relative;
+  background: linear-gradient(-45deg, #F59E42, #EA8A1A, #ff9a44, #ff5e62);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatIcon {
+  0% { transform: translateY(0px) rotate(0deg) scale(1); }
+  50% { transform: translateY(-30px) rotate(15deg) scale(1.1); }
+  100% { transform: translateY(0px) rotate(0deg) scale(1); }
+}
+
+.floating-icons-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.floating-icon {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.15);
+  animation: floatIcon 8s ease-in-out infinite;
 }
 
 .wrap-login100 {
+  z-index: 1;
   width: 960px;
   background: #fff;
   border-radius: 10px;
