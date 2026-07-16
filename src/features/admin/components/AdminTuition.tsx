@@ -170,8 +170,14 @@ export const AdminTuition: React.FC = () => {
                         }
                         label={
                           <Box sx={{ pr: 2 }}>
-                            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{student.name}</Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', wordBreak: 'break-word' }}>{student.email}</Typography>
+                            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                              {student.name}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', wordBreak: 'break-word' }}>
+                              {student.email}
+                              {student.dob && ` • SN: ${student.dob.includes('-') ? student.dob.split('-')[0] : (student.dob.includes('/') ? student.dob.split('/')[2] : student.dob)}`}
+                              {student.school && ` • THPT ${student.school.replace(/^THPT\s+/i, '')}`}
+                            </Typography>
                           </Box>
                         }
                         sx={{ ml: 0, width: '100%', py: 0.5 }}
