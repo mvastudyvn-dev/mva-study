@@ -175,7 +175,7 @@ export const AdminTuition: React.FC = () => {
                             </Typography>
                             <Typography variant="caption" color="text.secondary" sx={{ display: 'block', wordBreak: 'break-word' }}>
                               {student.email}
-                              {student.dob && ` • SN: ${student.dob.includes('-') ? student.dob.split('-')[0] : (student.dob.includes('/') ? student.dob.split('/')[2] : student.dob)}`}
+                              {((student as any).birthYear || student.dob) && ` • SN: ${(student as any).birthYear || (student.dob?.includes('-') ? student.dob.split('-')[0] : (student.dob?.includes('/') ? student.dob.split('/')[2] : student.dob))}`}
                               {student.school && ` • THPT ${student.school.replace(/^THPT\s+/i, '')}`}
                             </Typography>
                           </Box>
