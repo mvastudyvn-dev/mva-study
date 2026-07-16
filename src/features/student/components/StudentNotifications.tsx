@@ -4,7 +4,9 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import InfoIcon from '@mui/icons-material/Info';
 import SchoolIcon from '@mui/icons-material/School';
 import SettingsIcon from '@mui/icons-material/Settings';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { useData } from '../../../core/contexts/DataContext';
+import { useAuth } from '../../../core/contexts/AuthContext';
 
 const typeIcons: Record<string, React.ReactNode> = {
   info: <InfoIcon sx={{ fontSize: 18, color: '#3B82F6' }} />,
@@ -20,6 +22,22 @@ const typeColors: Record<string, string> = {
 
 export const StudentNotifications: React.FC = () => {
   const { notifications } = useData();
+  const { user } = useAuth();
+  const [pendingTuitionCount, setPendingTuitionCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (user?.id) {
+      fetch(`/api/payment/tuition/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            const pending = data.filter(inv => inv.status === 'pending');
+            setPendingTuitionCount(pending.length);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user]);
 
   return (
     <Card sx={{ borderRadius: 1, border: '1px solid #F3F4F6', boxShadow: 'none' }}>
@@ -38,6 +56,58 @@ export const StudentNotifications: React.FC = () => {
             Xem tất cả
           </Button>
         </Box>
+
+        {pendingTuitionCount > 0 && (
+          <Box
+            sx={{
+              p: 1.5,
+              borderRadius: 1,
+              mb: 1,
+              bgcolor: '#FEF2F2',
+              border: '1px solid #FCA5A5',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                bgcolor: '#FEE2E2',
+              },
+            }}
+          >
+            <Box display="flex" gap={1.5} alignItems="flex-start">
+              <Box
+                sx={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 1.5,
+                  bgcolor: '#FEE2E2',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  mt: 0.2,
+                }}
+              >
+                <MonetizationOnIcon sx={{ fontSize: 18, color: '#EF4444' }} />
+              </Box>
+              <Box sx={{ flex: 1, overflow: 'hidden' }}>
+                <Typography sx={{ fontSize: '0.8rem', fontWeight: 700, color: '#DC2626', mb: 0.3 }}>
+                  Nhắc nhở học phí!
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.7rem',
+                    color: '#B91C1C',
+                    lineHeight: 1.4,
+                  }}
+                >
+                  Bạn đang có {pendingTuitionCount} hóa đơn chưa thanh toán.
+                </Typography>
+                <Typography sx={{ fontSize: '0.65rem', color: '#EF4444', mt: 0.5, fontWeight: 600 }}>
+                  Vui lòng thanh toán sớm
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        )}
 
         {notifications.slice(0, 4).map((noti, index) => (
           <Box
