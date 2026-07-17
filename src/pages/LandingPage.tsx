@@ -3,6 +3,7 @@ import { Box, Dialog, DialogTitle, Typography, IconButton, Button } from '@mui/m
 import CloseIcon from '@mui/icons-material/Close';
 import { Header, Hero, CourseSection, TeacherSection, NewsLeaderboardSection, CountdownSection, ConsultationForm, Footer, FeedbackSection, PartnerSection, Chatbot } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
+import logo from '../assets/logo1.png';
 
 const LandingPage: React.FC = () => {
   const { systemSettings } = useData();
@@ -25,6 +26,56 @@ const LandingPage: React.FC = () => {
     setShowPopup(false);
     sessionStorage.setItem('popupClosed', 'true');
   };
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', bgcolor: '#fff' }}>
+        <Box 
+          component="img" 
+          src={logo} 
+          alt="MVA Logo" 
+          sx={{ 
+            height: 60, 
+            mb: 4, 
+            objectFit: 'contain',
+            animation: 'fadeInUp 0.8s ease-out',
+            '@keyframes fadeInUp': {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            }
+          }} 
+        />
+        <Box sx={{ display: 'flex', gap: 1.5 }}>
+          {[0, 1, 2].map((i) => (
+            <Box
+              key={i}
+              sx={{
+                width: 12,
+                height: 12,
+                bgcolor: '#FF8C2F',
+                borderRadius: '50%',
+                animation: 'bounceDots 1.4s infinite ease-in-out both',
+                animationDelay: `${i * 0.16 - 0.32}s`,
+                '@keyframes bounceDots': {
+                  '0%, 80%, 100%': { transform: 'scale(0)' },
+                  '40%': { transform: 'scale(1)' },
+                },
+              }}
+            />
+          ))}
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
