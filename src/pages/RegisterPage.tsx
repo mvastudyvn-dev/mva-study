@@ -51,7 +51,6 @@ const RegisterPage: React.FC = () => {
     phone: '',
     gender: '',
     birthYear: '',
-    facebook: '',
     province: '',
     school: ''
   });
@@ -95,7 +94,6 @@ const RegisterPage: React.FC = () => {
     { label: 'Số điện thoại', field: 'phone', type: 'text', required: true },
     { label: 'Giới tính', field: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'], required: false },
     { label: 'Năm sinh', field: 'birthYear', type: 'text', required: true },
-    { label: 'Link Facebook', field: 'facebook', type: 'text', required: true },
     { label: 'Tỉnh thành', field: 'province', type: 'select', options: ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Khác'], required: true },
     { label: 'Trường học', field: 'school', type: 'select', options: ['THPT A', 'THPT B', 'Khác'], required: true },
   ];

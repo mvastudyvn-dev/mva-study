@@ -9,7 +9,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import DevicesIcon from '@mui/icons-material/Devices';
 import GoogleIcon from '@mui/icons-material/Google';
-import FacebookIcon from '@mui/icons-material/Facebook';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { StorageService } from '../../../core/services/storage';
 
@@ -205,17 +204,6 @@ const PRESET_AVATARS = [
               </Box>
             </Box>
             <Button variant="outlined" size="small" sx={{ borderRadius: 1 }}>Liên kết</Button>
-          </Box>
-
-          <Box display="flex" alignItems="center" justifyContent="space-between" p={2} border="1px solid #E5E7EB" borderRadius={2}>
-            <Box display="flex" alignItems="center" gap={2}>
-              <FacebookIcon sx={{ color: '#1877F2' }} />
-              <Box>
-                <Typography sx={{ fontWeight: 600 }}>Facebook</Typography>
-                <Typography sx={{ fontSize: '0.85rem', color: '#10B981' }}>Đã liên kết (ngminhanh@gmail.com)</Typography>
-              </Box>
-            </Box>
-            <Button size="small" color="error" sx={{ textTransform: 'none' }}>Hủy liên kết</Button>
           </Box>
         </CardContent>
       </Card>
