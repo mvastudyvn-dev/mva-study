@@ -94,7 +94,7 @@ const RegisterPage: React.FC = () => {
     { label: 'Số điện thoại', field: 'phone', type: 'text', required: true },
     { label: 'Giới tính', field: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'], required: false },
     { label: 'Năm sinh', field: 'birthYear', type: 'text', required: true },
-    { label: 'Tỉnh thành', field: 'province', type: 'select', options: ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Khác'], required: true },
+    { label: 'Tỉnh thành', field: 'province', type: 'select', options: ['TP Hà Nội', 'TP Huế', 'Quảng Ninh', 'Cao Bằng', 'Lạng Sơn', 'Lai Châu', 'Điện Biên', 'Sơn La', 'Thanh Hóa', 'Nghệ An', 'Hà Tĩnh', 'Tuyên Quang', 'Lào Cai', 'Thái Nguyên', 'Phú Thọ', 'Bắc Ninh', 'Hưng Yên', 'TP Hải Phòng', 'Ninh Bình', 'Quảng Trị', 'TP Đà Nẵng', 'Quảng Ngãi', 'Gia Lai', 'Khánh Hòa', 'Lâm Đồng', 'Đắk Lắk', 'TPHCM', 'Đồng Nai', 'Tây Ninh', 'TP Cần Thơ', 'Vĩnh Long', 'Đồng Tháp', 'Cà Mau', 'An Giang'], required: true },
     { label: 'Trường học', field: 'school', type: 'select', options: ['THPT A', 'THPT B', 'Khác'], required: true },
   ];
 
