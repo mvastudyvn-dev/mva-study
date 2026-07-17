@@ -78,7 +78,16 @@ const LandingPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      flexDirection: 'column',
+      animation: 'contentFadeInUp 0.8s ease-out',
+      '@keyframes contentFadeInUp': {
+        '0%': { opacity: 0, transform: 'translateY(30px)' },
+        '100%': { opacity: 1, transform: 'translateY(0)' },
+      }
+    }}>
       <Header />
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Box id="section-hero"><Hero /></Box>
