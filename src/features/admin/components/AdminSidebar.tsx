@@ -155,16 +155,16 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChan
                   },
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 34, color: isActive ? '#FF8C2F' : 'rgba(255,255,255,0.4)', transition: 'color 0.2s' }}>
+                <ListItemIcon sx={{ minWidth: 34, color: isActive ? '#FF8C2F' : '#94a3b8', transition: 'color 0.2s' }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={item.label}
                   primaryTypographyProps={{
                     fontSize: '0.83rem',
-                    fontWeight: isActive ? 700 : 400,
+                    fontWeight: isActive ? 700 : 500,
                     fontFamily: '"Plus Jakarta Sans", sans-serif',
-                    color: isActive ? '#FF8C2F' : 'rgba(255,255,255,0.65)',
+                    color: isActive ? '#FF8C2F' : '#94a3b8',
                   }}
                 />
               </ListItemButton>
