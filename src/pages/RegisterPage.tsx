@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Typography, TextField, Button, Alert, Grid, MenuItem } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, TextField, Button, Alert, Grid, MenuItem, Autocomplete } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../core/contexts/AuthContext';
 import { StorageService } from '../core/services/storage';
@@ -38,10 +38,20 @@ const customInputStyles = {
 };
 
 const RegisterPage: React.FC = () => {
-  const { loginDemo } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const [regTurnstileToken, setRegTurnstileToken] = useState<string>('');
+  const [regTurnstileToken, setRegTurnstileToken] = useState<string | null>(null);
+  
+  const [schoolsMap, setSchoolsMap] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    fetch('/data/schools.json')
+      .then(res => res.json())
+      .then(data => setSchoolsMap(data))
+      .catch(err => console.error('Failed to load schools', err));
+  }, []);
+
   const [regData, setRegData] = useState({
     name: '',
     username: '',
@@ -82,7 +92,11 @@ const RegisterPage: React.FC = () => {
   };
 
   const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRegData({ ...regData, [field]: e.target.value });
+    if (field === 'province') {
+      setRegData({ ...regData, [field]: e.target.value, school: '' });
+    } else {
+      setRegData({ ...regData, [field]: e.target.value });
+    }
   };
 
   const fieldGroups = [
@@ -95,7 +109,7 @@ const RegisterPage: React.FC = () => {
     { label: 'Giới tính', field: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'], required: false },
     { label: 'Năm sinh', field: 'birthYear', type: 'text', required: true },
     { label: 'Tỉnh thành', field: 'province', type: 'select', options: ['TP Hà Nội', 'TP Huế', 'Quảng Ninh', 'Cao Bằng', 'Lạng Sơn', 'Lai Châu', 'Điện Biên', 'Sơn La', 'Thanh Hóa', 'Nghệ An', 'Hà Tĩnh', 'Tuyên Quang', 'Lào Cai', 'Thái Nguyên', 'Phú Thọ', 'Bắc Ninh', 'Hưng Yên', 'TP Hải Phòng', 'Ninh Bình', 'Quảng Trị', 'TP Đà Nẵng', 'Quảng Ngãi', 'Gia Lai', 'Khánh Hòa', 'Lâm Đồng', 'Đắk Lắk', 'TPHCM', 'Đồng Nai', 'Tây Ninh', 'TP Cần Thơ', 'Vĩnh Long', 'Đồng Tháp', 'Cà Mau', 'An Giang'], required: true },
-    { label: 'Trường học', field: 'school', type: 'select', options: ['THPT A', 'THPT B', 'Khác'], required: true },
+    { label: 'Trường học', field: 'school', type: 'school-autocomplete', required: true },
   ];
 
   return (
@@ -155,24 +169,45 @@ const RegisterPage: React.FC = () => {
                     {item.label}
                     {item.required && <Box component="span" sx={{ color: '#EF4444', ml: 0.4 }}>*</Box>}
                   </Typography>
-                  <TextField
-                    fullWidth
-                    placeholder={`Nhập ${item.label.toLowerCase()}`}
-                    type={item.type === 'select' ? 'text' : item.type}
-                    select={item.type === 'select'}
-                    variant="outlined"
-                    size="small"
-                    required={item.required}
-                    value={(regData as any)[item.field]}
-                    onChange={handleChange(item.field)}
-                    sx={customInputStyles}
-                  >
-                    {item.type === 'select' && item.options?.map((option) => (
-                      <MenuItem key={option} value={option} sx={{ fontSize: '0.875rem' }}>
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                  {item.type === 'school-autocomplete' ? (
+                    <Autocomplete
+                      options={regData.province && schoolsMap[regData.province] ? schoolsMap[regData.province] : []}
+                      disabled={!regData.province}
+                      value={(regData as any)[item.field] || null}
+                      onChange={(_, newValue) => {
+                        setRegData({ ...regData, [item.field]: newValue || '' });
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          placeholder={!regData.province ? "Vui lòng chọn Tỉnh thành trước" : `Chọn ${item.label.toLowerCase()}`}
+                          variant="outlined"
+                          size="small"
+                          required={item.required}
+                          sx={customInputStyles}
+                        />
+                      )}
+                    />
+                  ) : (
+                    <TextField
+                      fullWidth
+                      placeholder={`Nhập ${item.label.toLowerCase()}`}
+                      type={item.type === 'select' ? 'text' : item.type}
+                      select={item.type === 'select'}
+                      variant="outlined"
+                      size="small"
+                      required={item.required}
+                      value={(regData as any)[item.field]}
+                      onChange={handleChange(item.field)}
+                      sx={customInputStyles}
+                    >
+                      {item.type === 'select' && item.options?.map((option) => (
+                        <MenuItem key={option} value={option} sx={{ fontSize: '0.875rem' }}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
                 </Box>
               </Grid>
             ))}
@@ -188,7 +223,7 @@ const RegisterPage: React.FC = () => {
               lineHeight: 1.6,
             }}
           >
-            Trang web này được bảo vệ bởi Cloudflare Turnstile và{' '}
+            Trang web này được bảo vệ bởi Cloudflare và{' '}
             <Box component="span" sx={{ color: '#FF8C2F', fontWeight: 600 }}>Chính sách quyền riêng tư</Box>
             {' '}và{' '}
             <Box component="span" sx={{ color: '#FF8C2F', fontWeight: 600 }}>Điều khoản dịch vụ</Box>.
