@@ -68,6 +68,9 @@ const CourseDetailsPage: React.FC = () => {
           sx={{
             py: { xs: 6, md: 8 },
             mb: 5,
+            minHeight: { md: '480px' },
+            display: 'flex',
+            alignItems: 'center',
             background: course.bgGradient || 'linear-gradient(160deg, #FFF8F2 0%, #FAFAFA 55%, #FFF3E8 100%)',
             position: 'relative',
             overflow: 'hidden',
