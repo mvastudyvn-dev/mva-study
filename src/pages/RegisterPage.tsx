@@ -7,36 +7,34 @@ import { AuthLayout } from '../features/auth/components/AuthLayout';
 import { Turnstile } from '@marsidev/react-turnstile';
 
 const customInputStyles = {
-  bgcolor: '#FFF8F2', 
-  borderRadius: 1,
-  transition: 'all 0.25s',
   '& .MuiOutlinedInput-root': {
-    borderRadius: 1,
-    height: '52px',
-    '& fieldset': { 
-      border: '1px solid #F4D8B8',
-      transition: 'all 0.25s'
+    borderRadius: '12px',
+    bgcolor: '#FAFAFA',
+    transition: 'all 0.2s ease',
+    '& fieldset': {
+      borderColor: 'rgba(0,0,0,0.08)',
+      transition: 'all 0.2s ease',
     },
     '&:hover fieldset': {
-      borderColor: '#F59E42',
+      borderColor: 'rgba(255,140,47,0.40)',
     },
-    '&.Mui-focused': { 
+    '&.Mui-focused': {
       bgcolor: '#FFFFFF',
-      boxShadow: '0 0 0 3px rgba(245, 158, 66, 0.15)',
-      '& fieldset': { border: '1px solid #F59E42' }
-    }
+      '& fieldset': {
+        borderColor: '#FF8C2F',
+        borderWidth: '1.5px',
+        boxShadow: '0 0 0 3px rgba(255,140,47,0.10)',
+      },
+    },
   },
   '& .MuiInputBase-input': {
-    py: 0,
-    px: '18px',
-    fontSize: '1rem',
-    height: '100%',
-    color: '#2D2D2D',
-    '&::placeholder': {
-      color: '#B8B8B8',
-      opacity: 1
-    }
-  }
+    fontSize: '0.9rem',
+    py: '11px',
+    '&::placeholder': { color: '#9CA3AF', opacity: 1 },
+  },
+  '& .MuiInputLabel-root': {
+    fontSize: '0.85rem',
+  },
 };
 
 const RegisterPage: React.FC = () => {
@@ -61,7 +59,7 @@ const RegisterPage: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!regTurnstileToken) {
       setError('Vui lòng xác nhận bạn không phải là robot!');
       return;
@@ -75,7 +73,7 @@ const RegisterPage: React.FC = () => {
       setError('Mật khẩu phải có ít nhất 6 ký tự!');
       return;
     }
-    
+
     const res = await StorageService.registerUser(regData);
     if (res.success && res.user) {
       navigate('/login', { state: { message: 'Đăng ký thành công! Vui lòng đăng nhập.' } });
@@ -88,104 +86,160 @@ const RegisterPage: React.FC = () => {
     setRegData({ ...regData, [field]: e.target.value });
   };
 
+  const fieldGroups = [
+    { label: 'Họ và tên', field: 'name', type: 'text', required: true },
+    { label: 'Tên tài khoản', field: 'username', type: 'text', required: true },
+    { label: 'Mật khẩu', field: 'password', type: 'password', required: true },
+    { label: 'Xác nhận lại mật khẩu', field: 'confirmPassword', type: 'password', required: true },
+    { label: 'Email', field: 'email', type: 'email', required: true },
+    { label: 'Số điện thoại', field: 'phone', type: 'text', required: true },
+    { label: 'Giới tính', field: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'], required: false },
+    { label: 'Năm sinh', field: 'birthYear', type: 'text', required: true },
+    { label: 'Link Facebook', field: 'facebook', type: 'text', required: true },
+    { label: 'Tỉnh thành', field: 'province', type: 'select', options: ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Khác'], required: true },
+    { label: 'Trường học', field: 'school', type: 'select', options: ['THPT A', 'THPT B', 'Khác'], required: true },
+  ];
+
   return (
-    <AuthLayout 
-      title="Tạo tài khoản" 
+    <AuthLayout
+      title="Tạo tài khoản"
       subtitle="Học tập và giao lưu với hàng triệu học viên trên mọi miền đất nước."
     >
-      <Box sx={{ px: { xs: 0, sm: 1 } }}>
-        <Box textAlign="center" mb={4}>
-          <Typography variant="h5" fontWeight="800" color="#F59E42" gutterBottom>
-            ĐĂNG KÝ
+      <Box>
+        {/* Header */}
+        <Box mb={4}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 900,
+              fontFamily: '"Plus Jakarta Sans", sans-serif',
+              color: '#0F172A',
+              mb: 0.5,
+              fontSize: '1.7rem',
+              letterSpacing: '-0.025em',
+            }}
+          >
+            Đăng ký
           </Typography>
-          <Typography variant="body2" color="#6B7280" fontStyle="italic" sx={{ fontSize: '0.85rem' }}>
+          <Typography sx={{ color: '#64748B', fontSize: '0.875rem', lineHeight: 1.6 }}>
             Vui lòng điền thông tin để tham gia hệ thống
           </Typography>
         </Box>
 
-        {error && <Alert severity="error" sx={{ mb: 3, borderRadius: 1 }}>{error}</Alert>}
+        {error && (
+          <Alert
+            severity="error"
+            sx={{
+              mb: 3,
+              borderRadius: '12px',
+              fontSize: '0.875rem',
+              fontFamily: '"Plus Jakarta Sans", sans-serif',
+            }}
+          >
+            {error}
+          </Alert>
+        )}
 
-        <Box component="form" onSubmit={handleRegister} sx={{ maxWidth: 460, mx: 'auto' }}>
-          <Grid container spacing={2.5}>
-            {[
-              { label: 'Họ và tên *', field: 'name', type: 'text' },
-              { label: 'Tên tài khoản *', field: 'username', type: 'text' },
-              { label: 'Mật khẩu *', field: 'password', type: 'password' },
-              { label: 'Xác nhận lại mật khẩu *', field: 'confirmPassword', type: 'password' },
-              { label: 'Email *', field: 'email', type: 'email' },
-              { label: 'Số điện thoại *', field: 'phone', type: 'text' },
-              { label: 'Giới tính', field: 'gender', type: 'select', options: ['Nam', 'Nữ', 'Khác'] },
-              { label: 'Năm sinh *', field: 'birthYear', type: 'text' },
-              { label: 'Link Facebook *', field: 'facebook', type: 'text' },
-              { label: 'Tỉnh thành *', field: 'province', type: 'select', options: ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Khác'] },
-              { label: 'Trường học *', field: 'school', type: 'select', options: ['THPT A', 'THPT B', 'Khác'] },
-            ].map((item) => (
+        <Box component="form" onSubmit={handleRegister}>
+          <Grid container spacing={2}>
+            {fieldGroups.map((item) => (
               <Grid item xs={12} key={item.field}>
-                <Typography variant="body2" color="#F59E42" sx={{ mb: 0.5, ml: 0.5, fontWeight: 500 }}>
-                  {item.label.replace(' *', '')} <span style={{ color: '#EF4444' }}>{item.label.includes('*') ? '*' : ''}</span>
-                </Typography>
-                <TextField 
-                  fullWidth 
-                  placeholder={`Nhập ${item.label.replace(' *', '').toLowerCase()}`}
-                  type={item.type === 'select' ? 'text' : item.type}
-                  select={item.type === 'select'}
-                  variant="outlined" 
-                  size="small"
-                  required={item.label.includes('*')}
-                  value={(regData as any)[item.field]}
-                  onChange={handleChange(item.field)}
-                  sx={{
-                    ...customInputStyles,
-                    '& .MuiInputBase-input': { py: 1.2 }
-                  }}
-                >
-                  {item.type === 'select' && item.options?.map((option) => (
-                    <MenuItem key={option} value={option} sx={{ borderRadius: 1, mx: 1, my: 0.5 }}>{option}</MenuItem>
-                  ))}
-                </TextField>
+                <Box>
+                  <Typography
+                    sx={{
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      color: '#374151',
+                      mb: 0.8,
+                      fontFamily: '"Plus Jakarta Sans", sans-serif',
+                    }}
+                  >
+                    {item.label}
+                    {item.required && <Box component="span" sx={{ color: '#EF4444', ml: 0.4 }}>*</Box>}
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    placeholder={`Nhập ${item.label.toLowerCase()}`}
+                    type={item.type === 'select' ? 'text' : item.type}
+                    select={item.type === 'select'}
+                    variant="outlined"
+                    size="small"
+                    required={item.required}
+                    value={(regData as any)[item.field]}
+                    onChange={handleChange(item.field)}
+                    sx={customInputStyles}
+                  >
+                    {item.type === 'select' && item.options?.map((option) => (
+                      <MenuItem key={option} value={option} sx={{ fontSize: '0.875rem' }}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
               </Grid>
             ))}
           </Grid>
-          <Typography variant="body2" color="#6B7280" textAlign="center" sx={{ mb: 4, mt: 3, fontSize: '0.8rem' }}>
-            Trang web này được bảo vệ bởi Cloudflare Turnstile và <span style={{ color: '#F59E42' }}>Chính sách quyền riêng tư</span> và <span style={{ color: '#F59E42' }}>Điều khoản dịch vụ</span> được áp dụng.
+
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              color: '#9CA3AF',
+              textAlign: 'center',
+              mt: 3,
+              mb: 2,
+              lineHeight: 1.6,
+            }}
+          >
+            Trang web này được bảo vệ bởi Cloudflare Turnstile và{' '}
+            <Box component="span" sx={{ color: '#FF8C2F', fontWeight: 600 }}>Chính sách quyền riêng tư</Box>
+            {' '}và{' '}
+            <Box component="span" sx={{ color: '#FF8C2F', fontWeight: 600 }}>Điều khoản dịch vụ</Box>.
           </Typography>
 
-          <Box textAlign="center" mt={2} mb={2} display="flex" justifyContent="center">
+          <Box textAlign="center" mb={3} display="flex" justifyContent="center">
             <Turnstile siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY} onSuccess={(token) => setRegTurnstileToken(token)} />
           </Box>
 
-          <Box textAlign="center" mt={2} mb={2}>
-            <Button 
-              type="submit" 
-              variant="contained" 
-              sx={{ 
-                bgcolor: '#F59E42', 
-                color: 'white',
-                px: 5,
-                py: 1.2, 
-                borderRadius: 1,
-                textTransform: 'none',
-                fontWeight: 600,
-                boxShadow: 'none',
-                '&:hover': { bgcolor: '#EA8A1A', boxShadow: 'none' }
-              }}
-            >
-              Tạo tài khoản
-            </Button>
-          </Box>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+              color: 'white',
+              borderRadius: '12px',
+              fontWeight: 700,
+              fontSize: '0.95rem',
+              fontFamily: '"Plus Jakarta Sans", sans-serif',
+              py: 1.5,
+              boxShadow: '0 4px 16px rgba(255,140,47,0.30)',
+              transition: 'all 0.25s ease',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
+                boxShadow: '0 8px 24px rgba(255,140,47,0.40)',
+                transform: 'translateY(-1px)',
+              },
+            }}
+          >
+            Tạo tài khoản
+          </Button>
 
           <Box textAlign="center" mt={3}>
-            <Typography variant="body2" color="#6B7280" fontSize="0.85rem">
+            <Typography sx={{ fontSize: '0.875rem', color: '#6B7280' }}>
               Đã có tài khoản?{' '}
-              <Typography 
-                component="span" 
-                variant="body2" 
-                color="#F59E42" 
-                sx={{ cursor: 'pointer' }} 
+              <Box
+                component="span"
                 onClick={() => navigate('/login')}
+                sx={{
+                  color: '#FF8C2F',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  fontFamily: '"Plus Jakarta Sans", sans-serif',
+                  '&:hover': { color: '#E67923', textDecoration: 'underline' },
+                }}
               >
-                Đăng nhập
-              </Typography>
+                Đăng nhập ngay
+              </Box>
             </Typography>
           </Box>
         </Box>

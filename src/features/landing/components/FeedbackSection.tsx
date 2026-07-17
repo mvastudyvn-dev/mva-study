@@ -1,36 +1,36 @@
 import React, { useRef } from 'react';
-import { Box, Container, Typography, Avatar, IconButton } from '@mui/material';
+import { Box, Container, Typography, Avatar, IconButton, Rating } from '@mui/material';
 import ForumRoundedIcon from '@mui/icons-material/ForumRounded';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import FormatQuoteRoundedIcon from '@mui/icons-material/FormatQuoteRounded';
 import LocalOfferRoundedIcon from '@mui/icons-material/LocalOfferRounded';
-import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
-import EmojiObjectsRoundedIcon from '@mui/icons-material/EmojiObjectsRounded';
 
 const feedbacks = [
   {
     id: 1,
-    content: 'Bản thân mình là đứa siêu ghét mấy cái hàm Excel lại còn mù công nghệ nữa nên lúc đi thi chứng chỉ cũng sợ rớt này kia. Mà ai dè học ở trung tâm xong nhận được kết quả pass ngay từ lần đầu vượt mong đợi lun á. Anh dạy dễ hiểu mà siêu tận tâm, lộ trình học thực hành khá kĩ càng chi tiết, các ac trợ giảng thì vô cùng nhiệt tình, bài tập làm sai chỗ nào là sửa ngay chỗ đó. Học phí của trung tâm cũng siu siu rẻ so với những chỗ khác. Mình thi điểm so với mấy đứa đỉnh công nghệ thì không cao, nhưng mà cũng gọi là tạm nên là rcm cho mấy bạn nếu mà đang muốn học MOS nhen chứ đừng tự mò mẫm mệt lắm^^',
+    content: 'Bản thân mình là đứa siêu ghét mấy cái hàm Excel lại còn mù công nghệ nữa nên lúc đi thi chứng chỉ cũng sợ rớt này kia. Mà ai dè học ở trung tâm xong nhận được kết quả pass ngay từ lần đầu vượt mong đợi lun á. Anh dạy dễ hiểu mà siêu tận tâm, lộ trình học thực hành khá kĩ càng chi tiết.',
     name: 'Học viên Thùy Linh',
     tag: 'Khoá MOS 2019/365 App',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=An'
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=An',
+    rating: 5,
   },
   {
     id: 2,
-    content: 'Bình thường hè người ta đi du lịch đồ đó, còn tui thì bị mẹ dí đi học sớm môn tin THPT vì tui chọn tổ hợp X06. Lúc đầu đi học hè cũng oải lắm. Ai dè vô lớp này cuốn vcl mng ơi! Học hè mà bùng nổ visual, anh dạy siêu bánh cuốn, vừa học lý thuyết vừa làm bài không bị chán tí nào. Mới học mấy tuần hè thui mà tui cảm giác mình húp trọn hết đống kiến thức nền tảng của kỳ 1 rùi á, vào năm học chính thức chấp cả lớp lun haha. 2k9 đứa nào còn đang nằm ườn ở nhà thì đăng ký học hè chung với tui đi, học sớm cho nhàn cái thân chứ vô năm học mới cày là thở bằng oxy đóoo!',
+    content: 'Lúc đầu đi học hè cũng oải lắm. Ai dè vô lớp này cuốn vcl mng ơi! Học hè mà bùng nổ visual, anh dạy siêu bánh cuốn, vừa học lý thuyết vừa làm bài không bị chán tí nào. Mới học mấy tuần hè thui mà cảm giác mình húp trọn hết đống kiến thức nền tảng của kỳ 1 rùi á.',
     name: 'Học viên Thanh Trúc',
     tag: 'Khoá 2009 XPS',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Truc'
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Truc',
+    rating: 5,
   },
   {
     id: 3,
-    content: 'Hồi lớp 11 học môn Tin kiểu cưỡi ngựa xem hoa mất gốc hoàn toàn nên lúc chọn tổ hợp thi THPT cũng sợ này kia. Mà ai dè năm nay va phải lớp ôn thi THPT của a đúng kiểu chân ái luôn á. Anh dạy dễ hiểu mà siêu tận tâm, lộ trình học từ kiến thức cơ bản đến giải đề khá kĩ càng chi tiết, các ac trợ giảng thì vô cùng nhiệt tình. Học lực môn Tin của mình giờ cải thiện rõ rệt luôn, siêu rcm cho mấy bạn 2k9 khác nếu mà đang muốn tìm chỗ ôn thi tốt nghiệp môn Tin nha, học anh muộn ngày nào là thiệt ngày đó á!',
+    content: 'Năm nay va phải lớp ôn thi THPT của anh đúng kiểu chân ái luôn á. Anh dạy dễ hiểu mà siêu tận tâm, lộ trình học từ kiến thức cơ bản đến giải đề khá kĩ càng. Học lực môn Tin của mình giờ cải thiện rõ rệt luôn, siêu rcm cho mấy bạn 2k9 khác!',
     name: 'Học viên Trần Dũng',
     tag: 'Khoá 2009 XPS',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Dung'
-  }
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Dung',
+    rating: 5,
+  },
 ];
 
 export const FeedbackSection: React.FC = () => {
@@ -38,68 +38,115 @@ export const FeedbackSection: React.FC = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const { current } = scrollRef;
-      const scrollAmount = direction === 'left' ? -400 : 400;
-      current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const scrollAmount = direction === 'left' ? -420 : 420;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
   return (
-    <Box sx={{ py: 8, bgcolor: '#ffffff', position: 'relative', overflow: 'hidden' }}>
-      {/* Background Decorative Icons */}
-      <Box sx={{ position: 'absolute', top: '5%', left: '-2%', opacity: 0.15, transform: 'rotate(-15deg)', zIndex: 0 }}>
-        <AutoAwesomeRoundedIcon sx={{ fontSize: 180, color: '#FF8C2F' }} />
-      </Box>
-      <Box sx={{ position: 'absolute', bottom: '-5%', right: '-3%', opacity: 0.15, transform: 'rotate(25deg)', zIndex: 0 }}>
-        <MenuBookRoundedIcon sx={{ fontSize: 240, color: '#FF8C2F' }} />
-      </Box>
-      <Box sx={{ position: 'absolute', top: '35%', right: '5%', opacity: 0.12, transform: 'rotate(15deg)', zIndex: 0 }}>
-        <EmojiObjectsRoundedIcon sx={{ fontSize: 100, color: '#FF8C2F' }} />
-      </Box>
+    <Box
+      sx={{
+        py: { xs: 8, md: 12 },
+        bgcolor: '#FFFBF8',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Background decorations */}
+      <Box sx={{
+        position: 'absolute', top: '5%', left: '-3%',
+        width: 200, height: 200, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255,140,47,0.08) 0%, transparent 70%)',
+        zIndex: 0, pointerEvents: 'none',
+      }} />
+      <Box sx={{
+        position: 'absolute', bottom: '-5%', right: '-3%',
+        width: 300, height: 300, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255,140,47,0.06) 0%, transparent 70%)',
+        zIndex: 0, pointerEvents: 'none',
+      }} />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        {/* Header */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <ForumRoundedIcon sx={{ color: '#FF8C2F', fontSize: 32 }} />
-            <Typography variant="h5" sx={{ fontWeight: 700, color: '#1F2937' }}>
-              Feedback của học viên
+        {/* Section Header */}
+        <Box sx={{ mb: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <Box>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0.8,
+                px: 2,
+                py: 0.8,
+                bgcolor: 'rgba(255,140,47,0.08)',
+                borderRadius: '999px',
+                border: '1px solid rgba(255,140,47,0.16)',
+                mb: 2,
+              }}
+            >
+              <ForumRoundedIcon sx={{ fontSize: 14, color: '#FF8C2F' }} />
+              <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#FF8C2F', fontFamily: '"Plus Jakarta Sans", sans-serif', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                Học viên nói gì
+              </Typography>
+            </Box>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 800,
+                color: '#0F172A',
+                fontSize: { xs: '1.6rem', md: '2.1rem' },
+                lineHeight: 1.2,
+                letterSpacing: '-0.025em',
+              }}
+            >
+              Cảm nhận thực tế
             </Typography>
           </Box>
 
           {/* Navigation Arrows */}
-          <Box sx={{ display: 'flex', gap: 1 }}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
             <IconButton
               onClick={() => scroll('left')}
               sx={{
-                border: '1px solid #E5E7EB',
-                bgcolor: '#ffffff',
-                '&:hover': { bgcolor: '#F3F4F6' }
+                border: '1.5px solid rgba(0,0,0,0.08)',
+                bgcolor: '#fff',
+                width: 40, height: 40,
+                borderRadius: '12px',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  bgcolor: 'rgba(255,140,47,0.06)',
+                  borderColor: 'rgba(255,140,47,0.3)',
+                  color: '#FF8C2F',
+                },
               }}
-              size="small"
             >
-              <ArrowBackIosNewRoundedIcon sx={{ fontSize: 16, color: '#9CA3AF' }} />
+              <ArrowBackIosNewRoundedIcon sx={{ fontSize: 16 }} />
             </IconButton>
             <IconButton
               onClick={() => scroll('right')}
               sx={{
-                border: '1px solid #E5E7EB',
-                bgcolor: '#ffffff',
-                '&:hover': { bgcolor: '#F3F4F6' }
+                border: '1.5px solid rgba(0,0,0,0.08)',
+                bgcolor: '#fff',
+                width: 40, height: 40,
+                borderRadius: '12px',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  bgcolor: 'rgba(255,140,47,0.06)',
+                  borderColor: 'rgba(255,140,47,0.3)',
+                  color: '#FF8C2F',
+                },
               }}
-              size="small"
             >
-              <ArrowForwardIosRoundedIcon sx={{ fontSize: 16, color: '#111827' }} />
+              <ArrowForwardIosRoundedIcon sx={{ fontSize: 16 }} />
             </IconButton>
           </Box>
         </Box>
 
-        {/* Grid Container */}
+        {/* Testimonial Cards Grid */}
         <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
-            gap: 4,
+            gap: 3,
           }}
         >
           {feedbacks.map((feedback) => (
@@ -109,63 +156,82 @@ export const FeedbackSection: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%',
-                gap: 3
+                gap: 0,
               }}
             >
-              {/* Quote box */}
-              <Box sx={{
-                bgcolor: '#F8FAFC',
-                borderRadius: 4,
-                p: 4,
-                flexGrow: 1,
-                display: 'flex',
-                flexDirection: 'column'
-              }}>
-                <Box sx={{ mb: 2 }}>
+              {/* Quote Card */}
+              <Box
+                sx={{
+                  bgcolor: '#FFFFFF',
+                  borderRadius: '20px',
+                  p: 3.5,
+                  flexGrow: 1,
+                  border: '1px solid rgba(0,0,0,0.06)',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+                  transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+                  '&:hover': {
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.08)',
+                    transform: 'translateY(-6px)',
+                    borderColor: 'rgba(255,140,47,0.15)',
+                  },
+                }}
+              >
+                {/* Quote icon + rating */}
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2.5 }}>
                   <FormatQuoteRoundedIcon
-                    sx={{
-                      fontSize: 48,
-                      color: '#FF8C2F',
-                      transform: 'scaleX(-1)', // Flip horizontally to match the image
-                      ml: -1
-                    }}
+                    sx={{ fontSize: 40, color: '#FF8C2F', opacity: 0.6, transform: 'scaleX(-1)', ml: -0.5 }}
+                  />
+                  <Rating
+                    value={feedback.rating}
+                    readOnly
+                    size="small"
+                    sx={{ '& .MuiRating-iconFilled': { color: '#F59E0B' } }}
                   />
                 </Box>
 
                 <Typography
                   variant="body2"
                   sx={{
-                    color: '#4B5563',
-                    lineHeight: 1.7,
+                    color: '#475569',
+                    lineHeight: 1.75,
+                    fontSize: '0.875rem',
                   }}
                 >
                   {feedback.content}
                 </Typography>
-              </Box>
 
-              {/* User info */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 2 }}>
-                <Avatar src={feedback.avatar} alt={feedback.name} sx={{ width: 48, height: 48 }} />
-                <Box>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1F2937', mb: 0.5 }}>
-                    {feedback.name}
-                  </Typography>
-                  <Box
+                {/* User info — inside card bottom */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 3, pt: 3, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                  <Avatar
+                    src={feedback.avatar}
+                    alt={feedback.name}
                     sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 0.5,
-                      bgcolor: '#FFF8F2',
-                      color: '#FF8C2F',
-                      px: 1,
-                      py: 0.5,
-                      borderRadius: 1
+                      width: 44, height: 44,
+                      border: '2.5px solid rgba(255,140,47,0.25)',
                     }}
-                  >
-                    <LocalOfferRoundedIcon sx={{ fontSize: 14 }} />
-                    <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                      {feedback.tag}
+                  />
+                  <Box sx={{ flex: 1, overflow: 'hidden' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A', fontFamily: '"Plus Jakarta Sans", sans-serif', mb: 0.5 }}>
+                      {feedback.name}
                     </Typography>
+                    <Box
+                      sx={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 0.5,
+                        bgcolor: 'rgba(255,140,47,0.08)',
+                        color: '#FF8C2F',
+                        px: 1.2,
+                        py: 0.4,
+                        borderRadius: '999px',
+                        border: '1px solid rgba(255,140,47,0.14)',
+                      }}
+                    >
+                      <LocalOfferRoundedIcon sx={{ fontSize: 11 }} />
+                      <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+                        {feedback.tag}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
               </Box>

@@ -1,6 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, Rating, Tabs, Tab, TextField, InputAdornment, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, Container, Typography, Grid, Card, CardContent, Rating, Tabs, Tab, TextField, InputAdornment, Button, Chip } from '@mui/material';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
@@ -36,16 +39,16 @@ const courseIcons: Record<string, React.ReactNode> = {
 };
 
 const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(price) + 'đ';
-
 const CATEGORIES = ['Tất cả', 'IC3', 'MOS'];
 
 const CoursesPage: React.FC = () => {
   const { courses, activationCodes, refreshData } = useData();
   const { user } = useAuth();
-  
+
   useEffect(() => {
     refreshData();
   }, [refreshData]);
+
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,22 +61,17 @@ const CoursesPage: React.FC = () => {
 
   const filteredCourses = useMemo(() => {
     let result = courses;
-    
-    // Filter by Tab
     if (activeTab !== 0) {
       const categoryName = CATEGORIES[activeTab];
       result = result.filter(c => c.title.includes(categoryName));
     }
-    
-    // Filter by Search
     if (searchQuery.trim()) {
       const lowerQuery = searchQuery.toLowerCase();
-      result = result.filter(c => 
-        c.title.toLowerCase().includes(lowerQuery) || 
+      result = result.filter(c =>
+        c.title.toLowerCase().includes(lowerQuery) ||
         c.description.toLowerCase().includes(lowerQuery)
       );
     }
-    
     return result;
   }, [courses, activeTab, searchQuery]);
 
@@ -82,17 +80,62 @@ const CoursesPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F9FAFB' }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FAFAFA' }}>
       <Header />
-      
-      <Box component="main" sx={{ flexGrow: 1, pb: 8 }}>
-        {/* Page Header */}
-        <Box sx={{ bgcolor: '#fff', py: 6, mb: 4, borderBottom: '1px solid #E5E7EB' }}>
-          <Container maxWidth="lg">
-            <Typography variant="h3" sx={{ fontWeight: 800, color: '#1F2937', mb: 2, fontSize: { xs: '2rem', md: '2.5rem' } }}>
+
+      <Box component="main" sx={{ flexGrow: 1, pb: 10 }}>
+        {/* Page Hero Header */}
+        <Box
+          sx={{
+            py: { xs: 7, md: 9 },
+            mb: 5,
+            background: 'linear-gradient(160deg, #FFF8F2 0%, #FAFAFA 55%, #FFF3E8 100%)',
+            borderBottom: '1px solid rgba(0,0,0,0.06)',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Decorative blobs */}
+          <Box sx={{
+            position: 'absolute', top: '-20%', right: '-5%',
+            width: 400, height: 400, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(255,140,47,0.08) 0%, transparent 70%)',
+            zIndex: 0, pointerEvents: 'none',
+          }} />
+
+          <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+            <Box sx={{
+              display: 'inline-flex', alignItems: 'center', gap: 0.8,
+              px: 2, py: 0.8,
+              bgcolor: 'rgba(255,140,47,0.08)', borderRadius: '999px',
+              border: '1px solid rgba(255,140,47,0.16)', mb: 2,
+            }}>
+              <SchoolRoundedIcon sx={{ fontSize: 14, color: '#FF8C2F' }} />
+              <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#FF8C2F', fontFamily: '"Plus Jakarta Sans", sans-serif', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                Danh mục khóa học
+              </Typography>
+            </Box>
+            <Typography
+              variant="h2"
+              sx={{
+                fontWeight: 900,
+                color: '#0F172A',
+                mb: 2,
+                fontSize: { xs: '2rem', md: '2.8rem' },
+                letterSpacing: '-0.03em',
+                lineHeight: 1.15,
+              }}
+            >
               Danh Sách Khóa Học
             </Typography>
-            <Typography variant="body1" sx={{ color: '#6B7280', maxWidth: '600px', fontSize: '1.1rem' }}>
+            <Typography
+              sx={{
+                color: '#64748B',
+                maxWidth: '540px',
+                fontSize: '1rem',
+                lineHeight: 1.75,
+              }}
+            >
               Khám phá các khóa học chất lượng cao giúp bạn làm chủ kiến thức và đạt điểm cao trong các kỳ thi.
             </Typography>
           </Container>
@@ -100,190 +143,287 @@ const CoursesPage: React.FC = () => {
 
         <Container maxWidth="lg">
           {/* Controls: Tabs & Search */}
-          <Box 
-            sx={{ 
-              mb: 4, 
-              display: 'flex', 
-              flexDirection: { xs: 'column', md: 'row' }, 
-              alignItems: { xs: 'stretch', md: 'center' }, 
+          <Box
+            sx={{
+              mb: 5,
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              alignItems: { xs: 'stretch', md: 'center' },
               justifyContent: 'space-between',
               gap: 2,
-              borderBottom: 1, 
-              borderColor: 'divider' 
+              p: 2,
+              bgcolor: '#fff',
+              borderRadius: '16px',
+              border: '1px solid rgba(0,0,0,0.06)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
             }}
           >
-            <Tabs 
-              value={activeTab} 
-              onChange={handleTabChange} 
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
               variant="scrollable"
               scrollButtons="auto"
               sx={{
-                '& .MuiTab-root': { fontWeight: 600, fontSize: '1rem', textTransform: 'none', minWidth: 100 },
-                '& .Mui-selected': { color: '#FF8C2F !important' },
-                '& .MuiTabs-indicator': { backgroundColor: '#FF8C2F' }
+                '& .MuiTabs-indicator': {
+                  display: 'none',
+                },
+                '& .MuiTab-root': {
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  textTransform: 'none',
+                  minWidth: 80,
+                  fontFamily: '"Plus Jakarta Sans", sans-serif',
+                  color: '#64748B',
+                  borderRadius: '10px',
+                  px: 2, py: 1,
+                  transition: 'all 0.2s ease',
+                  '&.Mui-selected': {
+                    color: '#FF8C2F',
+                    bgcolor: 'rgba(255,140,47,0.10)',
+                  },
+                },
               }}
             >
               {CATEGORIES.map((cat, idx) => (
                 <Tab key={idx} label={cat} />
               ))}
             </Tabs>
-            
-            <Box sx={{ pb: { xs: 2, md: 0 }, pr: { xs: 0, md: 2 } }}>
-              <TextField
-                variant="outlined"
-                size="small"
-                placeholder="Nhập từ khóa tìm kiếm ..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon sx={{ color: '#9CA3AF' }} />
-                    </InputAdornment>
-                  ),
-                  sx: {
-                    borderRadius: 1,
-                    bgcolor: '#fff',
-                    minWidth: { xs: '100%', md: 280 },
-                    '& fieldset': { borderColor: '#E5E7EB' },
-                    '&:hover fieldset': { borderColor: '#D1D5DB' },
-                    '&.Mui-focused fieldset': { borderColor: '#FF8C2F' },
-                  }
-                }}
-              />
-            </Box>
+
+            <TextField
+              variant="outlined"
+              size="small"
+              placeholder="Tìm kiếm khóa học..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRoundedIcon sx={{ color: '#9CA3AF', fontSize: 20 }} />
+                  </InputAdornment>
+                ),
+                sx: {
+                  borderRadius: '12px',
+                  bgcolor: '#FAFAFA',
+                  minWidth: { xs: '100%', md: 280 },
+                  fontFamily: '"Inter", sans-serif',
+                  fontSize: '0.875rem',
+                  '& fieldset': { borderColor: 'rgba(0,0,0,0.08)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255,140,47,0.4)' },
+                  '&.Mui-focused fieldset': { borderColor: '#FF8C2F', boxShadow: '0 0 0 3px rgba(255,140,47,0.10)' },
+                }
+              }}
+            />
           </Box>
 
-          {/* Courses Grid */}
+          {/* Results count */}
+          <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography sx={{ fontSize: '0.85rem', color: '#64748B', fontWeight: 500 }}>
+              <Box component="span" sx={{ fontWeight: 800, color: '#0F172A' }}>{filteredCourses.length}</Box>
+              {' '}khóa học
+            </Typography>
+            {searchQuery && (
+              <Typography sx={{ fontSize: '0.85rem', color: '#9CA3AF' }}>
+                cho "<Box component="span" sx={{ color: '#FF8C2F', fontWeight: 700 }}>{searchQuery}</Box>"
+              </Typography>
+            )}
+          </Box>
+
+          {/* Course Grid */}
           <Grid container spacing={3}>
             {filteredCourses.map((course) => {
               const isOwned = userCodes.some((c) => c.courseId === course.id);
               return (
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={course.id}>
-                <Card
-                  onClick={() => {
-                    if (isOwned) {
-                      navigate('/dashboard');
-                    } else {
-                      setSelectedCourse(course);
-                      setIsPaymentModalOpen(true);
-                    }
-                  }}
-                  sx={{
-                    height: '100%',
-                    borderRadius: 1,
-                    overflow: 'hidden',
-                    border: '1px solid #F3F4F6',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    '&:hover': {
-                      transform: 'translateY(-6px)',
-                      boxShadow: '0 20px 40px rgba(0,0,0,0.08)',
-                    },
-                  }}
-                >
-                  <Box
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={course.id}>
+                  <Card
+                    onClick={() => {
+                      if (isOwned) {
+                        navigate('/dashboard');
+                      } else {
+                        setSelectedCourse(course);
+                        setIsPaymentModalOpen(true);
+                      }
+                    }}
                     sx={{
-                      height: 160,
-                      background: course.bgGradient,
+                      height: '100%',
+                      borderRadius: '18px',
+                      overflow: 'hidden',
+                      border: '1px solid rgba(0,0,0,0.06)',
+                      cursor: 'pointer',
+                      transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      position: 'relative',
+                      flexDirection: 'column',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: '0 20px 48px rgba(0,0,0,0.10)',
+                        borderColor: 'rgba(255,140,47,0.20)',
+                      },
                     }}
                   >
-                    {courseIcons[course.id] || (
-                      <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff' }}>
-                        {course.icon}
-                      </Typography>
-                    )}
-                    <Box sx={{ position: 'absolute', top: 12, left: 12, bgcolor: '#EF4444', color: '#fff', px: 1.5, py: 0.5, borderRadius: 1, fontSize: '0.75rem', fontWeight: 700 }}>
-                      HOT
-                    </Box>
-                  </Box>
-
-                  <CardContent sx={{ p: 2.5, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                    <Typography 
-                      variant="subtitle1" 
-                      sx={{ 
-                        fontWeight: 700, 
-                        color: '#1F2937', 
-                        mb: 1, 
-                        fontSize: '1.05rem', 
-                        lineHeight: 1.3,
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
+                    {/* Course Banner */}
+                    <Box
+                      sx={{
+                        height: 160,
+                        background: course.bgGradient,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
                         overflow: 'hidden',
-                        minHeight: '2.6rem'
                       }}
                     >
-                      {course.title}
-                    </Typography>
-                    
-                    <Typography variant="body2" sx={{ color: '#6B7280', mb: 2, fontSize: '0.85rem' }}>
-                      {course.lessonsCount} bài giảng • {course.durationMonths ? `${course.durationMonths} tháng` : 'Vĩnh viễn'}
-                    </Typography>
-
-                    <Box sx={{ mt: 'auto' }}>
-                      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'nowrap', gap: 0.5, mb: 1.5 }}>
-                        <Rating
-                          value={course.rating}
-                          precision={0.1}
-                          readOnly
-                          size="small"
-                          sx={{ '& .MuiRating-iconFilled': { color: '#F59E0B' }, fontSize: '1rem' }}
-                        />
-                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#1F2937', whiteSpace: 'nowrap' }}>
-                          {course.rating}
+                      {/* Pattern overlay */}
+                      <Box sx={{
+                        position: 'absolute', inset: 0,
+                        backgroundImage: 'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)',
+                        backgroundSize: '20px 20px',
+                      }} />
+                      {courseIcons[course.id] || (
+                        <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', position: 'relative', zIndex: 1 }}>
+                          {course.icon}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.75rem', color: '#9CA3AF', whiteSpace: 'nowrap' }}>
-                          ({course.ratingCount.toLocaleString()})
-                        </Typography>
+                      )}
+                      <Box sx={{
+                        position: 'absolute', top: 10, left: 10, zIndex: 1,
+                        bgcolor: '#EF4444', color: '#fff',
+                        px: 1.2, py: 0.35,
+                        borderRadius: '6px',
+                        fontSize: '0.68rem',
+                        fontWeight: 800,
+                        fontFamily: '"Plus Jakarta Sans", sans-serif',
+                        letterSpacing: '0.06em',
+                      }}>
+                        HOT
                       </Box>
-
-                      <Box display="flex" alignItems="center" justifyContent="space-between" width="100%">
-                        {isOwned ? (
-                          <Button variant="outlined" size="small" sx={{ borderColor: '#10B981', color: '#10B981', pointerEvents: 'none', fontWeight: 'bold', width: '100%' }}>
-                            Đã sở hữu
-                          </Button>
-                        ) : (
-                          <>
-                            <Typography sx={{ fontWeight: 800, color: '#FF8C2F', fontSize: '1.1rem' }}>
-                              {formatPrice(course.price)}
-                            </Typography>
-                            <Button 
-                              variant="contained" 
-                              size="small"
-                              sx={{ bgcolor: '#FF8C2F', '&:hover': { bgcolor: '#E07B29' }, fontWeight: 'bold', borderRadius: 1.5, px: 2 }}
-                            >
-                              Mua ngay
-                            </Button>
-                          </>
-                        )}
-                      </Box>
+                      {isOwned && (
+                        <Box sx={{
+                          position: 'absolute', top: 10, right: 10, zIndex: 1,
+                          bgcolor: '#10B981', color: '#fff',
+                          px: 1.2, py: 0.35,
+                          borderRadius: '6px',
+                          fontSize: '0.68rem',
+                          fontWeight: 800,
+                          fontFamily: '"Plus Jakarta Sans", sans-serif',
+                        }}>
+                          ✓ Đã sở hữu
+                        </Box>
+                      )}
                     </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )})}
+
+                    <CardContent sx={{ p: 2.5, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          fontWeight: 700,
+                          color: '#0F172A',
+                          mb: 0.8,
+                          fontSize: '0.95rem',
+                          fontFamily: '"Plus Jakarta Sans", sans-serif',
+                          lineHeight: 1.4,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          minHeight: '2.6rem',
+                        }}
+                      >
+                        {course.title}
+                      </Typography>
+
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1.8 }}>
+                        <AccessTimeRoundedIcon sx={{ fontSize: 13, color: '#94A3B8' }} />
+                        <Typography sx={{ color: '#94A3B8', fontSize: '0.78rem' }}>
+                          {course.lessonsCount} bài • {course.durationMonths ? `${course.durationMonths} tháng` : 'Vĩnh viễn'}
+                        </Typography>
+                      </Box>
+
+                      <Box sx={{ mt: 'auto' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1.5 }}>
+                          <Rating
+                            value={course.rating}
+                            precision={0.1}
+                            readOnly
+                            size="small"
+                            sx={{ '& .MuiRating-iconFilled': { color: '#F59E0B' }, fontSize: '0.85rem' }}
+                          />
+                          <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: '#0F172A' }}>{course.rating}</Typography>
+                          <Typography sx={{ fontSize: '0.72rem', color: '#9CA3AF' }}>({course.ratingCount.toLocaleString()})</Typography>
+                        </Box>
+
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          {isOwned ? (
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              fullWidth
+                              sx={{
+                                borderColor: '#10B981',
+                                color: '#10B981',
+                                borderRadius: '10px',
+                                fontWeight: 700,
+                                fontSize: '0.8rem',
+                                fontFamily: '"Plus Jakarta Sans", sans-serif',
+                                pointerEvents: 'none',
+                                borderWidth: '1.5px',
+                              }}
+                            >
+                              Đã sở hữu ✓
+                            </Button>
+                          ) : (
+                            <>
+                              <Typography sx={{ fontWeight: 800, color: '#FF8C2F', fontSize: '1.05rem', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+                                {formatPrice(course.price)}
+                              </Typography>
+                              <Button
+                                variant="contained"
+                                size="small"
+                                sx={{
+                                  background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+                                  color: '#fff',
+                                  fontWeight: 700,
+                                  borderRadius: '10px',
+                                  fontSize: '0.78rem',
+                                  fontFamily: '"Plus Jakarta Sans", sans-serif',
+                                  px: 2,
+                                  boxShadow: '0 4px 12px rgba(255,140,47,0.25)',
+                                  '&:hover': {
+                                    background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
+                                    boxShadow: '0 6px 18px rgba(255,140,47,0.35)',
+                                    transform: 'translateY(-1px)',
+                                  },
+                                }}
+                              >
+                                Mua ngay
+                              </Button>
+                            </>
+                          )}
+                        </Box>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              );
+            })}
           </Grid>
-          
+
           {filteredCourses.length === 0 && (
-            <Box sx={{ py: 8, textAlign: 'center' }}>
-              <Typography variant="h6" color="text.secondary">Chưa có khóa học nào trong danh mục này.</Typography>
+            <Box sx={{ py: 10, textAlign: 'center' }}>
+              <Typography sx={{ fontSize: '3rem', mb: 2 }}>🔍</Typography>
+              <Typography variant="h6" sx={{ color: '#64748B', fontWeight: 600, fontFamily: '"Plus Jakarta Sans", sans-serif', mb: 1 }}>
+                Không tìm thấy khóa học
+              </Typography>
+              <Typography sx={{ color: '#9CA3AF', fontSize: '0.9rem' }}>
+                Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc khác.
+              </Typography>
             </Box>
           )}
-
         </Container>
       </Box>
 
-      <PaymentModal 
-        open={isPaymentModalOpen} 
-        course={selectedCourse} 
-        onClose={() => setIsPaymentModalOpen(false)} 
+      <PaymentModal
+        open={isPaymentModalOpen}
+        course={selectedCourse}
+        onClose={() => setIsPaymentModalOpen(false)}
       />
 
       <Footer />

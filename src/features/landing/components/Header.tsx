@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Container, IconButton, Drawer, List, ListItem, ListItemText, Divider, Tooltip, Menu, MenuItem } from '@mui/material';
-import KeyIcon from '@mui/icons-material/Key';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Home, GraduationCap, Users, Trophy, Headset, LayoutGrid } from 'lucide-react';
+import CloseIcon from '@mui/icons-material/Close';
+import { Home, GraduationCap, Users, Trophy, Headset, LayoutGrid, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../../assets/logo.png';
 
-const navIcons = [
-  { icon: <Home size={22} strokeWidth={1.5} />, id: 'section-hero', path: '/', tooltip: 'Trang chủ' },
-  { icon: <GraduationCap size={22} strokeWidth={1.5} />, id: 'section-courses', path: '/', tooltip: 'Khóa học' },
-  { icon: <Trophy size={22} strokeWidth={1.5} />, id: 'section-news', path: '/', tooltip: 'Bảng xếp hạng' },
-  { icon: <Users size={22} strokeWidth={1.5} />, id: 'section-teachers', path: '/', tooltip: 'Giảng viên' },
-  { icon: <Headset size={22} strokeWidth={1.5} />, id: 'section-consultation', path: '/', tooltip: 'Liên hệ tư vấn' },
+const navItems = [
+  { icon: <Home size={18} strokeWidth={1.8} />, id: 'section-hero', path: '/', tooltip: 'Trang chủ', label: 'Trang chủ' },
+  { icon: <GraduationCap size={18} strokeWidth={1.8} />, id: 'section-courses', path: '/', tooltip: 'Khóa học', label: 'Khóa học' },
+  { icon: <Trophy size={18} strokeWidth={1.8} />, id: 'section-news', path: '/', tooltip: 'Bảng xếp hạng', label: 'Xếp hạng' },
+  { icon: <Users size={18} strokeWidth={1.8} />, id: 'section-teachers', path: '/', tooltip: 'Giảng viên', label: 'Giảng viên' },
+  { icon: <Headset size={18} strokeWidth={1.8} />, id: 'section-consultation', path: '/', tooltip: 'Liên hệ tư vấn', label: 'Liên hệ' },
 ];
 
 export const Header: React.FC = () => {
@@ -35,10 +35,9 @@ export const Header: React.FC = () => {
   useEffect(() => {
     const handleScrollEvent = () => {
       setScrolled(window.scrollY > 20);
-
       const scrollPosition = window.scrollY + 200;
       let currentActive = 'section-hero';
-      navIcons.forEach(item => {
+      navItems.forEach(item => {
         const section = document.getElementById(item.id);
         if (section) {
           const sectionTop = section.offsetTop;
@@ -49,8 +48,8 @@ export const Header: React.FC = () => {
       });
       setActiveSection(currentActive);
     };
-    window.addEventListener('scroll', handleScrollEvent);
-    handleScrollEvent(); // initial check
+    window.addEventListener('scroll', handleScrollEvent, { passive: true });
+    handleScrollEvent();
     return () => window.removeEventListener('scroll', handleScrollEvent);
   }, []);
 
@@ -83,115 +82,158 @@ export const Header: React.FC = () => {
         position="sticky"
         elevation={0}
         sx={{
-          bgcolor: 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-          borderBottom: 'none',
-          transition: 'all 0.3s ease',
+          bgcolor: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.80)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          boxShadow: scrolled ? '0 1px 0 rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(0,0,0,0.06)' : '1px solid transparent',
+          transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
         <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between', minHeight: '60px !important' }}>
-            {/* Left Side: Logo & Search */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-              {/* Brand Logo */}
+          <Toolbar disableGutters sx={{ justifyContent: 'space-between', minHeight: '64px !important', gap: 2 }}>
+            {/* Logo */}
+            <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
               <Box
                 component="img"
                 src={logo}
-                alt="Logo"
+                alt="MVA Study Logo"
                 onClick={() => window.location.href = '/'}
                 sx={{
-                  height: 40,
+                  height: 38,
                   cursor: 'pointer',
-                  transition: 'transform 0.2s',
-                  flexShrink: 0,
-                  '&:hover': { transform: 'scale(1.05)' }
+                  transition: 'all 0.2s ease',
+                  '&:hover': { transform: 'scale(1.04)', opacity: 0.9 },
                 }}
               />
-
-
             </Box>
 
-            {/* Center Side: Desktop Center Icons */}
+            {/* Desktop Nav — center */}
             <Box sx={{
               display: { xs: 'none', md: 'flex' },
               alignItems: 'center',
-              gap: 3.5,
+              gap: 0.5,
               position: 'absolute',
               left: '50%',
-              transform: 'translateX(-50%)'
+              transform: 'translateX(-50%)',
             }}>
-              {navIcons.map((item, index) => (
-                <Tooltip title={item.tooltip} key={index} arrow placement="bottom">
-                  <IconButton
-                    onClick={() => handleNavigation(item.id, item.path)}
-                    sx={{
-                      color: activeSection === item.id ? '#F59E42' : '#6B7280',
-                      bgcolor: activeSection === item.id ? 'rgba(255, 140, 47, 0.08)' : 'transparent',
-                      p: 1.2,
-                      transition: 'all 0.2s ease',
-                      '&:hover': {
-                        color: '#F59E42',
-                        bgcolor: 'rgba(255, 140, 47, 0.08)',
-                        transform: 'translateY(-2px)'
-                      }
-                    }}
-                  >
-                    {item.icon}
-                  </IconButton>
-                </Tooltip>
-              ))}
-
-
+              {navItems.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <Tooltip title={item.tooltip} key={item.id} arrow placement="bottom">
+                    <Box
+                      onClick={() => handleNavigation(item.id, item.path)}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.6,
+                        px: 1.6,
+                        py: 0.9,
+                        borderRadius: '10px',
+                        cursor: 'pointer',
+                        color: isActive ? '#FF8C2F' : '#4B5563',
+                        bgcolor: isActive ? 'rgba(255, 140, 47, 0.08)' : 'transparent',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          color: '#FF8C2F',
+                          bgcolor: 'rgba(255, 140, 47, 0.08)',
+                          transform: 'translateY(-1px)',
+                        },
+                      }}
+                    >
+                      {item.icon}
+                      <Typography
+                        sx={{
+                          fontSize: '0.82rem',
+                          fontWeight: isActive ? 700 : 500,
+                          fontFamily: '"Plus Jakarta Sans", sans-serif',
+                          whiteSpace: 'nowrap',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+                    </Box>
+                  </Tooltip>
+                );
+              })}
             </Box>
 
-            {/* Right Side: Action Nodes */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 3 }}>
-                <Box 
+            {/* Right Side Actions */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
+              {/* Desktop Only */}
+              <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1.5 }}>
+                {/* Utilities Dropdown */}
+                <Box
                   onClick={handleUtilitiesClick}
-                  sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', color: Boolean(anchorElUtilities) ? '#F59E42' : '#4B5563', transition: '0.2s', '&:hover': { color: '#F59E42' } }}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    cursor: 'pointer',
+                    color: Boolean(anchorElUtilities) ? '#FF8C2F' : '#4B5563',
+                    px: 1.4,
+                    py: 0.8,
+                    borderRadius: '10px',
+                    transition: 'all 0.2s ease',
+                    '&:hover': { color: '#FF8C2F', bgcolor: 'rgba(255,140,47,0.06)' },
+                  }}
                 >
-                  <LayoutGrid size={18} strokeWidth={2} />
-                  <Typography
-                    variant="body2"
-                    sx={{ fontWeight: 600, whiteSpace: 'nowrap', lineHeight: 1 }}
-                  >
+                  <LayoutGrid size={16} strokeWidth={2} />
+                  <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, fontFamily: '"Plus Jakarta Sans", sans-serif', lineHeight: 1 }}>
                     Tiện ích
                   </Typography>
+                  <ChevronDown
+                    size={14}
+                    style={{
+                      transition: 'transform 0.2s ease',
+                      transform: Boolean(anchorElUtilities) ? 'rotate(180deg)' : 'rotate(0deg)',
+                    }}
+                  />
                 </Box>
-                
-                <Divider orientation="vertical" flexItem sx={{ height: 16, borderColor: '#D1D5DB', alignSelf: 'center' }} />
+
+                <Box sx={{ width: '1px', height: '16px', bgcolor: 'rgba(0,0,0,0.1)' }} />
 
                 {!user ? (
                   <>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{ cursor: 'pointer', color: '#4B5563', fontWeight: 600, transition: '0.2s', '&:hover': { color: '#F59E42' }, whiteSpace: 'nowrap', lineHeight: 1 }}
-                        onClick={() => navigate('/register')}
-                      >
-                        Đăng ký
-                      </Typography>
-                    </Box>
+                    <Typography
+                      onClick={() => navigate('/register')}
+                      sx={{
+                        fontSize: '0.82rem',
+                        fontWeight: 600,
+                        color: '#4B5563',
+                        cursor: 'pointer',
+                        fontFamily: '"Plus Jakarta Sans", sans-serif',
+                        px: 1.4,
+                        py: 0.8,
+                        borderRadius: '10px',
+                        transition: 'all 0.2s ease',
+                        '&:hover': { color: '#FF8C2F', bgcolor: 'rgba(255,140,47,0.06)' },
+                      }}
+                    >
+                      Đăng ký
+                    </Typography>
                     <Button
                       variant="contained"
                       onClick={() => navigate('/login')}
                       sx={{
-                        bgcolor: '#F59E42',
+                        background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
                         color: '#FFFFFF',
-                        fontWeight: 600,
-                        borderRadius: 1,
-                        px: '24px',
-                        py: '10px',
+                        fontWeight: 700,
+                        fontSize: '0.82rem',
+                        fontFamily: '"Plus Jakarta Sans", sans-serif',
+                        borderRadius: '10px',
+                        px: '18px',
+                        py: '8px',
                         textTransform: 'none',
-                        boxShadow: 'none',
-                        transition: 'all 0.25s',
+                        boxShadow: '0 4px 14px rgba(255,140,47,0.30)',
+                        transition: 'all 0.25s ease',
                         whiteSpace: 'nowrap',
                         lineHeight: 1,
                         '&:hover': {
-                          bgcolor: '#EA8A1A',
-                          boxShadow: 'none',
+                          background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
+                          boxShadow: '0 8px 24px rgba(255,140,47,0.40)',
+                          transform: 'translateY(-1px)',
                         },
                       }}
                     >
@@ -204,34 +246,64 @@ export const Header: React.FC = () => {
                       variant="outlined"
                       onClick={() => navigate(user.role === 'admin' ? '/admin' : '/student')}
                       sx={{
-                        borderColor: '#F59E42',
-                        color: '#F59E42',
+                        borderColor: 'rgba(255, 140, 47, 0.4)',
+                        color: '#FF8C2F',
                         fontWeight: 700,
-                        borderRadius: 1,
+                        fontSize: '0.82rem',
+                        fontFamily: '"Plus Jakarta Sans", sans-serif',
+                        borderRadius: '10px',
+                        borderWidth: '1.5px',
+                        px: '16px',
+                        py: '7px',
                         textTransform: 'none',
                         whiteSpace: 'nowrap',
-                        '&:hover': { borderColor: '#EA8A1A', bgcolor: 'rgba(255, 140, 47, 0.05)' },
+                        '&:hover': {
+                          borderColor: '#FF8C2F',
+                          borderWidth: '1.5px',
+                          bgcolor: 'rgba(255, 140, 47, 0.06)',
+                          transform: 'translateY(-1px)',
+                        },
                       }}
                     >
                       Dashboard
                     </Button>
                     <Button
                       onClick={logout}
-                      sx={{ color: '#EF4444', fontWeight: 700, borderRadius: 1, textTransform: 'none', whiteSpace: 'nowrap' }}
+                      sx={{
+                        color: '#EF4444',
+                        fontWeight: 600,
+                        fontSize: '0.82rem',
+                        fontFamily: '"Plus Jakarta Sans", sans-serif',
+                        borderRadius: '10px',
+                        px: '14px',
+                        py: '7px',
+                        textTransform: 'none',
+                        whiteSpace: 'nowrap',
+                        '&:hover': { bgcolor: '#FEF2F2' },
+                      }}
                     >
                       Đăng xuất
                     </Button>
                   </>
                 )}
               </Box>
+
+              {/* Mobile Hamburger */}
               <IconButton
-                sx={{ display: { xs: 'flex', md: 'none' } }}
+                sx={{
+                  display: { xs: 'flex', md: 'none' },
+                  color: '#374151',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  borderRadius: '10px',
+                  p: 1,
+                  '&:hover': { bgcolor: 'rgba(255,140,47,0.06)', borderColor: 'rgba(255,140,47,0.3)' },
+                }}
                 onClick={() => setMobileOpen(true)}
               >
-                <MenuIcon />
+                <MenuIcon fontSize="small" />
               </IconButton>
-              
-              {/* Tiện ích Menu */}
+
+              {/* Utilities Dropdown Menu */}
               <Menu
                 anchorEl={anchorElUtilities}
                 open={Boolean(anchorElUtilities)}
@@ -240,41 +312,32 @@ export const Header: React.FC = () => {
                   elevation: 0,
                   sx: {
                     overflow: 'visible',
-                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.1))',
+                    filter: 'drop-shadow(0px 4px 24px rgba(0,0,0,0.10))',
                     mt: 1.5,
-                    minWidth: 200,
-                    borderRadius: 2,
+                    minWidth: 220,
+                    borderRadius: '14px',
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    p: 0.5,
                     '& .MuiMenuItem-root': {
                       px: 2,
                       py: 1.5,
-                      borderRadius: 1,
-                      mx: 1,
-                      my: 0.5,
-                      transition: 'all 0.2s',
+                      borderRadius: '10px',
+                      fontSize: '0.875rem',
+                      fontWeight: 500,
+                      fontFamily: '"Plus Jakarta Sans", sans-serif',
+                      transition: 'all 0.15s ease',
                       '&:hover': {
                         bgcolor: 'rgba(255, 140, 47, 0.08)',
-                        color: '#F59E42',
-                      }
-                    },
-                    '&:before': {
-                      content: '""',
-                      display: 'block',
-                      position: 'absolute',
-                      top: 0,
-                      right: '50%',
-                      width: 10,
-                      height: 10,
-                      bgcolor: 'background.paper',
-                      transform: 'translateY(-50%) rotate(45deg)',
-                      zIndex: 0,
+                        color: '#FF8C2F',
+                      },
                     },
                   },
                 }}
-                transformOrigin={{ horizontal: 'center', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 <MenuItem onClick={() => { handleUtilitiesClose(); navigate('/uni'); }}>
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>Dự đoán đỗ Đại học</Typography>
+                  🎓 Dự đoán đỗ Đại học
                 </MenuItem>
               </Menu>
             </Box>
@@ -283,36 +346,140 @@ export const Header: React.FC = () => {
       </AppBar>
 
       {/* Mobile Drawer */}
-      <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
-        <Box sx={{ width: 260, p: 2 }}>
-          <List>
-            {navIcons.map((item) => (
-              <ListItem key={item.id} onClick={() => { setMobileOpen(false); handleNavigation(item.id, item.path); }} sx={{ cursor: 'pointer' }}>
-                <ListItemText primary={item.tooltip} />
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{
+          sx: {
+            width: 280,
+            borderRadius: '20px 0 0 20px',
+            border: 'none',
+            boxShadow: '-8px 0 40px rgba(0,0,0,0.12)',
+          },
+        }}
+      >
+        <Box sx={{ p: 2.5 }}>
+          {/* Drawer Header */}
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
+            <Box component="img" src={logo} alt="Logo" sx={{ height: 32 }} />
+            <IconButton
+              onClick={() => setMobileOpen(false)}
+              size="small"
+              sx={{ bgcolor: 'rgba(0,0,0,0.05)', borderRadius: '8px', '&:hover': { bgcolor: 'rgba(0,0,0,0.08)' } }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
+
+          <Divider sx={{ mb: 2, borderColor: 'rgba(0,0,0,0.06)' }} />
+
+          {/* Navigation Links */}
+          <List disablePadding>
+            {navItems.map((item) => (
+              <ListItem
+                key={item.id}
+                onClick={() => { setMobileOpen(false); handleNavigation(item.id, item.path); }}
+                sx={{
+                  cursor: 'pointer',
+                  borderRadius: '10px',
+                  mb: 0.5,
+                  px: 1.5,
+                  py: 1.2,
+                  transition: 'all 0.2s ease',
+                  '&:hover': { bgcolor: 'rgba(255,140,47,0.08)' },
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <Box sx={{ color: '#9CA3AF' }}>{item.icon}</Box>
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 600, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
+                  />
+                </Box>
               </ListItem>
             ))}
-            <Divider sx={{ my: 1 }} />
-            <Typography variant="overline" sx={{ px: 2, color: 'text.secondary' }}>Tiện ích</Typography>
-            <ListItem onClick={() => { setMobileOpen(false); navigate('/uni'); }} sx={{ cursor: 'pointer' }}>
-              <ListItemText primary="Dự đoán đỗ đại học" />
-            </ListItem>
-            <Divider sx={{ my: 1 }} />
-            {!user && (
-              <>
-                <ListItem onClick={() => { setMobileOpen(false); navigate('/register'); }} sx={{ cursor: 'pointer' }}>
-                  <ListItemText primary="Đăng ký" sx={{ color: '#4B5563', fontWeight: 600 }} />
-                </ListItem>
-                <ListItem onClick={() => { setMobileOpen(false); navigate('/login'); }} sx={{ cursor: 'pointer' }}>
-                  <ListItemText primary="Đăng nhập" sx={{ color: '#F59E42', fontWeight: 700 }} />
-                </ListItem>
-              </>
-            )}
-            {user && (
-              <ListItem onClick={() => { setMobileOpen(false); logout(); }} sx={{ cursor: 'pointer' }}>
-                <ListItemText primary="Đăng xuất" sx={{ color: '#EF4444', fontWeight: 700 }} />
-              </ListItem>
-            )}
           </List>
+
+          <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.06)' }} />
+
+          {/* Utilities */}
+          <Typography variant="overline" sx={{ px: 1.5, color: '#9CA3AF', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em' }}>
+            Tiện ích
+          </Typography>
+          <ListItem
+            onClick={() => { setMobileOpen(false); navigate('/uni'); }}
+            sx={{ cursor: 'pointer', borderRadius: '10px', px: 1.5, py: 1.2, mt: 0.5, '&:hover': { bgcolor: 'rgba(255,140,47,0.08)' } }}
+          >
+            <ListItemText
+              primary="🎓 Dự đoán đỗ đại học"
+              primaryTypographyProps={{ fontSize: '0.9rem', fontWeight: 600, fontFamily: '"Plus Jakarta Sans", sans-serif' }}
+            />
+          </ListItem>
+
+          <Divider sx={{ my: 2, borderColor: 'rgba(0,0,0,0.06)' }} />
+
+          {/* Auth Actions */}
+          {!user ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              <Button
+                fullWidth
+                variant="outlined"
+                onClick={() => { setMobileOpen(false); navigate('/register'); }}
+                sx={{
+                  borderRadius: '12px',
+                  borderWidth: '1.5px',
+                  borderColor: 'rgba(255,140,47,0.4)',
+                  color: '#FF8C2F',
+                  fontWeight: 700,
+                  py: 1.2,
+                  fontFamily: '"Plus Jakarta Sans", sans-serif',
+                  '&:hover': { borderWidth: '1.5px', borderColor: '#FF8C2F', bgcolor: 'rgba(255,140,47,0.06)' },
+                }}
+              >
+                Đăng ký
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={() => { setMobileOpen(false); navigate('/login'); }}
+                sx={{
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+                  fontWeight: 700,
+                  py: 1.2,
+                  fontFamily: '"Plus Jakarta Sans", sans-serif',
+                  boxShadow: '0 4px 14px rgba(255,140,47,0.30)',
+                }}
+              >
+                Đăng nhập
+              </Button>
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={() => { setMobileOpen(false); navigate(user.role === 'admin' ? '/admin' : '/student'); }}
+                sx={{
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+                  fontWeight: 700,
+                  py: 1.2,
+                  fontFamily: '"Plus Jakarta Sans", sans-serif',
+                }}
+              >
+                Dashboard
+              </Button>
+              <Button
+                fullWidth
+                onClick={() => { setMobileOpen(false); logout(); }}
+                sx={{ borderRadius: '12px', color: '#EF4444', fontWeight: 600, py: 1.2, '&:hover': { bgcolor: '#FEF2F2' } }}
+              >
+                Đăng xuất
+              </Button>
+            </Box>
+          )}
         </Box>
       </Drawer>
     </>
