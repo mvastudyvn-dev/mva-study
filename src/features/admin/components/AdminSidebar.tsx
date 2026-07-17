@@ -136,6 +136,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChan
                   px: 1.6,
                   position: 'relative',
                   transition: 'all 0.2s ease',
+                  color: isActive ? '#FF8C2F' : '#94a3b8',
                   '&.Mui-selected': {
                     bgcolor: 'rgba(255, 140, 47, 0.14)',
                     color: '#FF8C2F',
@@ -155,16 +156,20 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChan
                   },
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 34, color: isActive ? '#FF8C2F' : '#94a3b8', transition: 'color 0.2s' }}>
+                <ListItemIcon sx={{ minWidth: 34, color: isActive ? '#FF8C2F !important' : '#94a3b8 !important', transition: 'color 0.2s' }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={item.label}
+                  sx={{
+                    '& .MuiTypography-root': {
+                      color: isActive ? '#FF8C2F !important' : '#e2e8f0 !important',
+                    }
+                  }}
                   primaryTypographyProps={{
                     fontSize: '0.83rem',
                     fontWeight: isActive ? 700 : 500,
                     fontFamily: '"Plus Jakarta Sans", sans-serif',
-                    color: isActive ? '#FF8C2F' : '#94a3b8',
                   }}
                 />
               </ListItemButton>
