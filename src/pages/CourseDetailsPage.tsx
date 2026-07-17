@@ -68,12 +68,8 @@ const CourseDetailsPage: React.FC = () => {
           sx={{
             py: { xs: 6, md: 8 },
             mb: 5,
-            minHeight: { md: '480px' },
-            display: 'flex',
-            alignItems: 'center',
             background: course.bgGradient || 'linear-gradient(160deg, #FFF8F2 0%, #FAFAFA 55%, #FFF3E8 100%)',
             position: 'relative',
-            overflow: 'hidden',
           }}
         >
           {/* Subtle overlay for contrast */}
@@ -127,8 +123,17 @@ const CourseDetailsPage: React.FC = () => {
               </Grid>
 
               {/* Price Card */}
-              <Grid item xs={12} md={4}>
-                <Card sx={{ borderRadius: 4, p: 3, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
+              <Grid item xs={12} md={4} sx={{ position: { md: 'relative' } }}>
+                <Box 
+                  sx={{ 
+                    position: { xs: 'static', md: 'absolute' },
+                    top: { md: 0 },
+                    right: { md: 0 },
+                    width: '100%',
+                    zIndex: 10
+                  }}
+                >
+                  <Card sx={{ borderRadius: 4, p: 3, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
                   <Typography variant="h4" sx={{ fontWeight: 800, color: '#FF8C2F', mb: 1 }}>
                     {formatPrice(course.price)}
                   </Typography>
