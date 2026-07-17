@@ -163,7 +163,7 @@ export const CourseSection: React.FC = () => {
           {courses.slice(0, 8).map((course) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={course.id}>
               <Card
-                onClick={() => navigate('/courses')}
+                onClick={() => navigate(`/courses/${course.id}`)}
                 sx={{
                   height: '100%',
                   borderRadius: '18px',

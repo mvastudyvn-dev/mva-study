@@ -235,14 +235,7 @@ const CoursesPage: React.FC = () => {
               return (
                 <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={course.id}>
                   <Card
-                    onClick={() => {
-                      if (isOwned) {
-                        navigate('/dashboard');
-                      } else {
-                        setSelectedCourse(course);
-                        setIsPaymentModalOpen(true);
-                      }
-                    }}
+                    onClick={() => navigate(`/courses/${course.id}`)}
                     sx={{
                       height: '100%',
                       borderRadius: '18px',

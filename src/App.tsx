@@ -13,6 +13,7 @@ import AdminPage from './pages/AdminPage';
 import NotFoundPage from './pages/NotFoundPage';
 import CheckDHPage from './pages/CheckDHPage';
 
+import CourseDetailsPage from './pages/CourseDetailsPage';
 import CoursesPage from './pages/CoursesPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -34,6 +35,7 @@ const App: React.FC = () => (
             <Route path="/register" element={<RouteGuard allowedRoles={['guest']}><RegisterPage /></RouteGuard>} />
             <Route path="/uni" element={<CheckDHPage />} />
             <Route path="/courses" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><CoursesPage /></RouteGuard>} />
+            <Route path="/courses/:id" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><CourseDetailsPage /></RouteGuard>} />
             <Route path="/student" element={<RouteGuard allowedRoles={['student']}><StudentPage /></RouteGuard>} />
             <Route path="/admin" element={<RouteGuard allowedRoles={['admin']}><AdminPage /></RouteGuard>} />
             <Route path="/payment-result" element={<PaymentResultPage />} />
