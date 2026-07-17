@@ -201,7 +201,7 @@ export const Footer: React.FC = () => {
               }}
             >
               <Typography sx={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
-                📚 Đang hoạt động tại Việt Nam • Hỗ trợ 24/7
+                📚 Hỗ trợ 24/7
               </Typography>
             </Box>
           </Grid>
@@ -214,7 +214,7 @@ export const Footer: React.FC = () => {
             © 2026 {systemSettings?.contactName || 'MVA Study'}. All rights reserved.
           </Typography>
           <Typography sx={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.25)' }}>
-            Made with ❤️ in Vietnam
+            Bản quyền thuộc về MVA Study
           </Typography>
         </Box>
       </Container>
