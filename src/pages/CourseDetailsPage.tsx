@@ -85,7 +85,7 @@ const CourseDetailsPage: React.FC = () => {
               Quay lại
             </Button>
 
-            <Grid container spacing={4} alignItems="center">
+            <Grid container spacing={4} alignItems="flex-start">
               <Grid item xs={12} md={8}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                   <Chip label="Nổi bật" size="small" sx={{ bgcolor: '#EF4444', color: '#fff', fontWeight: 'bold' }} />
