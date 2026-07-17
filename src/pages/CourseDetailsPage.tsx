@@ -185,7 +185,8 @@ const CourseDetailsPage: React.FC = () => {
                       <li>Hỗ trợ giải đáp thắc mắc 24/7</li>
                     </Box>
                   </Box>
-                </Card>
+                  </Card>
+                </Box>
               </Grid>
             </Grid>
           </Container>
