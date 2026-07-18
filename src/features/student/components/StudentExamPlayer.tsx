@@ -331,6 +331,27 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 }}
               />
 
+              {/* Submit button next to timer */}
+              <Button
+                variant="contained"
+                startIcon={<SendRoundedIcon sx={{ fontSize: 16 }} />}
+                onClick={handleSubmit}
+                sx={{
+                  background: 'linear-gradient(135deg, #F97316, #FB923C)',
+                  borderRadius: '10px',
+                  textTransform: 'none',
+                  fontWeight: 700,
+                  fontSize: '0.875rem',
+                  py: 0.85,
+                  boxShadow: '0 2px 8px rgba(249,115,22,0.3)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #EA580C, #F97316)',
+                    boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
+                  },
+                }}
+              >
+                Nộp bài
+              </Button>
             </>
           )}
 
@@ -371,34 +392,21 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           }}
         >
           {exam.fileUrl ? (
-            <Paper
-              elevation={0}
-              sx={{
-                flex: 1,
-                borderRadius: '12px',
-                overflow: 'hidden',
-                border: '1px solid #E2E8F0',
-                display: 'flex',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-              }}
-            >
-              <iframe
-                src={(() => {
-                  const url = exam.fileUrl;
-                  // Convert Google Drive share URL to embed/preview URL
-                  const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-                  if (driveMatch) {
-                    return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
-                  }
-                  // Already a preview or other URL
-                  return url.includes('#') ? url : `${url}#toolbar=0&view=FitH`;
-                })()}
-                width="100%"
-                height="100%"
-                style={{ border: 'none', flex: 1, display: 'block', backgroundColor: 'white' }}
-                title="Exam PDF"
-              />
-            </Paper>
+            <iframe
+              src={(() => {
+                const url = exam.fileUrl;
+                const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                if (driveMatch) {
+                  return `https://drive.google.com/file/d/${driveMatch[1]}/preview?rm=minimal`;
+                }
+                return url.includes('#') ? url : `${url}#toolbar=0&view=FitH`;
+              })()}
+              width="100%"
+              height="100%"
+              style={{ border: 'none', display: 'block', flex: 1 }}
+              title="Exam PDF"
+              allow="autoplay"
+            />
           ) : (
             <Box
               sx={{
@@ -694,44 +702,6 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 )}
               </Box>
 
-              {/* Submit button at bottom of answer sheet */}
-              {!isSubmitted && (
-                <Box
-                  sx={{
-                    p: 2,
-                    borderTop: '1px solid #F1F5F9',
-                    bgcolor: '#fff',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography sx={{ fontSize: '0.8rem', color: '#64748B' }}>
-                      Đã trả lời: <strong style={{ color: '#2563EB' }}>{answeredCount}/{numPart1Qs}</strong> câu
-                    </Typography>
-                  </Box>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    startIcon={<SendRoundedIcon sx={{ fontSize: 16 }} />}
-                    onClick={handleSubmit}
-                    sx={{
-                      background: 'linear-gradient(135deg, #F97316, #FB923C)',
-                      borderRadius: '10px',
-                      textTransform: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.95rem',
-                      py: 1.2,
-                      boxShadow: '0 2px 8px rgba(249,115,22,0.3)',
-                      '&:hover': {
-                        background: 'linear-gradient(135deg, #EA580C, #F97316)',
-                        boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
-                      },
-                    }}
-                  >
-                    Nộp bài
-                  </Button>
-                </Box>
-              )}
             </Box>
           )}
         </Box>
