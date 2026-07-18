@@ -420,26 +420,26 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           }}
         >
           {exam.fileUrl ? (
-            <iframe
-              src={(() => {
-                const url = exam.fileUrl;
-                const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-                if (driveMatch) {
-                  return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
-                }
-                return url.includes('#') ? url : `${url}#toolbar=0&view=FitH`;
-              })()}
-              style={{
-                border: 'none',
-                position: 'absolute',
-                top: '-56px', // Crop out Google Drive top toolbar
-                left: 0,
-                width: '100%',
-                height: 'calc(100% + 60px)', // Compensate for the top crop
-              }}
-              title="Exam PDF"
-              allow="autoplay"
-            />
+              <iframe
+                src={(() => {
+                  const url = exam.fileUrl;
+                  const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                  if (driveMatch) {
+                    return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+                  }
+                  return url.includes('#') ? url : `${url}#toolbar=0&view=FitH`;
+                })()}
+                style={{
+                  border: 'none',
+                  position: 'absolute',
+                  top: '-56px', // Crop out Google Drive top toolbar
+                  left: '-5%', // Shift left to center the 110% width
+                  width: '110%', // Zoom 110%
+                  height: 'calc(100% + 60px)', // Compensate for the top crop
+                }}
+                title="Exam PDF"
+                allow="autoplay"
+              />
           ) : (
             <Box
               sx={{
