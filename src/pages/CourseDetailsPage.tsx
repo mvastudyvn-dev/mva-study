@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Container, Typography, Grid, Card, Button, Rating, Chip, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, Button, Rating, Chip, Accordion, AccordionSummary, AccordionDetails, Divider } from '@mui/material';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
