@@ -2,19 +2,36 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import {
-  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentDocuments, StudentSettings, StudentTuition
+  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentDocuments, StudentSettings, StudentTuition, StudentExamPlayer
 } from '../features/student';
 
 const StudentPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'overview';
+  const examId = searchParams.get('examId');
 
   const handleTabChange = (tabId: string) => {
     setSearchParams(prev => {
       prev.set('tab', tabId);
+      prev.delete('examId');
       return prev;
     }, { replace: true });
   };
+
+  // Nếu có examId trong URL thì render ExamPlayer toàn trang
+  if (examId) {
+    return (
+      <StudentExamPlayer
+        examId={examId}
+        onExit={() => {
+          setSearchParams(prev => {
+            prev.delete('examId');
+            return prev;
+          }, { replace: true });
+        }}
+      />
+    );
+  }
 
   const renderContent = () => {
     switch (activeTab) {

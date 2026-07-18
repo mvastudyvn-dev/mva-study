@@ -246,7 +246,11 @@ const CourseDetailsPage: React.FC = () => {
                               onClick={() => {
                                 if (!isLocked) {
                                   if (isOwned) {
-                                    navigate('/student');
+                                    if (isExam) {
+                                      navigate(`/student?examId=${item.id}`);
+                                    } else {
+                                      navigate('/student');
+                                    }
                                   } else {
                                     setIsPaymentModalOpen(true);
                                   }
