@@ -128,13 +128,13 @@ export const StudentExams: React.FC<StudentExamsProps> = ({ onStartExam }) => {
               width: 72,
               height: 72,
               borderRadius: '20px',
-              background: 'linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%)',
+              background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <SchoolOutlinedIcon sx={{ fontSize: 36, color: '#6366F1' }} />
+            <SchoolOutlinedIcon sx={{ fontSize: 36, color: '#2563EB' }} />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E293B' }}>
             Chưa có khóa học
