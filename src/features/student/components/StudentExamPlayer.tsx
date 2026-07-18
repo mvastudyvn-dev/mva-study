@@ -331,7 +331,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 }}
               />
 
-              )}
+            </>
+          )}
 
         </Box>
       </Box>
@@ -691,6 +692,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                     )}
                   </Box>
                 )}
+              </Box>
+
               {/* Submit button at bottom of answer sheet */}
               {!isSubmitted && (
                 <Box
