@@ -244,36 +244,52 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           borderBottom: '1px solid #E2E8F0',
           display: 'flex',
           alignItems: 'center',
-          px: { xs: 2, md: 3 },
+          px: { xs: 1.5, sm: 2, md: 3 },
           justifyContent: 'space-between',
           flexShrink: 0,
           boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+          overflowX: 'auto',
+          '&::-webkit-scrollbar': { display: 'none' }, // Hide scrollbar for header
         }}
       >
-        {/* Exam title */}
+        {/* Exam title - hide on mobile to save space for buttons */}
         <Typography
           sx={{
             fontWeight: 800,
             fontSize: '1.05rem',
             color: '#0F172A',
             letterSpacing: '-0.3px',
-            maxWidth: { xs: 160, sm: 320, md: 500 },
+            maxWidth: { sm: 200, md: 400 },
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
+            display: { xs: 'none', sm: 'block' },
+            mr: 2
           }}
         >
           {exam.title}
         </Typography>
 
-        <Box display="flex" alignItems="center" gap={1.5} flexShrink={0} flexWrap="nowrap">
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            flexDirection: 'row', 
+            alignItems: 'center', 
+            gap: { xs: 1, sm: 1.5 }, 
+            flexShrink: 0, 
+            flexWrap: 'nowrap',
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'space-between', sm: 'flex-end' }
+          }}
+        >
           {/* Exit button */}
           <Tooltip title="Thoát khỏi bài thi">
             <Button
               variant="outlined"
-              startIcon={<CloseRoundedIcon sx={{ fontSize: 16 }} />}
               onClick={onExit}
               sx={{
+                minWidth: { xs: 40, sm: 'auto' },
+                px: { xs: 0, sm: 2 },
                 borderRadius: '10px',
                 textTransform: 'none',
                 fontWeight: 600,
@@ -285,7 +301,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 '&:hover': { borderColor: '#94A3B8', bgcolor: '#F8FAFC' },
               }}
             >
-              Thoát
+              <CloseRoundedIcon sx={{ fontSize: { xs: 20, sm: 16 }, mr: { xs: 0, sm: 0.5 } }} />
+              <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Thoát</Box>
             </Button>
           </Tooltip>
 
@@ -296,16 +313,17 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 display: 'flex',
                 alignItems: 'center',
                 gap: 0.75,
-                px: 2,
+                px: { xs: 1.5, sm: 2 },
                 py: 0.75,
                 borderRadius: '10px',
                 bgcolor: isUrgent ? 'rgba(239,68,68,0.08)' : 'rgba(59,130,246,0.08)',
                 border: `1px solid ${isUrgent ? 'rgba(239,68,68,0.25)' : 'rgba(59,130,246,0.2)'}`,
                 fontWeight: 800,
-                fontSize: '1.05rem',
+                fontSize: { xs: '0.95rem', sm: '1.05rem' },
                 color: isUrgent ? '#EF4444' : '#2563EB',
                 fontVariantNumeric: 'tabular-nums',
                 flexShrink: 0,
+                whiteSpace: 'nowrap',
                 animation: isUrgent ? 'pulse 1s ease-in-out infinite' : 'none',
                 '@keyframes pulse': {
                   '0%, 100%': { opacity: 1 },
@@ -313,7 +331,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 },
               }}
             >
-              <AccessTimeRoundedIcon sx={{ fontSize: 18 }} />
+              <AccessTimeRoundedIcon sx={{ fontSize: { xs: 16, sm: 18 } }} />
               {formatTime(timeLeft)}
             </Box>
           )}
@@ -330,7 +348,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 color: '#059669',
                 border: '1px solid rgba(16,185,129,0.2)',
                 borderRadius: '8px',
-                height: 28,
+                height: { xs: 24, sm: 28 },
                 flexShrink: 0,
               }}
             />
@@ -340,15 +358,15 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             /* Submit button */
             <Button
               variant="contained"
-              startIcon={<SendRoundedIcon sx={{ fontSize: 16 }} />}
               onClick={handleSubmit}
               sx={{
                 background: 'linear-gradient(135deg, #F97316, #FB923C)',
                 borderRadius: '10px',
                 textTransform: 'none',
                 fontWeight: 700,
-                fontSize: '0.875rem',
-                py: 0.85,
+                fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                px: { xs: 1.5, sm: 2 },
+                py: { xs: 0.6, sm: 0.85 },
                 whiteSpace: 'nowrap',
                 flexShrink: 0,
                 boxShadow: '0 2px 8px rgba(249,115,22,0.3)',
@@ -358,12 +376,14 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 },
               }}
             >
+              <SendRoundedIcon sx={{ fontSize: { xs: 14, sm: 16 }, mr: 0.5 }} />
               Nộp bài
             </Button>
           )}
 
         </Box>
       </Box>
+
 
       {/* Time progress bar */}
       {!isSubmitted && (
