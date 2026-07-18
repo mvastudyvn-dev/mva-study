@@ -130,70 +130,49 @@ const CourseDetailsPage: React.FC = () => {
                 </Box>
               </Grid>
 
-              {/* Price Card */}
-              <Grid item xs={12} md={4}>
-                <Box>
-                  <Card sx={{ borderRadius: 4, p: 3, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
-                  {!isOwned && (
-                    <>
+              {/* Price Card - only show if not owned */}
+              {!isOwned && (
+                <Grid item xs={12} md={4}>
+                  <Box>
+                    <Card sx={{ borderRadius: 4, p: 3, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
                       <Typography variant="h4" sx={{ fontWeight: 800, color: '#FF8C2F', mb: 1 }}>
                         {formatPrice(course.price)}
                       </Typography>
                       <Typography sx={{ color: '#64748B', mb: 3, fontSize: '0.9rem' }}>
                         Truy cập {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
                       </Typography>
-                    </>
-                  )}
-                  
-                  {isOwned ? (
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      onClick={() => navigate('/student')}
-                      sx={{
-                        py: 1.5,
-                        bgcolor: '#10B981',
-                        fontWeight: 700,
-                        fontSize: '1.05rem',
-                        '&:hover': { bgcolor: '#059669' }
-                      }}
-                    >
-                      Đã sở hữu - Vào học ngay
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      onClick={() => setIsPaymentModalOpen(true)}
-                      sx={{
-                        py: 1.5,
-                        background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
-                        fontWeight: 700,
-                        fontSize: '1.05rem',
-                        boxShadow: '0 4px 14px rgba(255,140,47,0.4)',
-                        '&:hover': {
-                          background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
-                        }
-                      }}
-                    >
-                      Mua ngay
-                    </Button>
-                  )}
-                  
-                  {!isOwned && (
-                    <Box sx={{ mt: 3 }}>
-                      <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Khóa học này bao gồm:</Typography>
-                      <Box component="ul" sx={{ m: 0, pl: 2, '& li': { mb: 0.5, color: '#475569', fontSize: '0.85rem' } }}>
-                        <li>Video bài giảng chất lượng cao</li>
-                        <li>Tài liệu thực hành đính kèm</li>
-                        <li>Bài kiểm tra đánh giá năng lực</li>
-                        <li>Hỗ trợ giải đáp thắc mắc 24/7</li>
+
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={() => setIsPaymentModalOpen(true)}
+                        sx={{
+                          py: 1.5,
+                          background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+                          fontWeight: 700,
+                          fontSize: '1.05rem',
+                          boxShadow: '0 4px 14px rgba(255,140,47,0.4)',
+                          '&:hover': {
+                            background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
+                          }
+                        }}
+                      >
+                        Mua ngay
+                      </Button>
+
+                      <Box sx={{ mt: 3 }}>
+                        <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Khóa học này bao gồm:</Typography>
+                        <Box component="ul" sx={{ m: 0, pl: 2, '& li': { mb: 0.5, color: '#475569', fontSize: '0.85rem' } }}>
+                          <li>Video bài giảng chất lượng cao</li>
+                          <li>Tài liệu thực hành đính kèm</li>
+                          <li>Bài kiểm tra đánh giá năng lực</li>
+                          <li>Hỗ trợ giải đáp thắc mắc 24/7</li>
+                        </Box>
                       </Box>
-                    </Box>
-                  )}
-                  </Card>
-                </Box>
-              </Grid>
+                    </Card>
+                  </Box>
+                </Grid>
+              )}
             </Grid>
           </Container>
         </Box>
