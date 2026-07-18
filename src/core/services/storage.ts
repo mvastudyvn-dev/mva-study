@@ -422,6 +422,14 @@ export const StorageService = {
     const newC = c.filter((x: ActivationCode) => x.code !== codeString);
     localStorage.setItem(STORAGE_KEYS.CODES, JSON.stringify(newC));
   },
+  async deleteActivationCodes(codeStrings: string[]) {
+    try {
+      await supabase.from('activation_codes').delete().in('code', codeStrings);
+    } catch (e) { console.error(e); }
+    const c = JSON.parse(localStorage.getItem(STORAGE_KEYS.CODES) || '[]');
+    const newC = c.filter((x: ActivationCode) => !codeStrings.includes(x.code));
+    localStorage.setItem(STORAGE_KEYS.CODES, JSON.stringify(newC));
+  },
 
   // Orders
   async getOrders(): Promise<Order[]> {

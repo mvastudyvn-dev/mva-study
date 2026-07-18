@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Box, Typography, Button, Card, CardContent, Grid,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, IconButton
+  Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, IconButton, Checkbox
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -15,6 +15,32 @@ export const ActivationCodesTable: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState('');
   const [quantity, setQuantity] = useState<number>(1);
+  const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+
+  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const deletableCodes = activationCodes.filter(c => !c.isUsed && !c.usedByEmail).map(c => c.code);
+      setSelectedCodes(deletableCodes);
+    } else {
+      setSelectedCodes([]);
+    }
+  };
+
+  const handleSelectOne = (event: React.ChangeEvent<HTMLInputElement>, code: string) => {
+    if (event.target.checked) {
+      setSelectedCodes(prev => [...prev, code]);
+    } else {
+      setSelectedCodes(prev => prev.filter(c => c !== code));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (window.confirm(`Bạn có chắc chắn muốn xóa ${selectedCodes.length} mã đã chọn không?`)) {
+      await StorageService.deleteActivationCodes(selectedCodes);
+      setSelectedCodes([]);
+      refreshData();
+    }
+  };
 
   const handleGen = async () => {
     const course = courses.find((c) => c.id === selectedCourse);
@@ -57,6 +83,18 @@ export const ActivationCodesTable: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm="auto">
             <Box display="flex" gap={1}>
+              {selectedCodes.length > 0 && (
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                  onClick={handleBulkDelete}
+                  sx={{ borderRadius: 1, fontWeight: 600 }}
+                >
+                  Xóa ({selectedCodes.length})
+                </Button>
+              )}
               <Button
                 variant="contained"
                 size="small"
@@ -81,6 +119,15 @@ export const ActivationCodesTable: React.FC = () => {
           <Table size="small">
             <TableHead>
               <TableRow>
+                <TableCell padding="checkbox" sx={{ borderBottom: '2px solid #F3F4F6' }}>
+                  <Checkbox
+                    color="primary"
+                    indeterminate={selectedCodes.length > 0 && selectedCodes.length < activationCodes.filter(c => !c.isUsed && !c.usedByEmail).length}
+                    checked={activationCodes.filter(c => !c.isUsed && !c.usedByEmail).length > 0 && selectedCodes.length === activationCodes.filter(c => !c.isUsed && !c.usedByEmail).length}
+                    onChange={handleSelectAll}
+                    disabled={activationCodes.filter(c => !c.isUsed && !c.usedByEmail).length === 0}
+                  />
+                </TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.8rem', color: '#6B7280', borderBottom: '2px solid #F3F4F6' }}>Mã kích hoạt</TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.8rem', color: '#6B7280', borderBottom: '2px solid #F3F4F6' }}>Khóa học</TableCell>
                 <TableCell sx={{ fontWeight: 600, fontSize: '0.8rem', color: '#6B7280', borderBottom: '2px solid #F3F4F6' }}>Trạng thái</TableCell>
@@ -90,8 +137,19 @@ export const ActivationCodesTable: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {activationCodes.map((code) => (
+              {activationCodes.map((code) => {
+                const isSelected = selectedCodes.includes(code.code);
+                const isDeletable = !code.isUsed && !code.usedByEmail;
+                return (
                 <TableRow key={code.code} sx={{ '&:hover': { bgcolor: '#FAFAFA' }, '& td': { borderBottom: '1px solid #F3F4F6' } }}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      checked={isSelected}
+                      onChange={(event) => handleSelectOne(event, code.code)}
+                      disabled={!isDeletable}
+                    />
+                  </TableCell>
                   <TableCell sx={{ fontSize: '0.8rem', fontWeight: 500, color: '#1F2937' }}>{code.code}</TableCell>
                   <TableCell sx={{ fontSize: '0.8rem', color: '#6B7280' }}>{code.courseName}</TableCell>
                   <TableCell>
@@ -122,7 +180,7 @@ export const ActivationCodesTable: React.FC = () => {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))}
+              )})}
             </TableBody>
           </Table>
         </TableContainer>
