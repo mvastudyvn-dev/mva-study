@@ -412,10 +412,11 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             width: '60%',
             height: '100%',
             borderRight: '1px solid #E2E8F0',
-            bgcolor: '#F8FAFC',
-            p: 2,
+            bgcolor: '#1A1A1A', // Match Google Drive dark background
             display: 'flex',
             flexDirection: 'column',
+            overflow: 'hidden',
+            position: 'relative',
           }}
         >
           {exam.fileUrl ? (
@@ -424,13 +425,18 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 const url = exam.fileUrl;
                 const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
                 if (driveMatch) {
-                  return `https://drive.google.com/file/d/${driveMatch[1]}/preview?rm=minimal`;
+                  return `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
                 }
                 return url.includes('#') ? url : `${url}#toolbar=0&view=FitH`;
               })()}
-              width="100%"
-              height="100%"
-              style={{ border: 'none', display: 'block', flex: 1 }}
+              style={{
+                border: 'none',
+                position: 'absolute',
+                top: '-56px', // Crop out Google Drive top toolbar
+                left: 0,
+                width: '100%',
+                height: 'calc(100% + 60px)', // Compensate for the top crop
+              }}
               title="Exam PDF"
               allow="autoplay"
             />
