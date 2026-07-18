@@ -266,7 +266,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           {exam.title}
         </Typography>
 
-        <Box display="flex" alignItems="center" gap={1.5}>
+        <Box display="flex" alignItems="center" gap={1.5} flexShrink={0} flexWrap="nowrap">
           {/* Exit button */}
           <Tooltip title="Thoát khỏi bài thi">
             <Button
@@ -281,6 +281,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 borderColor: '#E2E8F0',
                 color: '#64748B',
                 py: 0.75,
+                whiteSpace: 'nowrap',
                 '&:hover': { borderColor: '#94A3B8', bgcolor: '#F8FAFC' },
               }}
             >
@@ -289,70 +290,76 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           </Tooltip>
 
           {!isSubmitted && (
-            <>
-              {/* Timer */}
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.75,
-                  px: 2,
-                  py: 0.75,
-                  borderRadius: '10px',
-                  bgcolor: isUrgent ? 'rgba(239,68,68,0.08)' : 'rgba(59,130,246,0.08)',
-                  border: `1px solid ${isUrgent ? 'rgba(239,68,68,0.25)' : 'rgba(59,130,246,0.2)'}`,
-                  fontWeight: 800,
-                  fontSize: '1.05rem',
-                  color: isUrgent ? '#EF4444' : '#2563EB',
-                  fontVariantNumeric: 'tabular-nums',
-                  animation: isUrgent ? 'pulse 1s ease-in-out infinite' : 'none',
-                  '@keyframes pulse': {
-                    '0%, 100%': { opacity: 1 },
-                    '50%': { opacity: 0.6 },
-                  },
-                }}
-              >
-                <AccessTimeRoundedIcon sx={{ fontSize: 18 }} />
-                {formatTime(timeLeft)}
-              </Box>
+            /* Timer */
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.75,
+                px: 2,
+                py: 0.75,
+                borderRadius: '10px',
+                bgcolor: isUrgent ? 'rgba(239,68,68,0.08)' : 'rgba(59,130,246,0.08)',
+                border: `1px solid ${isUrgent ? 'rgba(239,68,68,0.25)' : 'rgba(59,130,246,0.2)'}`,
+                fontWeight: 800,
+                fontSize: '1.05rem',
+                color: isUrgent ? '#EF4444' : '#2563EB',
+                fontVariantNumeric: 'tabular-nums',
+                flexShrink: 0,
+                animation: isUrgent ? 'pulse 1s ease-in-out infinite' : 'none',
+                '@keyframes pulse': {
+                  '0%, 100%': { opacity: 1 },
+                  '50%': { opacity: 0.6 },
+                },
+              }}
+            >
+              <AccessTimeRoundedIcon sx={{ fontSize: 18 }} />
+              {formatTime(timeLeft)}
+            </Box>
+          )}
 
-              {/* Progress pill */}
-              <Chip
-                label={`${answeredCount}/${numPart1Qs}`}
-                size="small"
-                sx={{
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  bgcolor: 'rgba(16,185,129,0.1)',
-                  color: '#059669',
-                  border: '1px solid rgba(16,185,129,0.2)',
-                  borderRadius: '8px',
-                  height: 28,
-                }}
-              />
+          {!isSubmitted && (
+            /* Progress pill */
+            <Chip
+              label={`${answeredCount}/${numPart1Qs}`}
+              size="small"
+              sx={{
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                bgcolor: 'rgba(16,185,129,0.1)',
+                color: '#059669',
+                border: '1px solid rgba(16,185,129,0.2)',
+                borderRadius: '8px',
+                height: 28,
+                flexShrink: 0,
+              }}
+            />
+          )}
 
-              {/* Submit button next to timer */}
-              <Button
-                variant="contained"
-                startIcon={<SendRoundedIcon sx={{ fontSize: 16 }} />}
-                onClick={handleSubmit}
-                sx={{
-                  background: 'linear-gradient(135deg, #F97316, #FB923C)',
-                  borderRadius: '10px',
-                  textTransform: 'none',
-                  fontWeight: 700,
-                  fontSize: '0.875rem',
-                  py: 0.85,
-                  boxShadow: '0 2px 8px rgba(249,115,22,0.3)',
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #EA580C, #F97316)',
-                    boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
-                  },
-                }}
-              >
-                Nộp bài
-              </Button>
-            </>
+          {!isSubmitted && (
+            /* Submit button */
+            <Button
+              variant="contained"
+              startIcon={<SendRoundedIcon sx={{ fontSize: 16 }} />}
+              onClick={handleSubmit}
+              sx={{
+                background: 'linear-gradient(135deg, #F97316, #FB923C)',
+                borderRadius: '10px',
+                textTransform: 'none',
+                fontWeight: 700,
+                fontSize: '0.875rem',
+                py: 0.85,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(249,115,22,0.3)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #EA580C, #F97316)',
+                  boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
+                },
+              }}
+            >
+              Nộp bài
+            </Button>
           )}
 
         </Box>
