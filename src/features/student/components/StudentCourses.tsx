@@ -8,9 +8,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { StorageService } from '../../../core/services/storage';
+import { useNavigate } from 'react-router-dom';
 
 export const StudentCourses: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { courses, activationCodes, refreshData, allUserProgress, lessons } = useData();
   const [openModal, setOpenModal] = useState(false);
   const [inputCode, setInputCode] = useState('');
@@ -61,11 +63,13 @@ export const StudentCourses: React.FC = () => {
           return (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={course.id}>
               <Card
+                onClick={() => navigate(`/courses/${course.id}`)}
                 sx={{
                   borderRadius: 1,
                   overflow: 'hidden',
                   border: '1px solid #F3F4F6',
                   height: '100%',
+                  cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   '&:hover': {
                     boxShadow: '0 12px 30px rgba(0,0,0,0.08)',

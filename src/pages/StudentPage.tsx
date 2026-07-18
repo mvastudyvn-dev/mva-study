@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import {
-  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentExams, StudentExamPlayer, StudentVideos, StudentDocuments, StudentSettings, StudentTuition
+  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentDocuments, StudentSettings, StudentTuition
 } from '../features/student';
 
 const StudentPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'overview';
-  const [activeExamId, setActiveExamId] = useState<string | null>(null);
 
   const handleTabChange = (tabId: string) => {
     setSearchParams(prev => {
@@ -16,10 +15,6 @@ const StudentPage: React.FC = () => {
       return prev;
     }, { replace: true });
   };
-
-  if (activeExamId) {
-    return <StudentExamPlayer examId={activeExamId} onExit={() => setActiveExamId(null)} />;
-  }
 
   const renderContent = () => {
     switch (activeTab) {
@@ -32,10 +27,6 @@ const StudentPage: React.FC = () => {
         );
       case 'courses':
         return <StudentCourses />;
-      case 'videos':
-        return <StudentVideos />;
-      case 'exams':
-        return <StudentExams onStartExam={setActiveExamId} />;
       case 'documents':
         return <StudentDocuments />;
       case 'notifications':

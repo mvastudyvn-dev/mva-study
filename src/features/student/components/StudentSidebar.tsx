@@ -20,8 +20,6 @@ import logo from '../../../assets/logo1.png';
 const menuItems = [
   { id: 'overview', label: 'Trang chủ', icon: <HomeRoundedIcon fontSize="small" /> },
   { id: 'courses', label: 'Khóa học của tôi', icon: <SchoolRoundedIcon fontSize="small" /> },
-  { id: 'videos', label: 'Bài giảng', icon: <VideoLibraryRoundedIcon fontSize="small" /> },
-  { id: 'exams', label: 'Đề thi thử', icon: <AssignmentRoundedIcon fontSize="small" /> },
   { id: 'documents', label: 'Tài liệu', icon: <DescriptionRoundedIcon fontSize="small" /> },
   { id: 'tuition', label: 'Học phí', icon: <PaymentsRoundedIcon fontSize="small" /> },
   { id: 'notifications', label: 'Thông báo', icon: <NotificationsRoundedIcon fontSize="small" /> },

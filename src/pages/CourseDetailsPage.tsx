@@ -85,7 +85,7 @@ const CourseDetailsPage: React.FC = () => {
           
           <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
             <Button 
-              onClick={() => navigate('/courses')}
+              onClick={() => navigate(isOwned ? '/student' : '/courses')}
               sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, '&:hover': { color: '#fff', bgcolor: 'rgba(255,255,255,0.1)' } }}
               startIcon={<ArrowBackRoundedIcon />}
             >
