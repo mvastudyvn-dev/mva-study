@@ -47,6 +47,10 @@ export const AdminExams: React.FC = () => {
     part2: Array(6).fill(['T', 'F', 'T', 'F'])
   }, null, 2);
 
+  const defaultStandardKey = JSON.stringify({
+    part1: Array(10).fill('A')
+  }, null, 2);
+
   const handleDownloadTemplate = () => {
     const ws_data = [
       ['Phần', 'Câu số', 'Đáp án (Phần 1) / Ý a (Phần 2)', 'Ý b (Chỉ dùng cho Phần 2)', 'Ý c (Chỉ dùng cho Phần 2)', 'Ý d (Chỉ dùng cho Phần 2)']
@@ -277,7 +281,11 @@ export const AdminExams: React.FC = () => {
                 select
                 fullWidth label="Định dạng bài thi"
                 value={formData.format || 'standard'}
-                onChange={(e) => setFormData({ ...formData, format: e.target.value as any })}
+                onChange={(e) => {
+                  const newFormat = e.target.value as any;
+                  setFormData({ ...formData, format: newFormat });
+                  setAnswerKeyText(newFormat === 'standard' ? defaultStandardKey : defaultTHPTKey);
+                }}
               >
                 <MenuItem value="thpt_2025">Cấu trúc THPT 2025 (Tin học)</MenuItem>
                 <MenuItem value="standard">Tiêu chuẩn (A,B,C,D)</MenuItem>
