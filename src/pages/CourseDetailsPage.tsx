@@ -128,7 +128,7 @@ const CourseDetailsPage: React.FC = () => {
                   sx={{ 
                     position: { xs: 'static', md: 'absolute' },
                     top: { md: 0 },
-                    right: { md: 0 },
+                    left: { md: 0 },
                     width: { xs: '100%', md: '380px' },
                     zIndex: 10
                   }}
