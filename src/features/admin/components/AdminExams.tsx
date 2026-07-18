@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Button, Card, CardContent,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, MenuItem, CircularProgress, Tooltip, Stack
+  IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, MenuItem, Tooltip, Stack
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -37,7 +37,6 @@ export const AdminExams: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Exam>>({
     id: '', courseId: '', title: '', timeLimit: 50, format: 'thpt_2025', fileUrl: '', answerKey: ''
   });
-  const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [answerKeyText, setAnswerKeyText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,26 +46,6 @@ export const AdminExams: React.FC = () => {
     part1: Array(24).fill('A'),
     part2: Array(6).fill(['T', 'F', 'T', 'F'])
   }, null, 2);
-
-  const handleUploadExamFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsUploadingFile(true);
-    try {
-      const url = await StorageService.uploadFile(file, 'exams');
-      if (url) {
-        setFormData({ ...formData, fileUrl: url });
-      } else {
-        alert('Lỗi tải file. Vui lòng thử lại.');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Lỗi tải file');
-    } finally {
-      setIsUploadingFile(false);
-    }
-  };
 
   const handleDownloadTemplate = () => {
     const ws_data = [
@@ -305,28 +284,12 @@ export const AdminExams: React.FC = () => {
               </TextField>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Box display="flex" gap={1} alignItems="center">
-                <TextField
-                  fullWidth label="Link File Đề thi (PDF / Ảnh)"
-                  value={formData.fileUrl || ''}
-                  onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
-                  placeholder="https://..."
-                />
-                <Button 
-                  variant="contained" 
-                  component="label"
-                  disabled={isUploadingFile}
-                  sx={{ minWidth: 120, height: 56, bgcolor: '#10B981', boxShadow: '0 4px 14px 0 rgba(16, 185, 129, 0.39)', transition: 'all 0.2s', '&:hover': { bgcolor: '#059669', boxShadow: '0 6px 20px rgba(16, 185, 129, 0.23)' } }}
-                >
-                  {isUploadingFile ? <CircularProgress size={24} color="inherit" /> : 'Tải File'}
-                  <input
-                    type="file"
-                    hidden
-                    accept=".pdf, image/*"
-                    onChange={handleUploadExamFile}
-                  />
-                </Button>
-              </Box>
+              <TextField
+                fullWidth label="Link File Đề thi (Google Drive / URL)"
+                value={formData.fileUrl || ''}
+                onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
+                placeholder="https://drive.google.com/..."
+              />
             </Grid>
             <Grid item xs={12}>
               <Box display="flex" gap={2} mb={1}>
@@ -373,7 +336,7 @@ export const AdminExams: React.FC = () => {
           <Button
             onClick={handleSave}
             variant="contained"
-            disabled={!formData.title || isUploadingFile}
+            disabled={!formData.title}
             sx={{ 
               bgcolor: '#FF8C2F', 
               borderRadius: 1, 

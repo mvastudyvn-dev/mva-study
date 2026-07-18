@@ -33,6 +33,9 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   // For THPT 2025 UI Tabs
   const [activeTab, setActiveTab] = useState(0);
 
+  const isStandard = exam?.format === 'standard';
+  const numPart1Qs = isStandard && Array.isArray(exam?.answerKey?.part1) ? exam.answerKey.part1.length : 24;
+
   useEffect(() => {
     if (!exam || isSubmitted) return;
     const timer = setInterval(() => {
@@ -90,49 +93,55 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
     const answerKey = exam.answerKey || { part1: [], part2: [] };
 
     // Part 1 Grading
-    for (let i = 0; i < 24; i++) {
+    for (let i = 0; i < numPart1Qs; i++) {
       if (answers.part1[i] === answerKey.part1[i]) {
-        p1Score += 0.25;
+        if (isStandard) {
+          p1Score += 10 / (numPart1Qs || 1);
+        } else {
+          p1Score += 0.25;
+        }
       } else {
         p1Wrong++;
       }
     }
 
-    // Part 2 Grading Helper
-    const gradePart2Question = (qIndex: number) => {
-      const studentAns = answers.part2[qIndex] || {};
-      const keyAns = answerKey.part2[qIndex] || [];
-      let correctSubItems = 0;
-      for (let j = 0; j < 4; j++) {
-        // T = true, F = false
-        const k = keyAns[j] === 'T';
-        if (studentAns[j] === k) {
-          correctSubItems++;
-        } else {
-          p2WrongItems++;
+    if (!isStandard) {
+      // Part 2 Grading Helper
+      const gradePart2Question = (qIndex: number) => {
+        const studentAns = answers.part2[qIndex] || {};
+        const keyAns = answerKey.part2[qIndex] || [];
+        let correctSubItems = 0;
+        for (let j = 0; j < 4; j++) {
+          // T = true, F = false
+          const k = keyAns[j] === 'T';
+          if (studentAns[j] === k) {
+            correctSubItems++;
+          } else {
+            p2WrongItems++;
+          }
         }
+        if (correctSubItems === 1) return 0.1;
+        if (correctSubItems === 2) return 0.25;
+        if (correctSubItems === 3) return 0.5;
+        if (correctSubItems === 4) return 1.0;
+        return 0;
+      };
+
+      // Common (0, 1)
+      p2Score += gradePart2Question(0);
+      p2Score += gradePart2Question(1);
+
+      // Chosen Subject
+      if (answers.chosenSubject === 'CS') {
+        p2Score += gradePart2Question(2);
+        p2Score += gradePart2Question(3);
+      } else if (answers.chosenSubject === 'IT') {
+        p2Score += gradePart2Question(4);
+        p2Score += gradePart2Question(5);
       }
-      if (correctSubItems === 1) return 0.1;
-      if (correctSubItems === 2) return 0.25;
-      if (correctSubItems === 3) return 0.5;
-      if (correctSubItems === 4) return 1.0;
-      return 0;
-    };
-
-    // Common (0, 1)
-    p2Score += gradePart2Question(0);
-    p2Score += gradePart2Question(1);
-
-    // Chosen Subject
-    if (answers.chosenSubject === 'CS') {
-      p2Score += gradePart2Question(2);
-      p2Score += gradePart2Question(3);
-    } else if (answers.chosenSubject === 'IT') {
-      p2Score += gradePart2Question(4);
-      p2Score += gradePart2Question(5);
     }
 
-    const total = p1Score + p2Score;
+    const total = isStandard ? p1Score : p1Score + p2Score;
     if (user?.id) {
       markExamCompleted(user.id, exam.id, total);
     }
@@ -208,7 +217,11 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
               <Box sx={{ textAlign: 'center', mb: 4 }}>
                 <CheckCircleIcon sx={{ fontSize: 64, color: '#10B981', mb: 1 }} />
                 <Typography variant="h4" sx={{ fontWeight: 800, color: '#1F2937' }}>{result.total.toFixed(2)} / 10.0</Typography>
-                <Typography sx={{ color: '#6B7280' }}>Phần 1: {result.p1Score.toFixed(2)}đ | Phần 2: {result.p2Score.toFixed(2)}đ</Typography>
+                <Typography sx={{ color: '#6B7280' }}>
+                  {isStandard 
+                    ? `Trắc nghiệm: ${result.total.toFixed(2)}đ`
+                    : `Phần 1: ${result.p1Score.toFixed(2)}đ | Phần 2: ${result.p2Score.toFixed(2)}đ`}
+                </Typography>
               </Box>
 
               <Paper sx={{ p: 3, borderRadius: 1, bgcolor: 'rgba(59, 130, 246, 0.05)', border: '1px solid rgba(59, 130, 246, 0.1)' }}>
@@ -229,14 +242,16 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             </Box>
           ) : (
             <Box p={2}>
-              <Tabs value={activeTab} onChange={(e, v) => setActiveTab(v)} sx={{ mb: 2 }}>
-                <Tab label="PHẦN I (24 Câu)" sx={{ fontWeight: 600 }} />
-                <Tab label="PHẦN II (Đúng/Sai)" sx={{ fontWeight: 600 }} />
-              </Tabs>
+              {!isStandard && (
+                <Tabs value={activeTab} onChange={(e, v) => setActiveTab(v)} sx={{ mb: 2 }}>
+                  <Tab label="PHẦN I (24 Câu)" sx={{ fontWeight: 600 }} />
+                  <Tab label="PHẦN II (Đúng/Sai)" sx={{ fontWeight: 600 }} />
+                </Tabs>
+              )}
 
-              {activeTab === 0 && (
+              {(activeTab === 0 || isStandard) && (
                 <Grid container spacing={2}>
-                  {Array.from({ length: 24 }).map((_, i) => (
+                  {Array.from({ length: numPart1Qs }).map((_, i) => (
                     <Grid item xs={6} sm={4} key={i}>
                       <Box sx={{ p: 1, border: '1px solid #E5E7EB', borderRadius: 1 }}>
                         <Typography sx={{ fontWeight: 600, mb: 0.5, fontSize: '0.9rem' }}>Câu {i + 1}</Typography>
@@ -251,7 +266,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 </Grid>
               )}
 
-              {activeTab === 1 && (
+              {activeTab === 1 && !isStandard && (
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1, color: '#1F2937' }}>A. Phần chung (Câu 1, 2)</Typography>
                   {[0, 1].map((qIndex) => (
