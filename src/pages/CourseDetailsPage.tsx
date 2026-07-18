@@ -6,6 +6,7 @@ import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
@@ -16,7 +17,7 @@ const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(pri
 const CourseDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { courses, lessons, activationCodes, refreshData, allUserProgress } = useData();
+  const { courses, lessons, exams, activationCodes, refreshData, allUserProgress } = useData();
   const { user } = useAuth();
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -34,6 +35,10 @@ const CourseDetailsPage: React.FC = () => {
       .filter(l => l.courseId === id)
       .sort((a, b) => a.order - b.order);
   }, [lessons, id]);
+
+  const courseExams = useMemo(() => {
+    return (exams || []).filter(e => e.courseId === id);
+  }, [exams, id]);
 
   const isOwned = useMemo(() => {
     return activationCodes.some((c) => c.usedByEmail === user?.email && c.courseId === id);
@@ -118,7 +123,7 @@ const CourseDetailsPage: React.FC = () => {
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#E2E8F0' }}>
                     <AccessTimeRoundedIcon sx={{ fontSize: 18 }} />
-                    <Typography>{courseLessons.length} bài học</Typography>
+                    <Typography>{courseLessons.length + courseExams.length} nội dung</Typography>
                   </Box>
                 </Box>
               </Grid>
@@ -191,12 +196,12 @@ const CourseDetailsPage: React.FC = () => {
             <Grid item xs={12} md={8}>
               <Box sx={{ bgcolor: '#fff', borderRadius: 4, p: { xs: 3, md: 4 }, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
                 <Typography variant="h5" sx={{ fontWeight: 800, color: '#0F172A', mb: 3 }}>
-                  Danh sách bài học
+                  Danh sách bài học & Đề thi
                 </Typography>
 
-                {courseLessons.length === 0 ? (
+                {courseLessons.length === 0 && courseExams.length === 0 ? (
                   <Typography sx={{ color: '#64748B', py: 4, textAlign: 'center' }}>
-                    Chưa có bài học nào được thêm vào khóa học này.
+                    Chưa có bài học hay đề thi nào được thêm vào khóa học này.
                   </Typography>
                 ) : (
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -286,6 +291,79 @@ const CourseDetailsPage: React.FC = () => {
                                   }}
                                 >
                                   {isOwned ? 'Học ngay' : 'Học thử'}
+                                </Button>
+                              </Box>
+                            </Box>
+                          </AccordionDetails>
+                        </Accordion>
+                      );
+                    })}
+                    {courseExams.map((exam) => {
+                      return (
+                        <Accordion 
+                          key={exam.id}
+                          expanded={expandedAccordion === exam.id}
+                          onChange={handleAccordionChange(exam.id)}
+                          sx={{ 
+                            boxShadow: 'none', 
+                            bgcolor: '#F8FAFC',
+                            borderRadius: '12px !important',
+                            '&:before': { display: 'none' },
+                            border: '1px solid rgba(0,0,0,0.04)',
+                            overflow: 'hidden'
+                          }}
+                        >
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B' }} />}
+                            sx={{ 
+                              p: 2, 
+                              '& .MuiAccordionSummary-content': { 
+                                m: 0, 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'space-between',
+                                pr: 2
+                              } 
+                            }}
+                          >
+                            <Typography sx={{ fontWeight: 600, color: '#1E293B', fontSize: '1rem', flex: 1, textTransform: 'uppercase' }}>
+                              [Đề thi] {exam.title}
+                            </Typography>
+                          </AccordionSummary>
+                          <AccordionDetails sx={{ p: 0 }}>
+                            <Divider />
+                            <Box sx={{ p: 2, pl: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: '#fff' }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                <AssignmentOutlinedIcon sx={{ color: '#94A3B8' }} />
+                                <Typography sx={{ color: '#475569', fontSize: '0.9rem' }}>
+                                  Đề kiểm tra trắc nghiệm
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                <Typography sx={{ color: '#64748B', fontSize: '0.85rem' }}>
+                                  {exam.timeLimit} phút
+                                </Typography>
+                                <Button 
+                                  size="small" 
+                                  variant="outlined" 
+                                  sx={{ 
+                                    borderRadius: 2, 
+                                    textTransform: 'none', 
+                                    fontWeight: 600,
+                                    borderColor: '#E2E8F0',
+                                    color: '#0F172A',
+                                    '&:hover': { bgcolor: '#F1F5F9', borderColor: '#CBD5E1' }
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (isOwned) {
+                                      navigate('/student');
+                                    } else {
+                                      setIsPaymentModalOpen(true);
+                                    }
+                                  }}
+                                >
+                                  {isOwned ? 'Thi ngay' : 'Thi thử'}
                                 </Button>
                               </Box>
                             </Box>
