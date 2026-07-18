@@ -134,12 +134,16 @@ const CourseDetailsPage: React.FC = () => {
               <Grid item xs={12} md={4}>
                 <Box>
                   <Card sx={{ borderRadius: 4, p: 3, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
-                  <Typography variant="h4" sx={{ fontWeight: 800, color: '#FF8C2F', mb: 1 }}>
-                    {formatPrice(course.price)}
-                  </Typography>
-                  <Typography sx={{ color: '#64748B', mb: 3, fontSize: '0.9rem' }}>
-                    Truy cập {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
-                  </Typography>
+                  {!isOwned && (
+                    <>
+                      <Typography variant="h4" sx={{ fontWeight: 800, color: '#FF8C2F', mb: 1 }}>
+                        {formatPrice(course.price)}
+                      </Typography>
+                      <Typography sx={{ color: '#64748B', mb: 3, fontSize: '0.9rem' }}>
+                        Truy cập {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
+                      </Typography>
+                    </>
+                  )}
                   
                   {isOwned ? (
                     <Button
@@ -176,15 +180,17 @@ const CourseDetailsPage: React.FC = () => {
                     </Button>
                   )}
                   
-                  <Box sx={{ mt: 3 }}>
-                    <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Khóa học này bao gồm:</Typography>
-                    <Box component="ul" sx={{ m: 0, pl: 2, '& li': { mb: 0.5, color: '#475569', fontSize: '0.85rem' } }}>
-                      <li>Video bài giảng chất lượng cao</li>
-                      <li>Tài liệu thực hành đính kèm</li>
-                      <li>Bài kiểm tra đánh giá năng lực</li>
-                      <li>Hỗ trợ giải đáp thắc mắc 24/7</li>
+                  {!isOwned && (
+                    <Box sx={{ mt: 3 }}>
+                      <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Khóa học này bao gồm:</Typography>
+                      <Box component="ul" sx={{ m: 0, pl: 2, '& li': { mb: 0.5, color: '#475569', fontSize: '0.85rem' } }}>
+                        <li>Video bài giảng chất lượng cao</li>
+                        <li>Tài liệu thực hành đính kèm</li>
+                        <li>Bài kiểm tra đánh giá năng lực</li>
+                        <li>Hỗ trợ giải đáp thắc mắc 24/7</li>
+                      </Box>
                     </Box>
-                  </Box>
+                  )}
                   </Card>
                 </Box>
               </Grid>
