@@ -7,6 +7,9 @@ import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
@@ -46,9 +49,8 @@ const CourseDetailsPage: React.FC = () => {
 
   const userProgress = user ? allUserProgress[user.id] : null;
 
-  const handleAccordionChange = (panelId: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpandedAccordion(isExpanded ? panelId : false);
-  };
+  // No longer need expandedAccordion state for individual items
+
 
   if (!course) {
     return (
@@ -195,183 +197,141 @@ const CourseDetailsPage: React.FC = () => {
           <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
               <Box sx={{ bgcolor: '#fff', borderRadius: 4, p: { xs: 3, md: 4 }, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                <Typography variant="h5" sx={{ fontWeight: 800, color: '#0F172A', mb: 3 }}>
-                  Danh sách bài học & Đề thi
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
+                  <LayersOutlinedIcon sx={{ color: '#1E3A8A', fontSize: 28 }} />
+                  <Typography variant="h5" sx={{ fontWeight: 800, color: '#1E3A8A' }}>
+                    Nội dung bài học
+                  </Typography>
+                </Box>
 
                 {courseLessons.length === 0 && courseExams.length === 0 ? (
                   <Typography sx={{ color: '#64748B', py: 4, textAlign: 'center' }}>
                     Chưa có bài học hay đề thi nào được thêm vào khóa học này.
                   </Typography>
                 ) : (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    {courseLessons.map((lesson, index) => {
-                      const isCompleted = userProgress?.completedLessons?.includes(lesson.id) || false;
-                      const progress = isCompleted ? 100 : 0; 
-                      
-                      return (
-                        <Accordion 
-                          key={lesson.id}
-                          expanded={expandedAccordion === lesson.id}
-                          onChange={handleAccordionChange(lesson.id)}
-                          sx={{ 
-                            boxShadow: 'none', 
-                            bgcolor: '#F8FAFC',
-                            borderRadius: '12px !important',
-                            '&:before': { display: 'none' },
-                            border: '1px solid rgba(0,0,0,0.04)',
-                            overflow: 'hidden'
-                          }}
-                        >
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B' }} />}
-                            sx={{ 
-                              p: 2, 
-                              '& .MuiAccordionSummary-content': { 
-                                m: 0, 
+                  <Accordion 
+                    defaultExpanded
+                    sx={{ 
+                      boxShadow: 'none', 
+                      bgcolor: '#fff',
+                      borderRadius: '12px !important',
+                      '&:before': { display: 'none' },
+                      border: '1px solid #E2E8F0',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B' }} />}
+                      sx={{ 
+                        p: 2, px: 3,
+                        borderBottom: '1px solid #E2E8F0',
+                        '& .MuiAccordionSummary-content': { 
+                          m: 0, 
+                          display: 'flex', 
+                          flexDirection: 'column',
+                          gap: 0.5
+                        } 
+                      }}
+                    >
+                      <Typography sx={{ fontWeight: 700, color: '#0F172A', fontSize: '1.05rem' }}>
+                        Nội dung khóa học
+                      </Typography>
+                      <Typography sx={{ fontSize: '0.85rem', color: '#64748B' }}>
+                        {courseLessons.length + courseExams.length} bài học • 0 phút
+                      </Typography>
+                    </AccordionSummary>
+                    
+                    <AccordionDetails sx={{ p: 0 }}>
+                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        {[...courseLessons, ...courseExams].map((item, index) => {
+                          const isExam = 'timeLimit' in item;
+                          const duration = isExam ? `${item.timeLimit} phút` : item.duration || '0 phút';
+                          
+                          // Mock trial logic: first 2 items are free to try
+                          const isTrial = index < 2;
+                          const isLocked = !isOwned && !isTrial;
+
+                          return (
+                            <Box 
+                              key={item.id}
+                              sx={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
-                                justifyContent: 'space-between',
-                                pr: 2
-                              } 
-                            }}
-                          >
-                            <Typography sx={{ fontWeight: 600, color: '#1E293B', fontSize: '1rem', flex: 1, textTransform: 'uppercase' }}>
-                              {lesson.title}
-                            </Typography>
-                            
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 150, justifyContent: 'flex-end' }}>
-                              <Typography sx={{ fontSize: '0.85rem', color: '#64748B', fontWeight: 500, width: 32, textAlign: 'right' }}>
-                                {progress}%
-                              </Typography>
-                              <LinearProgress 
-                                variant="determinate" 
-                                value={progress} 
-                                sx={{ 
-                                  width: 80, 
-                                  height: 6, 
-                                  borderRadius: 3,
-                                  bgcolor: '#E2E8F0',
-                                  '& .MuiLinearProgress-bar': { bgcolor: progress === 100 ? '#10B981' : '#CBD5E1' }
-                                }} 
-                              />
-                            </Box>
-                          </AccordionSummary>
-                          <AccordionDetails sx={{ p: 0 }}>
-                            <Divider />
-                            <Box sx={{ p: 2, pl: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: '#fff' }}>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                <PlayCircleOutlineRoundedIcon sx={{ color: '#94A3B8' }} />
-                                <Typography sx={{ color: '#475569', fontSize: '0.9rem' }}>
-                                  Video bài giảng
-                                </Typography>
-                              </Box>
+                                justifyContent: 'space-between', 
+                                p: 2, px: 3,
+                                borderBottom: index < courseLessons.length + courseExams.length - 1 ? '1px solid #F1F5F9' : 'none',
+                                '&:hover': { bgcolor: '#F8FAFC' },
+                                cursor: isLocked ? 'default' : 'pointer'
+                              }}
+                              onClick={() => {
+                                if (!isLocked) {
+                                  if (isOwned) {
+                                    navigate('/student');
+                                  } else {
+                                    setIsPaymentModalOpen(true);
+                                  }
+                                }
+                              }}
+                            >
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                <Typography sx={{ color: '#64748B', fontSize: '0.85rem' }}>
-                                  {lesson.duration || '00:00'}
+                                {isExam ? (
+                                  <AssignmentOutlinedIcon sx={{ color: '#60A5FA', fontSize: 22 }} />
+                                ) : (
+                                  <DescriptionOutlinedIcon sx={{ color: '#60A5FA', fontSize: 22 }} />
+                                )}
+                                <Typography sx={{ fontWeight: 500, color: '#475569', fontSize: '0.95rem' }}>
+                                  {isExam ? `[Đề thi] ${item.title}` : item.title}
                                 </Typography>
-                                <Button 
-                                  size="small" 
-                                  variant="outlined" 
-                                  sx={{ 
-                                    borderRadius: 2, 
-                                    textTransform: 'none', 
-                                    fontWeight: 600,
-                                    borderColor: '#E2E8F0',
-                                    color: '#0F172A',
-                                    '&:hover': { bgcolor: '#F1F5F9', borderColor: '#CBD5E1' }
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (isOwned) {
-                                      navigate('/student');
-                                    } else {
-                                      setIsPaymentModalOpen(true);
-                                    }
-                                  }}
-                                >
-                                  {isOwned ? 'Học ngay' : 'Học thử'}
-                                </Button>
+                              </Box>
+                              
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                                {!isOwned ? (
+                                  isLocked ? (
+                                    <LockOutlinedIcon sx={{ color: '#CBD5E1', fontSize: 20 }} />
+                                  ) : (
+                                    <Button 
+                                      variant="outlined" 
+                                      size="small"
+                                      sx={{ 
+                                        color: '#F97316', 
+                                        borderColor: '#F97316', 
+                                        borderRadius: '20px', 
+                                        textTransform: 'none', 
+                                        fontWeight: 600,
+                                        py: 0.2, px: 2,
+                                        '&:hover': { bgcolor: '#FFF7ED', borderColor: '#F97316' }
+                                      }}
+                                    >
+                                      Học thử
+                                    </Button>
+                                  )
+                                ) : (
+                                  <Button 
+                                      variant="outlined" 
+                                      size="small"
+                                      sx={{ 
+                                        color: '#10B981', 
+                                        borderColor: '#10B981', 
+                                        borderRadius: '20px', 
+                                        textTransform: 'none', 
+                                        fontWeight: 600,
+                                        py: 0.2, px: 2,
+                                        '&:hover': { bgcolor: '#ECFDF5', borderColor: '#10B981' }
+                                      }}
+                                    >
+                                      {isExam ? 'Thi ngay' : 'Học ngay'}
+                                    </Button>
+                                )}
+                                <Typography sx={{ fontSize: '0.85rem', color: '#94A3B8', minWidth: '55px', textAlign: 'right' }}>
+                                  {duration}
+                                </Typography>
                               </Box>
                             </Box>
-                          </AccordionDetails>
-                        </Accordion>
-                      );
-                    })}
-                    {courseExams.map((exam) => {
-                      return (
-                        <Accordion 
-                          key={exam.id}
-                          expanded={expandedAccordion === exam.id}
-                          onChange={handleAccordionChange(exam.id)}
-                          sx={{ 
-                            boxShadow: 'none', 
-                            bgcolor: '#F8FAFC',
-                            borderRadius: '12px !important',
-                            '&:before': { display: 'none' },
-                            border: '1px solid rgba(0,0,0,0.04)',
-                            overflow: 'hidden'
-                          }}
-                        >
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B' }} />}
-                            sx={{ 
-                              p: 2, 
-                              '& .MuiAccordionSummary-content': { 
-                                m: 0, 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'space-between',
-                                pr: 2
-                              } 
-                            }}
-                          >
-                            <Typography sx={{ fontWeight: 600, color: '#1E293B', fontSize: '1rem', flex: 1, textTransform: 'uppercase' }}>
-                              [Đề thi] {exam.title}
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails sx={{ p: 0 }}>
-                            <Divider />
-                            <Box sx={{ p: 2, pl: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between', bgcolor: '#fff' }}>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                <AssignmentOutlinedIcon sx={{ color: '#94A3B8' }} />
-                                <Typography sx={{ color: '#475569', fontSize: '0.9rem' }}>
-                                  Đề kiểm tra trắc nghiệm
-                                </Typography>
-                              </Box>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                <Typography sx={{ color: '#64748B', fontSize: '0.85rem' }}>
-                                  {exam.timeLimit} phút
-                                </Typography>
-                                <Button 
-                                  size="small" 
-                                  variant="outlined" 
-                                  sx={{ 
-                                    borderRadius: 2, 
-                                    textTransform: 'none', 
-                                    fontWeight: 600,
-                                    borderColor: '#E2E8F0',
-                                    color: '#0F172A',
-                                    '&:hover': { bgcolor: '#F1F5F9', borderColor: '#CBD5E1' }
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (isOwned) {
-                                      navigate('/student');
-                                    } else {
-                                      setIsPaymentModalOpen(true);
-                                    }
-                                  }}
-                                >
-                                  {isOwned ? 'Thi ngay' : 'Thi thử'}
-                                </Button>
-                              </Box>
-                            </Box>
-                          </AccordionDetails>
-                        </Accordion>
-                      );
-                    })}
-                  </Box>
+                          );
+                        })}
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
                 )}
               </Box>
             </Grid>
