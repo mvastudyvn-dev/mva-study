@@ -472,7 +472,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 {!isStandard && (
                   <Box display="flex" gap={1.5} justifyContent="center" flexWrap="wrap">
                     <Chip label={`Phần 1: ${result.p1Score.toFixed(2)}đ`} size="small" sx={{ fontWeight: 700, bgcolor: 'rgba(59,130,246,0.1)', color: '#2563EB', borderRadius: '8px' }} />
-                    <Chip label={`Phần 2: ${result.p2Score.toFixed(2)}đ`} size="small" sx={{ fontWeight: 700, bgcolor: 'rgba(139,92,246,0.1)', color: '#7C3AED', borderRadius: '8px' }} />
+                    <Chip label={`Phần 2: ${result.p2Score.toFixed(2)}đ`} size="small" sx={{ fontWeight: 700, bgcolor: 'rgba(59,130,246,0.1)', color: '#2563EB', borderRadius: '8px' }} />
                   </Box>
                 )}
               </Paper>
@@ -483,8 +483,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 sx={{
                   p: 2.5,
                   borderRadius: '14px',
-                  bgcolor: 'rgba(99,102,241,0.04)',
-                  border: '1px solid rgba(99,102,241,0.15)',
+                  bgcolor: 'rgba(59,130,246,0.04)',
+                  border: '1px solid rgba(59,130,246,0.15)',
                 }}
               >
                 <Box display="flex" alignItems="center" gap={1} mb={1.5}>
@@ -492,20 +492,20 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                     sx={{
                       p: 0.75,
                       borderRadius: '8px',
-                      background: 'linear-gradient(135deg, #6366F1, #818CF8)',
+                      background: 'linear-gradient(135deg, #2563EB, #60A5FA)',
                       display: 'flex',
                     }}
                   >
                     <AutoAwesomeIcon sx={{ fontSize: 16, color: '#fff' }} />
                   </Box>
-                  <Typography sx={{ fontWeight: 700, color: '#4338CA', fontSize: '0.9rem' }}>
+                  <Typography sx={{ fontWeight: 700, color: '#1D4ED8', fontSize: '0.9rem' }}>
                     AI Phân tích kết quả
                   </Typography>
                 </Box>
 
                 {isAnalyzing ? (
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3, gap: 1.5 }}>
-                    <CircularProgress size={28} sx={{ color: '#6366F1' }} />
+                    <CircularProgress size={28} sx={{ color: '#2563EB' }} />
                     <Typography sx={{ fontSize: '0.85rem', color: '#94A3B8' }}>
                       AI đang phân tích bài làm của bạn...
                     </Typography>
@@ -679,14 +679,14 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                             py: 1,
                             ...(answers.chosenSubject === sub
                               ? {
-                                  background: 'linear-gradient(135deg, #7C3AED, #9F67FA)',
-                                  boxShadow: '0 3px 10px rgba(124,58,237,0.3)',
-                                  '&:hover': { background: 'linear-gradient(135deg, #6D28D9, #7C3AED)' },
+                                  background: 'linear-gradient(135deg, #2563EB, #3B82F6)',
+                                  boxShadow: '0 3px 10px rgba(37,99,235,0.3)',
+                                  '&:hover': { background: 'linear-gradient(135deg, #1D4ED8, #2563EB)' },
                                 }
                               : {
                                   borderColor: '#E2E8F0',
                                   color: '#64748B',
-                                  '&:hover': { borderColor: '#7C3AED', color: '#7C3AED', bgcolor: 'rgba(124,58,237,0.05)' },
+                                  '&:hover': { borderColor: '#2563EB', color: '#2563EB', bgcolor: 'rgba(59,130,246,0.05)' },
                                 }),
                           }}
                         >

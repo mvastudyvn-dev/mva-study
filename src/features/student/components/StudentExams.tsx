@@ -42,9 +42,7 @@ export const StudentExams: React.FC<StudentExamsProps> = ({ onStartExam }) => {
     format === 'thpt_2025' ? 'THPT 2025' : 'Tiêu chuẩn';
 
   const formatColor = (format: string) =>
-    format === 'thpt_2025'
-      ? { bg: 'rgba(139, 92, 246, 0.12)', color: '#7C3AED', border: 'rgba(139, 92, 246, 0.25)' }
-      : { bg: 'rgba(59, 130, 246, 0.1)', color: '#2563EB', border: 'rgba(59, 130, 246, 0.2)' };
+    ({ bg: 'rgba(59, 130, 246, 0.1)', color: '#2563EB', border: 'rgba(59, 130, 246, 0.2)' });
 
   return (
     <Box>
@@ -169,10 +167,7 @@ export const StudentExams: React.FC<StudentExamsProps> = ({ onStartExam }) => {
                   <Box
                     sx={{
                       height: 4,
-                      background:
-                        exam.format === 'thpt_2025'
-                          ? 'linear-gradient(90deg, #7C3AED, #A78BFA)'
-                          : 'linear-gradient(90deg, #2563EB, #60A5FA)',
+                      background: 'linear-gradient(90deg, #2563EB, #60A5FA)',
                     }}
                   />
 
@@ -183,11 +178,8 @@ export const StudentExams: React.FC<StudentExamsProps> = ({ onStartExam }) => {
                         sx={{
                           p: 1.25,
                           borderRadius: '12px',
-                          background:
-                            exam.format === 'thpt_2025'
-                              ? 'linear-gradient(135deg, rgba(139,92,246,0.15), rgba(167,139,250,0.1))'
-                              : 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(96,165,250,0.1))',
-                          color: exam.format === 'thpt_2025' ? '#7C3AED' : '#2563EB',
+                          background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(96,165,250,0.1))',
+                          color: '#2563EB',
                           flexShrink: 0,
                         }}
                       >
@@ -248,10 +240,7 @@ export const StudentExams: React.FC<StudentExamsProps> = ({ onStartExam }) => {
                       startIcon={<PlayArrowRoundedIcon />}
                       onClick={() => onStartExam(exam.id)}
                       sx={{
-                        background:
-                          exam.format === 'thpt_2025'
-                            ? 'linear-gradient(135deg, #7C3AED, #9F67FA)'
-                            : 'linear-gradient(135deg, #2563EB, #3B82F6)',
+                        background: 'linear-gradient(135deg, #2563EB, #3B82F6)',
                         borderRadius: '10px',
                         textTransform: 'none',
                         fontWeight: 700,
@@ -260,10 +249,7 @@ export const StudentExams: React.FC<StudentExamsProps> = ({ onStartExam }) => {
                         boxShadow: 'none',
                         transition: 'all 0.2s ease',
                         '&:hover': {
-                          boxShadow:
-                            exam.format === 'thpt_2025'
-                              ? '0 6px 20px rgba(124,58,237,0.35)'
-                              : '0 6px 20px rgba(37,99,235,0.35)',
+                          boxShadow: '0 6px 20px rgba(37,99,235,0.35)',
                           transform: 'translateY(-1px)',
                         },
                       }}
