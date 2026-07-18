@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Container, Typography, Grid, Card, Button, Rating, Chip, Accordion, AccordionSummary, AccordionDetails, LinearProgress, Divider } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, Button, Rating, Chip, Accordion, AccordionSummary, AccordionDetails, Divider } from '@mui/material';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
@@ -24,7 +23,6 @@ const CourseDetailsPage: React.FC = () => {
   const { user } = useAuth();
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [expandedAccordion, setExpandedAccordion] = useState<string | false>(false);
 
   useEffect(() => {
     refreshData();
@@ -180,11 +178,25 @@ const CourseDetailsPage: React.FC = () => {
         {/* Course Content */}
         <Container maxWidth="lg">
           <Grid container spacing={4}>
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={isOwned ? 12 : 8}>
               <Box sx={{ bgcolor: '#fff', borderRadius: 4, p: { xs: 3, md: 4 }, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-                  <LayersOutlinedIcon sx={{ color: '#1E3A8A', fontSize: 28 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 800, color: '#1E3A8A' }}>
+                {/* Section: Giới thiệu khóa học */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                  <Box component="span" sx={{ fontSize: 20, lineHeight: 1 }}>📖</Box>
+                  <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', fontSize: '1rem' }}>
+                    Giới thiệu khóa học
+                  </Typography>
+                </Box>
+                <Typography sx={{ color: '#475569', fontSize: '0.92rem', mb: 3, pl: 0.5 }}>
+                  {course.description}
+                </Typography>
+
+                <Divider sx={{ mb: 3, borderColor: '#F1F5F9' }} />
+
+                {/* Section: Nội dung bài học */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2.5 }}>
+                  <LayersOutlinedIcon sx={{ color: '#1E3A8A', fontSize: 22 }} />
+                  <Typography variant="h6" sx={{ fontWeight: 700, color: '#1E3A8A', fontSize: '1rem' }}>
                     Nội dung bài học
                   </Typography>
                 </Box>
@@ -206,22 +218,22 @@ const CourseDetailsPage: React.FC = () => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B' }} />}
+                      expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B', fontSize: 20 }} />}
                       sx={{ 
-                        p: 2, px: 3,
-                        borderBottom: '1px solid #E2E8F0',
+                        p: 0, px: 3, minHeight: 56,
+                        '&.Mui-expanded': { minHeight: 56 },
                         '& .MuiAccordionSummary-content': { 
-                          m: 0, 
+                          my: 1.5,
                           display: 'flex', 
                           flexDirection: 'column',
-                          gap: 0.5
+                          gap: 0.4
                         } 
                       }}
                     >
-                      <Typography sx={{ fontWeight: 700, color: '#0F172A', fontSize: '1.05rem' }}>
-                        Nội dung khóa học
+                      <Typography sx={{ fontWeight: 700, color: '#0F172A', fontSize: '0.95rem' }}>
+                        {course.title}
                       </Typography>
-                      <Typography sx={{ fontSize: '0.85rem', color: '#64748B' }}>
+                      <Typography sx={{ fontSize: '0.8rem', color: '#64748B' }}>
                         {courseLessons.length + courseExams.length} bài học • 0 phút
                       </Typography>
                     </AccordionSummary>
@@ -230,9 +242,9 @@ const CourseDetailsPage: React.FC = () => {
                       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         {[...courseLessons, ...courseExams].map((item, index) => {
                           const isExam = 'timeLimit' in item;
-                          const duration = isExam ? `${item.timeLimit} phút` : item.duration || '0 phút';
+                          const duration = isExam ? `${(item as any).timeLimit} phút` : (item as any).duration || '0 phút';
                           
-                          // Mock trial logic: first 2 items are free to try
+                          // Trial logic: first 2 items are free to try
                           const isTrial = index < 2;
                           const isLocked = !isOwned && !isTrial;
 
@@ -243,10 +255,12 @@ const CourseDetailsPage: React.FC = () => {
                                 display: 'flex', 
                                 alignItems: 'center', 
                                 justifyContent: 'space-between', 
-                                p: 2, px: 3,
-                                borderBottom: index < courseLessons.length + courseExams.length - 1 ? '1px solid #F1F5F9' : 'none',
-                                '&:hover': { bgcolor: '#F8FAFC' },
-                                cursor: isLocked ? 'default' : 'pointer'
+                                px: 3,
+                                py: 1.5,
+                                borderTop: '1px solid #F1F5F9',
+                                '&:hover': { bgcolor: isLocked ? 'transparent' : '#F8FAFC' },
+                                cursor: isLocked ? 'default' : 'pointer',
+                                transition: 'background 0.15s',
                               }}
                               onClick={() => {
                                 if (!isLocked) {
@@ -258,56 +272,50 @@ const CourseDetailsPage: React.FC = () => {
                                 }
                               }}
                             >
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                              {/* Left: icon + title */}
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flex: 1, minWidth: 0 }}>
                                 {isExam ? (
-                                  <AssignmentOutlinedIcon sx={{ color: '#60A5FA', fontSize: 22 }} />
+                                  <AssignmentOutlinedIcon sx={{ color: isLocked ? '#CBD5E1' : '#3B82F6', fontSize: 19, flexShrink: 0 }} />
                                 ) : (
-                                  <DescriptionOutlinedIcon sx={{ color: '#60A5FA', fontSize: 22 }} />
+                                  <DescriptionOutlinedIcon sx={{ color: isLocked ? '#CBD5E1' : '#3B82F6', fontSize: 19, flexShrink: 0 }} />
                                 )}
-                                <Typography sx={{ fontWeight: 500, color: '#475569', fontSize: '0.95rem' }}>
-                                  {isExam ? `[Đề thi] ${item.title}` : item.title}
+                                <Typography
+                                  sx={{
+                                    fontWeight: 400,
+                                    color: isLocked ? '#94A3B8' : '#374151',
+                                    fontSize: '0.875rem',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                  }}
+                                >
+                                  {item.title}
                                 </Typography>
                               </Box>
-                              
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                                {!isOwned ? (
-                                  isLocked ? (
-                                    <LockOutlinedIcon sx={{ color: '#CBD5E1', fontSize: 20 }} />
-                                  ) : (
-                                    <Button 
-                                      variant="outlined" 
-                                      size="small"
-                                      sx={{ 
-                                        color: '#F97316', 
-                                        borderColor: '#F97316', 
-                                        borderRadius: '20px', 
-                                        textTransform: 'none', 
-                                        fontWeight: 600,
-                                        py: 0.2, px: 2,
-                                        '&:hover': { bgcolor: '#FFF7ED', borderColor: '#F97316' }
-                                      }}
-                                    >
-                                      Học thử
-                                    </Button>
-                                  )
+                              {/* Right: badge / lock + duration */}
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0, ml: 2 }}>
+                                {isLocked ? (
+                                  <LockOutlinedIcon sx={{ color: '#CBD5E1', fontSize: 16 }} />
                                 ) : (
-                                  <Button 
-                                      variant="outlined" 
-                                      size="small"
-                                      sx={{ 
-                                        color: '#10B981', 
-                                        borderColor: '#10B981', 
-                                        borderRadius: '20px', 
-                                        textTransform: 'none', 
-                                        fontWeight: 600,
-                                        py: 0.2, px: 2,
-                                        '&:hover': { bgcolor: '#ECFDF5', borderColor: '#10B981' }
-                                      }}
-                                    >
-                                      {isExam ? 'Thi ngay' : 'Học ngay'}
-                                    </Button>
+                                  <Box
+                                    sx={{
+                                      px: 1.4,
+                                      py: 0.2,
+                                      borderRadius: '999px',
+                                      border: '1.5px solid',
+                                      borderColor: isOwned ? '#10B981' : '#F97316',
+                                      color: isOwned ? '#10B981' : '#F97316',
+                                      fontSize: '0.75rem',
+                                      fontWeight: 600,
+                                      lineHeight: 1.7,
+                                      whiteSpace: 'nowrap',
+                                      bgcolor: isOwned ? 'rgba(16,185,129,0.06)' : 'rgba(249,115,22,0.06)',
+                                    }}
+                                  >
+                                    {isOwned ? (isExam ? 'Thi ngay' : 'Học ngay') : 'Học thử'}
+                                  </Box>
                                 )}
-                                <Typography sx={{ fontSize: '0.85rem', color: '#94A3B8', minWidth: '55px', textAlign: 'right' }}>
+                                <Typography sx={{ fontSize: '0.8rem', color: '#94A3B8', minWidth: '40px', textAlign: 'right' }}>
                                   {duration}
                                 </Typography>
                               </Box>
