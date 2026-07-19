@@ -32,7 +32,7 @@ const App: React.FC = () => (
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><LandingPage /></RouteGuard>} />
-            <Route path="/login" element={<RouteGuard allowedRoles={['guest']}><LoginPage /></RouteGuard>} />
+            <Route path="/login" element={<RouteGuard allowedRoles={['guest']} ignoreMaintenance><LoginPage /></RouteGuard>} />
             <Route path="/register" element={<RouteGuard allowedRoles={['guest']}><RegisterPage /></RouteGuard>} />
             <Route path="/uni" element={<CheckDHPage />} />
             <Route path="/courses" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><CoursesPage /></RouteGuard>} />

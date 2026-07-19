@@ -5,11 +5,11 @@ import type { Role } from '../types/global';
 import { useData } from '../contexts/DataContext';
 import { Box, Typography } from '@mui/material';
 import ConstructionIcon from '@mui/icons-material/Construction';
-export const RouteGuard: React.FC<{children: React.ReactNode; allowedRoles: Role[]}> = ({ children, allowedRoles }) => {
+export const RouteGuard: React.FC<{children: React.ReactNode; allowedRoles: Role[]; ignoreMaintenance?: boolean}> = ({ children, allowedRoles, ignoreMaintenance }) => {
   const { user } = useAuth();
   const { systemSettings } = useData();
 
-  if (systemSettings?.maintenanceMode && user?.role !== 'admin') {
+  if (!ignoreMaintenance && systemSettings?.maintenanceMode && user?.role !== 'admin') {
     return (
       <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', bgcolor: '#F8FAFC', p: 3, textAlign: 'center' }}>
         <ConstructionIcon sx={{ fontSize: 80, color: '#F59E0B', mb: 2 }} />
