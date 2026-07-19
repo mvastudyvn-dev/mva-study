@@ -11,11 +11,16 @@ import { useData } from '../../../core/contexts/DataContext';
 import { StorageService } from '../../../core/services/storage';
 
 export const ActivationCodesTable: React.FC = () => {
-  const { activationCodes, courses, refreshData } = useData();
+  const { activationCodes, courses, users, refreshData } = useData();
   const [open, setOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState('');
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
+
+  // Send Code Dialog State
+  const [sendOpen, setSendOpen] = useState(false);
+  const [sendCourseId, setSendCourseId] = useState('');
+  const [sendStudentId, setSendStudentId] = useState('');
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -60,6 +65,30 @@ export const ActivationCodesTable: React.FC = () => {
     setQuantity(1);
   };
 
+  const handleSend = async () => {
+    const course = courses.find((c) => c.id === sendCourseId);
+    const student = users.find((u) => u.id === sendStudentId);
+    if (!course || !student) return;
+
+    const randomPart = Array.from({ length: 9 }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]).join('');
+    await StorageService.saveActivationCode({
+      code: `MVA${randomPart}`,
+      courseId: sendCourseId,
+      courseName: course.title,
+      status: 'Đã bán',
+      isUsed: false,
+      usedByEmail: student.email,
+    });
+    
+    // In a real app we would call an API to send the email here
+    alert(`Đã gửi mã MVA${randomPart} thành công qua email cho học sinh ${student.name}`);
+    
+    refreshData();
+    setSendOpen(false);
+    setSendCourseId('');
+    setSendStudentId('');
+  };
+
   const handleCopy = (code: string) => {
     navigator.clipboard.writeText(code);
     // Could add a toast here
@@ -95,6 +124,22 @@ export const ActivationCodesTable: React.FC = () => {
                   Xóa ({selectedCodes.length})
                 </Button>
               )}
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => setSendOpen(true)}
+                sx={{
+                  color: '#FF8C2F',
+                  borderColor: '#FF8C2F',
+                  borderRadius: 1,
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  '&:hover': { bgcolor: '#FFF8F2', borderColor: '#FF6B00', color: '#FF6B00' },
+                  width: { xs: '100%', sm: 'auto' }
+                }}
+              >
+                Gửi mã thủ công
+              </Button>
               <Button
                 variant="contained"
                 size="small"
@@ -207,6 +252,27 @@ export const ActivationCodesTable: React.FC = () => {
           <DialogActions sx={{ px: 3, pb: 2 }}>
             <Button onClick={() => setOpen(false)} sx={{ color: '#6B7280' }}>Hủy</Button>
             <Button onClick={handleGen} variant="contained" disabled={!selectedCourse} sx={{ bgcolor: '#FF8C2F', fontWeight: 600, borderRadius: 1, '&:hover': { bgcolor: '#FF6B00' } }}>Tạo mã</Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Send Code Dialog */}
+        <Dialog open={sendOpen} onClose={() => setSendOpen(false)} PaperProps={{ sx: { borderRadius: 1, p: 1, minWidth: 380 } }}>
+          <DialogTitle><Typography variant="h6" sx={{ fontWeight: 700 }}>Gửi mã thủ công</Typography></DialogTitle>
+          <DialogContent>
+            <TextField select fullWidth label="Chọn học sinh" value={sendStudentId} onChange={(e) => setSendStudentId(e.target.value)} sx={{ mt: 1 }}>
+              {users.filter(u => u.role === 'student').map((s) => (
+                <MenuItem key={s.id} value={s.id}>{s.name} ({s.email})</MenuItem>
+              ))}
+            </TextField>
+            <TextField select fullWidth label="Chọn khóa học" value={sendCourseId} onChange={(e) => setSendCourseId(e.target.value)} sx={{ mt: 2 }}>
+              {courses.map((c) => (
+                <MenuItem key={c.id} value={c.id}>{c.title}</MenuItem>
+              ))}
+            </TextField>
+          </DialogContent>
+          <DialogActions sx={{ px: 3, pb: 2 }}>
+            <Button onClick={() => setSendOpen(false)} sx={{ color: '#6B7280' }}>Hủy</Button>
+            <Button onClick={handleSend} variant="contained" disabled={!sendCourseId || !sendStudentId} sx={{ bgcolor: '#FF8C2F', fontWeight: 600, borderRadius: 1, '&:hover': { bgcolor: '#FF6B00' } }}>Gửi mã</Button>
           </DialogActions>
         </Dialog>
       </CardContent>
