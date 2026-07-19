@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, Chip, Paper,
@@ -17,7 +17,7 @@ import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
 import { getExamHistory, type ExamAttempt } from '../core/services/examHistory';
 
-// ── Helpers ──────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function getScoreColor(score: number) {
   if (score >= 8) return '#10B981';
   if (score >= 5) return '#F59E0B';
@@ -25,10 +25,10 @@ function getScoreColor(score: number) {
 }
 
 function getScoreBadge(score: number) {
-  if (score >= 8) return { label: 'Xuất sắc', color: '#10B981', bg: 'rgba(16,185,129,0.1)' };
-  if (score >= 6.5) return { label: 'Giỏi', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' };
-  if (score >= 5) return { label: 'Đạt', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' };
-  return { label: 'Chưa đạt', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' };
+  if (score >= 8) return { label: 'Xuáº¥t sáº¯c', color: '#10B981', bg: 'rgba(16,185,129,0.1)' };
+  if (score >= 6.5) return { label: 'Giá»i', color: '#FF8C2F', bg: 'rgba(255,140,47,0.1)' };
+  if (score >= 5) return { label: 'Äáº¡t', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' };
+  return { label: 'ChÆ°a Ä‘áº¡t', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' };
 }
 
 function formatDateTime(isoString: string) {
@@ -38,7 +38,7 @@ function formatDateTime(isoString: string) {
   });
 }
 
-// ── Page ─────────────────────────────────────────────────────────
+// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ExamInfoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -73,10 +73,10 @@ const ExamInfoPage: React.FC = () => {
 
   if (!exam) {
     return (
-      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FAFAFA' }}>
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FFF8F2' }}>
         <Header />
         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography color="text.secondary">Không tìm thấy đề thi.</Typography>
+          <Typography color="text.secondary">KhÃ´ng tÃ¬m tháº¥y Ä‘á» thi.</Typography>
         </Box>
         <Footer />
       </Box>
@@ -84,13 +84,13 @@ const ExamInfoPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F8FAFC' }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FFF8F2' }}>
       <Header />
 
-      {/* Hero banner */}
+      {/* Hero banner â€” cam chá»§ Ä‘áº¡o */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #0F2460 0%, #1E3A8A 45%, #2563EB 100%)',
+          background: 'linear-gradient(135deg, #7C2D00 0%, #C2410C 40%, #FF8C2F 100%)',
           pt: { xs: 6, md: 8 },
           pb: { xs: 8, md: 10 },
           position: 'relative',
@@ -98,8 +98,9 @@ const ExamInfoPage: React.FC = () => {
         }}
       >
         {/* Decorative circles */}
-        <Box sx={{ position: 'absolute', top: -60, right: -60, width: 300, height: 300, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.04)' }} />
-        <Box sx={{ position: 'absolute', bottom: -80, left: -80, width: 350, height: 350, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.03)' }} />
+        <Box sx={{ position: 'absolute', top: -60, right: -60, width: 320, height: 320, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.05)' }} />
+        <Box sx={{ position: 'absolute', bottom: -80, left: -80, width: 380, height: 380, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.03)' }} />
+        <Box sx={{ position: 'absolute', top: '30%', right: '15%', width: 180, height: 180, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.04)' }} />
 
         <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
           {/* Back */}
@@ -107,20 +108,20 @@ const ExamInfoPage: React.FC = () => {
             startIcon={<ArrowBackRoundedIcon />}
             onClick={() => navigate(course ? `/courses/${course.id}` : '/courses')}
             sx={{
-              color: 'rgba(255,255,255,0.8)', mb: 4, fontWeight: 500,
-              '&:hover': { color: '#fff', bgcolor: 'rgba(255,255,255,0.1)' },
+              color: 'rgba(255,255,255,0.85)', mb: 4, fontWeight: 500,
+              '&:hover': { color: '#fff', bgcolor: 'rgba(255,255,255,0.12)', boxShadow: 'none' },
             }}
           >
-            {course ? course.title : 'Quay lại'}
+            {course ? course.title : 'Quay láº¡i'}
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
             <Box
               sx={{
                 width: 64, height: 64, borderRadius: 3, flexShrink: 0,
-                bgcolor: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)',
+                bgcolor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                border: '1px solid rgba(255,255,255,0.15)',
+                border: '1px solid rgba(255,255,255,0.2)',
               }}
             >
               <AssignmentRoundedIcon sx={{ color: '#fff', fontSize: 30 }} />
@@ -128,9 +129,13 @@ const ExamInfoPage: React.FC = () => {
 
             <Box>
               <Chip
-                label={exam.format === 'thpt_2025' ? 'THPT 2025' : 'Tiêu chuẩn'}
+                label={exam.format === 'thpt_2025' ? 'THPT 2025' : 'TiÃªu chuáº©n'}
                 size="small"
-                sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: '#fff', fontWeight: 700, mb: 1.5, fontSize: '0.75rem' }}
+                sx={{
+                  bgcolor: 'rgba(255,255,255,0.18)', color: '#fff',
+                  fontWeight: 700, mb: 1.5, fontSize: '0.75rem',
+                  backdropFilter: 'blur(4px)',
+                }}
               />
               <Typography
                 variant="h3"
@@ -140,10 +145,10 @@ const ExamInfoPage: React.FC = () => {
               </Typography>
               {bestScore !== null && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-                  <EmojiEventsRoundedIcon sx={{ color: '#FCD34D', fontSize: 18 }} />
-                  <Typography sx={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem' }}>
-                    Điểm cao nhất của bạn:{' '}
-                    <span style={{ color: '#FCD34D', fontWeight: 800, fontSize: '1.1rem' }}>
+                  <EmojiEventsRoundedIcon sx={{ color: '#FDE68A', fontSize: 18 }} />
+                  <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.95rem' }}>
+                    Äiá»ƒm cao nháº¥t cá»§a báº¡n:{' '}
+                    <span style={{ color: '#FDE68A', fontWeight: 800, fontSize: '1.1rem' }}>
                       {bestScore.toFixed(2)}/10
                     </span>
                   </Typography>
@@ -154,33 +159,36 @@ const ExamInfoPage: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Stat cards — overlap the hero */}
+      {/* Stat cards â€” overlap the hero */}
       <Container maxWidth="md" sx={{ mt: -4, position: 'relative', zIndex: 2 }}>
         <Paper
           elevation={0}
           sx={{
             borderRadius: 4,
             overflow: 'hidden',
-            border: '1px solid #E2E8F0',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+            border: '1px solid #FFE0C8',
+            boxShadow: '0 8px 32px rgba(255,140,47,0.12)',
           }}
         >
           <Box sx={{ display: 'flex', bgcolor: '#fff' }}>
             {[
               {
-                icon: <AccessTimeRoundedIcon sx={{ color: '#3B82F6', fontSize: 26 }} />,
-                label: 'Thời gian làm bài',
-                value: `${exam.timeLimit} phút`,
+                icon: <AccessTimeRoundedIcon sx={{ color: '#FF8C2F', fontSize: 26 }} />,
+                label: 'Thá»i gian lÃ m bÃ i',
+                value: `${exam.timeLimit} phÃºt`,
+                valueColor: '#FF8C2F',
               },
               {
-                icon: <QuizRoundedIcon sx={{ color: '#8B5CF6', fontSize: 26 }} />,
-                label: 'Số câu hỏi',
-                value: `${questionCount} câu`,
+                icon: <QuizRoundedIcon sx={{ color: '#E67923', fontSize: 26 }} />,
+                label: 'Sá»‘ cÃ¢u há»i',
+                value: `${questionCount} cÃ¢u`,
+                valueColor: '#E67923',
               },
               {
                 icon: <HistoryRoundedIcon sx={{ color: '#10B981', fontSize: 26 }} />,
-                label: 'Số lần đã thi',
-                value: loadingHistory ? '...' : `${history.length} lần`,
+                label: 'Sá»‘ láº§n Ä‘Ã£ thi',
+                value: loadingHistory ? '...' : `${history.length} láº§n`,
+                valueColor: '#10B981',
               },
             ].map((stat, i, arr) => (
               <Box
@@ -188,11 +196,11 @@ const ExamInfoPage: React.FC = () => {
                 sx={{
                   flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
                   py: 3, px: 1, gap: 0.75,
-                  borderRight: i < arr.length - 1 ? '1px solid #F1F5F9' : 'none',
+                  borderRight: i < arr.length - 1 ? '1px solid #FFF0E8' : 'none',
                 }}
               >
                 {stat.icon}
-                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#0F172A', lineHeight: 1 }}>
+                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: stat.valueColor, lineHeight: 1 }}>
                   {stat.value}
                 </Typography>
                 <Typography sx={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
@@ -208,52 +216,52 @@ const ExamInfoPage: React.FC = () => {
       <Container maxWidth="md" sx={{ py: 5, flexGrow: 1 }}>
 
         {/* History table */}
-        <Paper elevation={0} sx={{ borderRadius: 4, border: '1px solid #E2E8F0', overflow: 'hidden', mb: 4 }}>
+        <Paper elevation={0} sx={{ borderRadius: 4, border: '1px solid #FFE0C8', overflow: 'hidden', mb: 4 }}>
           <Box
             sx={{
               px: 3, py: 2.5,
               display: 'flex', alignItems: 'center', gap: 1.5,
-              borderBottom: '1px solid #E2E8F0',
-              bgcolor: '#fff',
+              borderBottom: '1px solid #FFF0E8',
+              bgcolor: '#FFFAF7',
             }}
           >
             <EmojiEventsRoundedIcon sx={{ color: '#F59E0B', fontSize: 22 }} />
             <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#0F172A' }}>
-              Lịch sử làm bài
+              Lá»‹ch sá»­ lÃ m bÃ i
             </Typography>
             {!loadingHistory && history.length > 0 && (
               <Chip
-                label={`${history.length} lần`}
+                label={`${history.length} láº§n`}
                 size="small"
-                sx={{ ml: 'auto', bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 700, fontSize: '0.75rem' }}
+                sx={{ ml: 'auto', bgcolor: '#FFF3E8', color: '#FF8C2F', fontWeight: 700, fontSize: '0.75rem' }}
               />
             )}
           </Box>
 
           {loadingHistory ? (
             <Box sx={{ py: 6, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, bgcolor: '#fff' }}>
-              <CircularProgress size={22} sx={{ color: '#3B82F6' }} />
-              <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>Đang tải lịch sử...</Typography>
+              <CircularProgress size={22} sx={{ color: '#FF8C2F' }} />
+              <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>Äang táº£i lá»‹ch sá»­...</Typography>
             </Box>
           ) : history.length === 0 ? (
             <Box sx={{ py: 8, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, bgcolor: '#fff' }}>
-              <HistoryRoundedIcon sx={{ fontSize: 52, color: '#E2E8F0' }} />
+              <HistoryRoundedIcon sx={{ fontSize: 52, color: '#FFE0C8' }} />
               <Typography sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '1rem' }}>
-                Bạn chưa làm bài thi này lần nào.
+                Báº¡n chÆ°a lÃ m bÃ i thi nÃ y láº§n nÃ o.
               </Typography>
               <Typography sx={{ color: '#CBD5E1', fontSize: '0.875rem' }}>
-                Hãy bắt đầu thi để ghi lại kết quả!
+                HÃ£y báº¯t Ä‘áº§u thi Ä‘á»ƒ ghi láº¡i káº¿t quáº£!
               </Typography>
             </Box>
           ) : (
             <TableContainer sx={{ bgcolor: '#fff' }}>
               <Table>
                 <TableHead>
-                  <TableRow sx={{ bgcolor: '#F8FAFC' }}>
-                    {['Lần thi', 'Thời gian nộp', 'Điểm số', 'Xếp loại'].map(col => (
+                  <TableRow sx={{ bgcolor: '#FFFAF7' }}>
+                    {['Láº§n thi', 'Thá»i gian ná»™p', 'Äiá»ƒm sá»‘', 'Xáº¿p loáº¡i'].map(col => (
                       <TableCell
                         key={col}
-                        sx={{ fontWeight: 700, fontSize: '0.8rem', color: '#64748B', borderBottom: '1px solid #E2E8F0', py: 1.75 }}
+                        sx={{ fontWeight: 700, fontSize: '0.8rem', color: '#64748B', borderBottom: '1px solid #FFF0E8', py: 1.75 }}
                       >
                         {col}
                       </TableCell>
@@ -269,41 +277,45 @@ const ExamInfoPage: React.FC = () => {
                         key={attempt.attemptNumber}
                         sx={{
                           '&:last-child td': { borderBottom: 'none' },
-                          bgcolor: isBest ? 'rgba(16,185,129,0.025)' : 'transparent',
-                          '&:hover': { bgcolor: '#F8FAFC' },
+                          bgcolor: isBest ? 'rgba(255,140,47,0.03)' : 'transparent',
+                          '&:hover': { bgcolor: '#FFFAF7' },
                           transition: 'background 0.15s',
                         }}
                       >
-                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9' }}>
+                        <TableCell sx={{ py: 2, borderColor: '#FFF0E8' }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             <Box
                               sx={{
                                 width: 30, height: 30, borderRadius: '50%',
-                                bgcolor: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontSize: '0.8rem', fontWeight: 800, color: '#2563EB', flexShrink: 0,
+                                bgcolor: '#FFF3E8',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontSize: '0.8rem', fontWeight: 800, color: '#FF8C2F', flexShrink: 0,
                               }}
                             >
                               {attempt.attemptNumber}
                             </Box>
                             {isBest && (
                               <Chip
-                                label="Tốt nhất"
+                                label="Tá»‘t nháº¥t"
                                 size="small"
-                                sx={{ bgcolor: 'rgba(16,185,129,0.1)', color: '#10B981', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
+                                sx={{
+                                  bgcolor: 'rgba(255,140,47,0.12)', color: '#FF8C2F',
+                                  fontWeight: 700, fontSize: '0.65rem', height: 20,
+                                }}
                               />
                             )}
                           </Box>
                         </TableCell>
-                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9', color: '#475569', fontSize: '0.875rem' }}>
+                        <TableCell sx={{ py: 2, borderColor: '#FFF0E8', color: '#475569', fontSize: '0.875rem' }}>
                           {formatDateTime(attempt.submittedAt)}
                         </TableCell>
-                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9' }}>
+                        <TableCell sx={{ py: 2, borderColor: '#FFF0E8' }}>
                           <Typography sx={{ fontWeight: 800, fontSize: '1.1rem', color: getScoreColor(attempt.score) }}>
                             {attempt.score.toFixed(2)}
                             <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#94A3B8' }}>/10</span>
                           </Typography>
                         </TableCell>
-                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9' }}>
+                        <TableCell sx={{ py: 2, borderColor: '#FFF0E8' }}>
                           <Chip
                             label={badge.label}
                             size="small"
@@ -329,22 +341,22 @@ const ExamInfoPage: React.FC = () => {
             sx={{
               px: 8, py: 2, borderRadius: 3,
               fontWeight: 800, fontSize: '1.1rem', letterSpacing: 0.3,
-              background: 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
-              boxShadow: '0 8px 28px rgba(37,99,235,0.4)',
+              background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+              boxShadow: '0 8px 28px rgba(255,140,47,0.4)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-                boxShadow: '0 12px 36px rgba(37,99,235,0.5)',
+                background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
+                boxShadow: '0 12px 36px rgba(255,140,47,0.5)',
                 transform: 'translateY(-2px)',
               },
               transition: 'all 0.25s ease',
             }}
           >
-            {history.length === 0 ? 'Bắt đầu thi ngay' : 'Thi lại'}
+            {history.length === 0 ? 'Báº¯t Ä‘áº§u thi ngay' : 'Thi láº¡i'}
           </Button>
 
-          <Divider sx={{ width: '100%', maxWidth: 480, borderColor: '#E2E8F0' }} />
+          <Divider sx={{ width: '100%', maxWidth: 480, borderColor: '#FFE8D6' }} />
           <Typography sx={{ fontSize: '0.8rem', color: '#CBD5E1', textAlign: 'center' }}>
-            Kết quả được ghi lại sau mỗi lần nộp bài. Điểm cao nhất sẽ được tính vào bảng xếp hạng.
+            Káº¿t quáº£ Ä‘Æ°á»£c ghi láº¡i sau má»—i láº§n ná»™p bÃ i. Äiá»ƒm cao nháº¥t sáº½ Ä‘Æ°á»£c tÃ­nh vÃ o báº£ng xáº¿p háº¡ng.
           </Typography>
         </Box>
       </Container>
@@ -355,3 +367,4 @@ const ExamInfoPage: React.FC = () => {
 };
 
 export default ExamInfoPage;
+
