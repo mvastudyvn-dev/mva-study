@@ -389,6 +389,96 @@ router.post('/issue-code', async (req, res) => {
   }
 });
 
+// API: Tạo mã kích hoạt và gửi email thủ công
+router.post('/send-manual-code', async (req, res) => {
+  if (!supabase || !transporter) {
+    return res.status(500).json({ error: 'Server chưa cấu hình Supabase hoặc Email' });
+  }
+
+  try {
+    const { studentId, courseId } = req.body;
+    if (!studentId || !courseId) {
+      return res.status(400).json({ error: 'Thiếu thông tin học sinh hoặc khóa học' });
+    }
+
+    // 1. Lấy thông tin User
+    const { data: user, error: userError } = await supabase
+      .from('users')
+      .select('email, name')
+      .eq('id', studentId)
+      .single();
+
+    if (userError || !user || !user.email) {
+      return res.status(404).json({ error: 'Không tìm thấy email học sinh' });
+    }
+
+    // 2. Lấy thông tin Course
+    const { data: course, error: courseError } = await supabase
+      .from('courses')
+      .select('title')
+      .eq('id', courseId)
+      .single();
+
+    if (courseError || !course) {
+      return res.status(404).json({ error: 'Không tìm thấy khóa học' });
+    }
+
+    // 3. Tạo mã ngẫu nhiên
+    const randomPart = Array.from({ length: 9 }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]).join('');
+    const codeString = `MVA${randomPart}`;
+
+    // 4. Lưu vào Supabase (nhớ dùng status: 'Chưa sử dụng' để không vi phạm constraint)
+    const { error: insertError } = await supabase
+      .from('activation_codes')
+      .insert({
+        code: codeString,
+        course_id: courseId,
+        course_name: course.title,
+        status: 'Chưa sử dụng',
+        is_used: false,
+        used_by_email: user.email,
+      });
+
+    if (insertError) {
+      console.error('Lỗi insert mã:', insertError);
+      return res.status(500).json({ error: 'Lỗi lưu mã vào cơ sở dữ liệu' });
+    }
+
+    // 5. Gửi email
+    const mailOptions = {
+      from: `"MVA Study" <${process.env.GMAIL_USER}>`,
+      to: user.email,
+      subject: 'Mã kích hoạt khóa học MVA Study',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+          <h2 style="color: #FF8C2F; text-align: center;">Mã kích hoạt khóa học!</h2>
+          <p>Chào <strong>${user.name}</strong>,</p>
+          <p>Quản trị viên vừa cấp cho bạn một mã kích hoạt cho khóa học <strong>${course.title}</strong>. Dưới đây là mã kích hoạt của bạn:</p>
+          <div style="background-color: #f5f5f5; padding: 15px; text-align: center; border-radius: 5px; margin: 20px 0;">
+            <span style="font-size: 24px; font-weight: bold; color: #1E3A8A; letter-spacing: 2px;">${codeString}</span>
+          </div>
+          <p><strong>Hướng dẫn kích hoạt:</strong></p>
+          <ol>
+            <li>Đăng nhập vào tài khoản của bạn trên trang web MVA Study.</li>
+            <li>Truy cập vào trang cá nhân (hoặc bấm vào hình dấu cộng "Kích hoạt khóa học").</li>
+            <li>Nhập mã kích hoạt phía trên để mở khóa khóa học.</li>
+          </ol>
+          <p>Chúc bạn học tập hiệu quả!</p>
+          <hr style="border-top: 1px solid #e0e0e0; margin-top: 30px;">
+          <p style="font-size: 12px; color: #888; text-align: center;">Đây là email tự động, vui lòng không trả lời.</p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: 'Đã tạo mã và gửi email thành công', code: codeString });
+  } catch (error) {
+    console.error('Lỗi khi cấp mã thủ công:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
+  }
+});
+
 // API: Admin tạo hóa đơn học phí (Tuition Invoice)
 router.post('/create-tuition-invoice', async (req, res) => {
   if (!supabase || !transporter) {

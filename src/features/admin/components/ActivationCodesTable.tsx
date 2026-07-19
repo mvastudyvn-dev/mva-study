@@ -66,22 +66,31 @@ export const ActivationCodesTable: React.FC = () => {
   };
 
   const handleSend = async () => {
-    const course = courses.find((c) => c.id === sendCourseId);
-    const student = users.find((u) => u.id === sendStudentId);
-    if (!course || !student) return;
+    if (!sendCourseId || !sendStudentId) return;
 
-    const randomPart = Array.from({ length: 9 }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]).join('');
-    await StorageService.saveActivationCode({
-      code: `MVA${randomPart}`,
-      courseId: sendCourseId,
-      courseName: course.title,
-      status: 'Đã bán',
-      isUsed: false,
-      usedByEmail: student.email,
-    });
-    
-    // In a real app we would call an API to send the email here
-    alert(`Đã gửi mã MVA${randomPart} thành công qua email cho học sinh ${student.name}`);
+    try {
+      const response = await fetch('/api/payment/send-manual-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          studentId: sendStudentId,
+          courseId: sendCourseId
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message || `Đã gửi mã ${data.code} thành công qua email!`);
+      } else {
+        alert(data.error || 'Có lỗi xảy ra khi gửi email');
+      }
+    } catch (error) {
+      console.error('Error sending manual code:', error);
+      alert('Lỗi kết nối đến máy chủ');
+    }
     
     refreshData();
     setSendOpen(false);
