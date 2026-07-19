@@ -76,7 +76,7 @@ const ExamInfoPage: React.FC = () => {
   const hasTwoParts = part2Count > 0;
   // Hiển thị số câu: nếu 2 phần → ghi rõ, nếu 1 phần → chỉ tổng
   const questionCountLabel = hasTwoParts
-    ? `${part1Count} + ${part2Count} câu`
+    ? `Phần 1: ${part1Count} — Phần 2: ${part2Count}`
     : `${part1Count} câu`;
 
   if (!exam) {
@@ -186,13 +186,15 @@ const ExamInfoPage: React.FC = () => {
                 value: `${exam.timeLimit} phút`,
                 subValue: null as string | null,
                 valueColor: '#FF8C2F',
+                smallValue: false,
               },
               {
                 icon: <QuizRoundedIcon sx={{ color: '#E67923', fontSize: 26 }} />,
-                label: hasTwoParts ? 'Câu hỏi (Phần 1 + 2)' : 'Số câu hỏi',
+                label: hasTwoParts ? 'Số câu hỏi' : 'Số câu hỏi',
                 value: loadingHistory ? '...' : questionCountLabel,
-                subValue: hasTwoParts ? `Phần 1: ${part1Count} — Phần 2: ${part2Count}` : null,
+                subValue: null as string | null,
                 valueColor: '#E67923',
+                smallValue: hasTwoParts,
               },
               {
                 icon: <HistoryRoundedIcon sx={{ color: isMaxReached ? '#EF4444' : '#10B981', fontSize: 26 }} />,
@@ -200,18 +202,24 @@ const ExamInfoPage: React.FC = () => {
                 value: loadingHistory ? '...' : `${history.length}/10`,
                 subValue: isMaxReached ? 'Đã đạt giới hạn' : null,
                 valueColor: isMaxReached ? '#EF4444' : '#10B981',
+                smallValue: false,
               },
             ].map((stat, i, arr) => (
               <Box
                 key={i}
                 sx={{
                   flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  py: 3, px: 1, gap: 0.5,
+                  py: 3, px: 1.5, gap: 0.5,
                   borderRight: i < arr.length - 1 ? '1px solid #FFF0E8' : 'none',
                 }}
               >
                 {stat.icon}
-                <Typography sx={{ fontSize: '1.35rem', fontWeight: 900, color: stat.valueColor, lineHeight: 1.1, textAlign: 'center' }}>
+                <Typography sx={{
+                  fontSize: stat.smallValue ? '0.95rem' : '1.35rem',
+                  fontWeight: 900, color: stat.valueColor,
+                  lineHeight: 1.2, textAlign: 'center',
+                  letterSpacing: stat.smallValue ? '-0.01em' : 0,
+                }}>
                   {stat.value}
                 </Typography>
                 <Typography sx={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500, textAlign: 'center' }}>
@@ -224,6 +232,7 @@ const ExamInfoPage: React.FC = () => {
                 )}
               </Box>
             ))}
+
           </Box>
         </Paper>
       </Container>
