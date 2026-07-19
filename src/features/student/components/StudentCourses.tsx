@@ -9,6 +9,7 @@ import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { StorageService } from '../../../core/services/storage';
 import { useNavigate } from 'react-router-dom';
+import { courseThumbnails } from '../../../core/constants/courseThumbnails';
 
 export const StudentCourses: React.FC = () => {
   const { user } = useAuth();
@@ -80,15 +81,28 @@ export const StudentCourses: React.FC = () => {
                 <Box
                   sx={{
                     height: 110,
-                    background: course.bgGradient,
+                    background: courseThumbnails[course.id] ? 'transparent' : course.bgGradient,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <Typography sx={{ fontWeight: 800, fontSize: '1.3rem', color: '#fff', textAlign: 'center', whiteSpace: 'pre-line' }}>
-                    {course.shortTitle}
-                  </Typography>
+                  {courseThumbnails[course.id] ? (
+                    <Box
+                      component="img"
+                      src={courseThumbnails[course.id]}
+                      alt={course.title}
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    <Typography sx={{ fontWeight: 800, fontSize: '1.3rem', color: '#fff', textAlign: 'center', whiteSpace: 'pre-line' }}>
+                      {course.shortTitle}
+                    </Typography>
+                  )}
                 </Box>
 
                 <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>

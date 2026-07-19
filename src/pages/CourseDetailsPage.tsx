@@ -13,6 +13,7 @@ import { Header, Footer } from '../features/landing';
 import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
 import PaymentModal from '../features/payment/PaymentModal';
+import { courseThumbnails } from '../core/constants/courseThumbnails';
 
 const formatPrice = (price: number) => new Intl.NumberFormat('vi-VN').format(price) + 'đ';
 
@@ -74,7 +75,7 @@ const CourseDetailsPage: React.FC = () => {
             py: { xs: 6, md: 8 },
             mb: 5,
             minHeight: { md: '480px' },
-            background: course.bgGradient || 'linear-gradient(160deg, #FFF8F2 0%, #FAFAFA 55%, #FFF3E8 100%)',
+            background: courseThumbnails[course.id] ? `url(${courseThumbnails[course.id]}) center/cover` : (course.bgGradient || 'linear-gradient(160deg, #FFF8F2 0%, #FAFAFA 55%, #FFF3E8 100%)'),
             position: 'relative',
           }}
         >

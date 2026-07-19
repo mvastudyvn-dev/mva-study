@@ -10,7 +10,7 @@ import { useAuth } from '../core/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import PaymentModal from '../features/payment/PaymentModal';
 import type { Course } from '../core/types/global';
-
+import { courseThumbnails } from '../core/constants/courseThumbnails';
 const courseIcons: Record<string, React.ReactNode> = {
   c1: (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -257,7 +257,7 @@ const CoursesPage: React.FC = () => {
                     <Box
                       sx={{
                         height: 160,
-                        background: course.bgGradient,
+                        background: courseThumbnails[course.id] ? 'transparent' : course.bgGradient,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -265,16 +265,31 @@ const CoursesPage: React.FC = () => {
                         overflow: 'hidden',
                       }}
                     >
-                      {/* Pattern overlay */}
-                      <Box sx={{
-                        position: 'absolute', inset: 0,
-                        backgroundImage: 'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)',
-                        backgroundSize: '20px 20px',
-                      }} />
-                      {courseIcons[course.id] || (
-                        <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', position: 'relative', zIndex: 1 }}>
-                          {course.icon}
-                        </Typography>
+                      {courseThumbnails[course.id] ? (
+                        <Box
+                          component="img"
+                          src={courseThumbnails[course.id]}
+                          alt={course.title}
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      ) : (
+                        <>
+                          {/* Pattern overlay */}
+                          <Box sx={{
+                            position: 'absolute', inset: 0,
+                            backgroundImage: 'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)',
+                            backgroundSize: '20px 20px',
+                          }} />
+                          {courseIcons[course.id] || (
+                            <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', position: 'relative', zIndex: 1 }}>
+                              {course.icon}
+                            </Typography>
+                          )}
+                        </>
                       )}
                       <Box sx={{
                         position: 'absolute', top: 10, left: 10, zIndex: 1,

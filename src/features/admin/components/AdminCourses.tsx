@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useData } from '../../../core/contexts/DataContext';
 import { StorageService } from '../../../core/services/storage';
 import type { Course } from '../../../core/types/global';
+import { courseThumbnails } from '../../../core/constants/courseThumbnails';
 
 export const AdminCourses: React.FC = () => {
   const { courses, refreshData } = useData();
@@ -103,7 +104,13 @@ export const AdminCourses: React.FC = () => {
                 {courses.map((course) => (
                   <TableRow key={course.id} sx={{ '&:hover': { bgcolor: '#FAFAFA' } }}>
                     <TableCell sx={{ color: '#1F2937', fontWeight: 500 }}>{course.id}</TableCell>
-                    <TableCell sx={{ fontSize: '1.5rem' }}>{course.icon}</TableCell>
+                    <TableCell sx={{ fontSize: '1.5rem' }}>
+                      {courseThumbnails[course.id] ? (
+                        <Box component="img" src={courseThumbnails[course.id]} sx={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 1 }} />
+                      ) : (
+                        course.icon
+                      )}
+                    </TableCell>
                     <TableCell sx={{ color: '#1F2937', fontWeight: 600 }}>{course.title}</TableCell>
                     <TableCell sx={{ color: '#6B7280' }}>{course.shortTitle}</TableCell>
                     <TableCell sx={{ color: '#6B7280' }}>{course.durationMonths ? `${course.durationMonths} tháng` : 'Vĩnh viễn'}</TableCell>

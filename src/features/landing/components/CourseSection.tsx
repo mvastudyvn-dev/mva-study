@@ -5,6 +5,7 @@ import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import { useNavigate } from 'react-router-dom';
+import { courseThumbnails } from '../../../core/constants/courseThumbnails';
 
 const courseIcons: Record<string, React.ReactNode> = {
   c1: (
@@ -185,7 +186,7 @@ export const CourseSection: React.FC = () => {
                 <Box
                   sx={{
                     height: 150,
-                    background: course.bgGradient,
+                    background: courseThumbnails[course.id] ? 'transparent' : course.bgGradient,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -193,19 +194,34 @@ export const CourseSection: React.FC = () => {
                     overflow: 'hidden',
                   }}
                 >
-                  {/* Subtle pattern overlay */}
-                  <Box sx={{
-                    position: 'absolute', inset: 0,
-                    backgroundImage: 'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)',
-                    backgroundSize: '20px 20px',
-                  }} />
-                  <Box sx={{ zIndex: 1, position: 'relative' }}>
-                    {courseIcons[course.id] || (
-                      <Typography sx={{ fontSize: '2rem', fontWeight: 800, color: '#fff' }}>
-                        {course.icon}
-                      </Typography>
-                    )}
-                  </Box>
+                  {courseThumbnails[course.id] ? (
+                    <Box
+                      component="img"
+                      src={courseThumbnails[course.id]}
+                      alt={course.title}
+                      sx={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    <>
+                      {/* Subtle pattern overlay */}
+                      <Box sx={{
+                        position: 'absolute', inset: 0,
+                        backgroundImage: 'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)',
+                        backgroundSize: '20px 20px',
+                      }} />
+                      <Box sx={{ zIndex: 1, position: 'relative' }}>
+                        {courseIcons[course.id] || (
+                          <Typography sx={{ fontSize: '2rem', fontWeight: 800, color: '#fff' }}>
+                            {course.icon}
+                          </Typography>
+                        )}
+                      </Box>
+                    </>
+                  )}
                 </Box>
 
                 <CardContent sx={{ p: 2.5, pb: '20px !important', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
