@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Box, Typography, Button, Card, CardContent, Grid,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, IconButton, Checkbox
+  Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, IconButton, Checkbox, Autocomplete
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -256,14 +256,16 @@ export const ActivationCodesTable: React.FC = () => {
         </Dialog>
 
         {/* Send Code Dialog */}
-        <Dialog open={sendOpen} onClose={() => setSendOpen(false)} PaperProps={{ sx: { borderRadius: 1, p: 1, minWidth: 380 } }}>
+        <Dialog open={sendOpen} onClose={() => setSendOpen(false)} PaperProps={{ sx: { borderRadius: 1, p: 1, minWidth: 500, maxWidth: 600 } }}>
           <DialogTitle><Typography variant="h6" sx={{ fontWeight: 700 }}>Gửi mã thủ công</Typography></DialogTitle>
           <DialogContent>
-            <TextField select fullWidth label="Chọn học sinh" value={sendStudentId} onChange={(e) => setSendStudentId(e.target.value)} sx={{ mt: 1 }}>
-              {users.filter(u => u.role === 'student').map((s) => (
-                <MenuItem key={s.id} value={s.id}>{s.name} ({s.email})</MenuItem>
-              ))}
-            </TextField>
+            <Autocomplete
+              options={users.filter(u => u.role === 'student')}
+              getOptionLabel={(option) => `${option.name} (${option.email})`}
+              onChange={(_, newValue) => setSendStudentId(newValue ? newValue.id : '')}
+              renderInput={(params) => <TextField {...params} label="Chọn hoặc tìm kiếm học sinh (theo email/tên)" sx={{ mt: 1 }} />}
+              noOptionsText="Không tìm thấy học sinh"
+            />
             <TextField select fullWidth label="Chọn khóa học" value={sendCourseId} onChange={(e) => setSendCourseId(e.target.value)} sx={{ mt: 2 }}>
               {courses.map((c) => (
                 <MenuItem key={c.id} value={c.id}>{c.title}</MenuItem>
