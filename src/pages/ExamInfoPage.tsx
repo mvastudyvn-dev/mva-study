@@ -1,0 +1,357 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import {
+  Box, Container, Typography, Button, Chip, Paper,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  CircularProgress, Divider,
+} from '@mui/material';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import QuizRoundedIcon from '@mui/icons-material/QuizRounded';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+import { Header, Footer } from '../features/landing';
+import { useData } from '../core/contexts/DataContext';
+import { useAuth } from '../core/contexts/AuthContext';
+import { getExamHistory, type ExamAttempt } from '../core/services/examHistory';
+
+// ── Helpers ──────────────────────────────────────────────────────
+function getScoreColor(score: number) {
+  if (score >= 8) return '#10B981';
+  if (score >= 5) return '#F59E0B';
+  return '#EF4444';
+}
+
+function getScoreBadge(score: number) {
+  if (score >= 8) return { label: 'Xuất sắc', color: '#10B981', bg: 'rgba(16,185,129,0.1)' };
+  if (score >= 6.5) return { label: 'Giỏi', color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' };
+  if (score >= 5) return { label: 'Đạt', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' };
+  return { label: 'Chưa đạt', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' };
+}
+
+function formatDateTime(isoString: string) {
+  return new Date(isoString).toLocaleString('vi-VN', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
+  });
+}
+
+// ── Page ─────────────────────────────────────────────────────────
+const ExamInfoPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { exams, courses, refreshData } = useData();
+  const { user } = useAuth();
+
+  const [history, setHistory] = useState<ExamAttempt[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(true);
+
+  useEffect(() => {
+    refreshData();
+    window.scrollTo(0, 0);
+  }, [refreshData, id]);
+
+  const exam = useMemo(() => exams.find(e => e.id === id), [exams, id]);
+  const course = useMemo(() => exam ? courses.find(c => c.id === exam.courseId) : null, [courses, exam]);
+
+  useEffect(() => {
+    if (!user || !id) { setLoadingHistory(false); return; }
+    setLoadingHistory(true);
+    getExamHistory(user.id, id).then(data => {
+      setHistory(data);
+      setLoadingHistory(false);
+    });
+  }, [user, id]);
+
+  const bestScore = history.length > 0 ? Math.max(...history.map(h => h.score)) : null;
+
+  const questionCount = exam?.format === 'standard'
+    ? (exam?.answerKey?.part1?.length || 24)
+    : (exam?.answerKey?.part1?.length || 24) + 6;
+
+  if (!exam) {
+    return (
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FAFAFA' }}>
+        <Header />
+        <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography color="text.secondary">Không tìm thấy đề thi.</Typography>
+        </Box>
+        <Footer />
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#F8FAFC' }}>
+      <Header />
+
+      {/* Hero banner */}
+      <Box
+        sx={{
+          background: 'linear-gradient(135deg, #0F2460 0%, #1E3A8A 45%, #2563EB 100%)',
+          pt: { xs: 6, md: 8 },
+          pb: { xs: 8, md: 10 },
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Decorative circles */}
+        <Box sx={{ position: 'absolute', top: -60, right: -60, width: 300, height: 300, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.04)' }} />
+        <Box sx={{ position: 'absolute', bottom: -80, left: -80, width: 350, height: 350, borderRadius: '50%', bgcolor: 'rgba(255,255,255,0.03)' }} />
+
+        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
+          {/* Back */}
+          <Button
+            startIcon={<ArrowBackRoundedIcon />}
+            onClick={() => navigate(course ? `/courses/${course.id}` : '/courses')}
+            sx={{
+              color: 'rgba(255,255,255,0.8)', mb: 4, fontWeight: 500,
+              '&:hover': { color: '#fff', bgcolor: 'rgba(255,255,255,0.1)' },
+            }}
+          >
+            {course ? course.title : 'Quay lại'}
+          </Button>
+
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
+            <Box
+              sx={{
+                width: 64, height: 64, borderRadius: 3, flexShrink: 0,
+                bgcolor: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid rgba(255,255,255,0.15)',
+              }}
+            >
+              <AssignmentRoundedIcon sx={{ color: '#fff', fontSize: 30 }} />
+            </Box>
+
+            <Box>
+              <Chip
+                label={exam.format === 'thpt_2025' ? 'THPT 2025' : 'Tiêu chuẩn'}
+                size="small"
+                sx={{ bgcolor: 'rgba(255,255,255,0.15)', color: '#fff', fontWeight: 700, mb: 1.5, fontSize: '0.75rem' }}
+              />
+              <Typography
+                variant="h3"
+                sx={{ fontWeight: 900, color: '#fff', mb: 1, fontSize: { xs: '1.8rem', md: '2.4rem' }, lineHeight: 1.2 }}
+              >
+                {exam.title}
+              </Typography>
+              {bestScore !== null && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+                  <EmojiEventsRoundedIcon sx={{ color: '#FCD34D', fontSize: 18 }} />
+                  <Typography sx={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem' }}>
+                    Điểm cao nhất của bạn:{' '}
+                    <span style={{ color: '#FCD34D', fontWeight: 800, fontSize: '1.1rem' }}>
+                      {bestScore.toFixed(2)}/10
+                    </span>
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      {/* Stat cards — overlap the hero */}
+      <Container maxWidth="md" sx={{ mt: -4, position: 'relative', zIndex: 2 }}>
+        <Paper
+          elevation={0}
+          sx={{
+            borderRadius: 4,
+            overflow: 'hidden',
+            border: '1px solid #E2E8F0',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+          }}
+        >
+          <Box sx={{ display: 'flex', bgcolor: '#fff' }}>
+            {[
+              {
+                icon: <AccessTimeRoundedIcon sx={{ color: '#3B82F6', fontSize: 26 }} />,
+                label: 'Thời gian làm bài',
+                value: `${exam.timeLimit} phút`,
+              },
+              {
+                icon: <QuizRoundedIcon sx={{ color: '#8B5CF6', fontSize: 26 }} />,
+                label: 'Số câu hỏi',
+                value: `${questionCount} câu`,
+              },
+              {
+                icon: <HistoryRoundedIcon sx={{ color: '#10B981', fontSize: 26 }} />,
+                label: 'Số lần đã thi',
+                value: loadingHistory ? '...' : `${history.length} lần`,
+              },
+            ].map((stat, i, arr) => (
+              <Box
+                key={i}
+                sx={{
+                  flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+                  py: 3, px: 1, gap: 0.75,
+                  borderRight: i < arr.length - 1 ? '1px solid #F1F5F9' : 'none',
+                }}
+              >
+                {stat.icon}
+                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: '#0F172A', lineHeight: 1 }}>
+                  {stat.value}
+                </Typography>
+                <Typography sx={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
+                  {stat.label}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Paper>
+      </Container>
+
+      {/* Main content */}
+      <Container maxWidth="md" sx={{ py: 5, flexGrow: 1 }}>
+
+        {/* History table */}
+        <Paper elevation={0} sx={{ borderRadius: 4, border: '1px solid #E2E8F0', overflow: 'hidden', mb: 4 }}>
+          <Box
+            sx={{
+              px: 3, py: 2.5,
+              display: 'flex', alignItems: 'center', gap: 1.5,
+              borderBottom: '1px solid #E2E8F0',
+              bgcolor: '#fff',
+            }}
+          >
+            <EmojiEventsRoundedIcon sx={{ color: '#F59E0B', fontSize: 22 }} />
+            <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#0F172A' }}>
+              Lịch sử làm bài
+            </Typography>
+            {!loadingHistory && history.length > 0 && (
+              <Chip
+                label={`${history.length} lần`}
+                size="small"
+                sx={{ ml: 'auto', bgcolor: '#EFF6FF', color: '#2563EB', fontWeight: 700, fontSize: '0.75rem' }}
+              />
+            )}
+          </Box>
+
+          {loadingHistory ? (
+            <Box sx={{ py: 6, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, bgcolor: '#fff' }}>
+              <CircularProgress size={22} sx={{ color: '#3B82F6' }} />
+              <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>Đang tải lịch sử...</Typography>
+            </Box>
+          ) : history.length === 0 ? (
+            <Box sx={{ py: 8, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, bgcolor: '#fff' }}>
+              <HistoryRoundedIcon sx={{ fontSize: 52, color: '#E2E8F0' }} />
+              <Typography sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '1rem' }}>
+                Bạn chưa làm bài thi này lần nào.
+              </Typography>
+              <Typography sx={{ color: '#CBD5E1', fontSize: '0.875rem' }}>
+                Hãy bắt đầu thi để ghi lại kết quả!
+              </Typography>
+            </Box>
+          ) : (
+            <TableContainer sx={{ bgcolor: '#fff' }}>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ bgcolor: '#F8FAFC' }}>
+                    {['Lần thi', 'Thời gian nộp', 'Điểm số', 'Xếp loại'].map(col => (
+                      <TableCell
+                        key={col}
+                        sx={{ fontWeight: 700, fontSize: '0.8rem', color: '#64748B', borderBottom: '1px solid #E2E8F0', py: 1.75 }}
+                      >
+                        {col}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {[...history].reverse().map((attempt) => {
+                    const badge = getScoreBadge(attempt.score);
+                    const isBest = bestScore !== null && attempt.score === bestScore;
+                    return (
+                      <TableRow
+                        key={attempt.attemptNumber}
+                        sx={{
+                          '&:last-child td': { borderBottom: 'none' },
+                          bgcolor: isBest ? 'rgba(16,185,129,0.025)' : 'transparent',
+                          '&:hover': { bgcolor: '#F8FAFC' },
+                          transition: 'background 0.15s',
+                        }}
+                      >
+                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9' }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Box
+                              sx={{
+                                width: 30, height: 30, borderRadius: '50%',
+                                bgcolor: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontSize: '0.8rem', fontWeight: 800, color: '#2563EB', flexShrink: 0,
+                              }}
+                            >
+                              {attempt.attemptNumber}
+                            </Box>
+                            {isBest && (
+                              <Chip
+                                label="Tốt nhất"
+                                size="small"
+                                sx={{ bgcolor: 'rgba(16,185,129,0.1)', color: '#10B981', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
+                              />
+                            )}
+                          </Box>
+                        </TableCell>
+                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9', color: '#475569', fontSize: '0.875rem' }}>
+                          {formatDateTime(attempt.submittedAt)}
+                        </TableCell>
+                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9' }}>
+                          <Typography sx={{ fontWeight: 800, fontSize: '1.1rem', color: getScoreColor(attempt.score) }}>
+                            {attempt.score.toFixed(2)}
+                            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#94A3B8' }}>/10</span>
+                          </Typography>
+                        </TableCell>
+                        <TableCell sx={{ py: 2, borderColor: '#F1F5F9' }}>
+                          <Chip
+                            label={badge.label}
+                            size="small"
+                            sx={{ bgcolor: badge.bg, color: badge.color, fontWeight: 700, fontSize: '0.78rem' }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Paper>
+
+        {/* CTA */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<PlayArrowRoundedIcon sx={{ fontSize: 22 }} />}
+            onClick={() => navigate(`/student?examId=${id}`)}
+            sx={{
+              px: 8, py: 2, borderRadius: 3,
+              fontWeight: 800, fontSize: '1.1rem', letterSpacing: 0.3,
+              background: 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
+              boxShadow: '0 8px 28px rgba(37,99,235,0.4)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+                boxShadow: '0 12px 36px rgba(37,99,235,0.5)',
+                transform: 'translateY(-2px)',
+              },
+              transition: 'all 0.25s ease',
+            }}
+          >
+            {history.length === 0 ? 'Bắt đầu thi ngay' : 'Thi lại'}
+          </Button>
+
+          <Divider sx={{ width: '100%', maxWidth: 480, borderColor: '#E2E8F0' }} />
+          <Typography sx={{ fontSize: '0.8rem', color: '#CBD5E1', textAlign: 'center' }}>
+            Kết quả được ghi lại sau mỗi lần nộp bài. Điểm cao nhất sẽ được tính vào bảng xếp hạng.
+          </Typography>
+        </Box>
+      </Container>
+
+      <Footer />
+    </Box>
+  );
+};
+
+export default ExamInfoPage;
