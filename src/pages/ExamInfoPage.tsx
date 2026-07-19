@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, Chip, Paper,
@@ -17,7 +17,7 @@ import { useData } from '../core/contexts/DataContext';
 import { useAuth } from '../core/contexts/AuthContext';
 import { getExamHistory, type ExamAttempt } from '../core/services/examHistory';
 
-// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helpers ──────────────────────────────────────────────────────
 function getScoreColor(score: number) {
   if (score >= 8) return '#10B981';
   if (score >= 5) return '#F59E0B';
@@ -25,10 +25,10 @@ function getScoreColor(score: number) {
 }
 
 function getScoreBadge(score: number) {
-  if (score >= 8) return { label: 'Xuáº¥t sáº¯c', color: '#10B981', bg: 'rgba(16,185,129,0.1)' };
-  if (score >= 6.5) return { label: 'Giá»i', color: '#FF8C2F', bg: 'rgba(255,140,47,0.1)' };
-  if (score >= 5) return { label: 'Äáº¡t', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' };
-  return { label: 'ChÆ°a Ä‘áº¡t', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' };
+  if (score >= 8) return { label: 'Xuất sắc', color: '#10B981', bg: 'rgba(16,185,129,0.1)' };
+  if (score >= 6.5) return { label: 'Giỏi', color: '#FF8C2F', bg: 'rgba(255,140,47,0.1)' };
+  if (score >= 5) return { label: 'Đạt', color: '#F59E0B', bg: 'rgba(245,158,11,0.1)' };
+  return { label: 'Chưa đạt', color: '#EF4444', bg: 'rgba(239,68,68,0.1)' };
 }
 
 function formatDateTime(isoString: string) {
@@ -38,7 +38,7 @@ function formatDateTime(isoString: string) {
   });
 }
 
-// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Page ─────────────────────────────────────────────────────────
 const ExamInfoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const ExamInfoPage: React.FC = () => {
       <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FFF8F2' }}>
         <Header />
         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography color="text.secondary">KhÃ´ng tÃ¬m tháº¥y Ä‘á» thi.</Typography>
+          <Typography color="text.secondary">Không tìm thấy đề thi.</Typography>
         </Box>
         <Footer />
       </Box>
@@ -87,7 +87,7 @@ const ExamInfoPage: React.FC = () => {
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#FFF8F2' }}>
       <Header />
 
-      {/* Hero banner â€” cam chá»§ Ä‘áº¡o */}
+      {/* Hero banner — cam chủ đạo */}
       <Box
         sx={{
           background: 'linear-gradient(135deg, #7C2D00 0%, #C2410C 40%, #FF8C2F 100%)',
@@ -112,7 +112,7 @@ const ExamInfoPage: React.FC = () => {
               '&:hover': { color: '#fff', bgcolor: 'rgba(255,255,255,0.12)', boxShadow: 'none' },
             }}
           >
-            {course ? course.title : 'Quay láº¡i'}
+            {course ? course.title : 'Quay lại'}
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
@@ -129,7 +129,7 @@ const ExamInfoPage: React.FC = () => {
 
             <Box>
               <Chip
-                label={exam.format === 'thpt_2025' ? 'THPT 2025' : 'TiÃªu chuáº©n'}
+                label={exam.format === 'thpt_2025' ? 'THPT 2025' : 'Tiêu chuẩn'}
                 size="small"
                 sx={{
                   bgcolor: 'rgba(255,255,255,0.18)', color: '#fff',
@@ -147,7 +147,7 @@ const ExamInfoPage: React.FC = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
                   <EmojiEventsRoundedIcon sx={{ color: '#FDE68A', fontSize: 18 }} />
                   <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.95rem' }}>
-                    Äiá»ƒm cao nháº¥t cá»§a báº¡n:{' '}
+                    Điểm cao nhất của bạn:{' '}
                     <span style={{ color: '#FDE68A', fontWeight: 800, fontSize: '1.1rem' }}>
                       {bestScore.toFixed(2)}/10
                     </span>
@@ -159,7 +159,7 @@ const ExamInfoPage: React.FC = () => {
         </Container>
       </Box>
 
-      {/* Stat cards â€” overlap the hero */}
+      {/* Stat cards — overlap the hero */}
       <Container maxWidth="md" sx={{ mt: -4, position: 'relative', zIndex: 2 }}>
         <Paper
           elevation={0}
@@ -174,20 +174,20 @@ const ExamInfoPage: React.FC = () => {
             {[
               {
                 icon: <AccessTimeRoundedIcon sx={{ color: '#FF8C2F', fontSize: 26 }} />,
-                label: 'Thá»i gian lÃ m bÃ i',
-                value: `${exam.timeLimit} phÃºt`,
+                label: 'Thời gian làm bài',
+                value: `${exam.timeLimit} phút`,
                 valueColor: '#FF8C2F',
               },
               {
                 icon: <QuizRoundedIcon sx={{ color: '#E67923', fontSize: 26 }} />,
-                label: 'Sá»‘ cÃ¢u há»i',
-                value: `${questionCount} cÃ¢u`,
+                label: 'Số câu hỏi',
+                value: `${questionCount} câu`,
                 valueColor: '#E67923',
               },
               {
                 icon: <HistoryRoundedIcon sx={{ color: '#10B981', fontSize: 26 }} />,
-                label: 'Sá»‘ láº§n Ä‘Ã£ thi',
-                value: loadingHistory ? '...' : `${history.length} láº§n`,
+                label: 'Số lần đã thi',
+                value: loadingHistory ? '...' : `${history.length} lần`,
                 valueColor: '#10B981',
               },
             ].map((stat, i, arr) => (
@@ -227,11 +227,11 @@ const ExamInfoPage: React.FC = () => {
           >
             <EmojiEventsRoundedIcon sx={{ color: '#F59E0B', fontSize: 22 }} />
             <Typography sx={{ fontWeight: 700, fontSize: '1.05rem', color: '#0F172A' }}>
-              Lá»‹ch sá»­ lÃ m bÃ i
+              Lịch sử làm bài
             </Typography>
             {!loadingHistory && history.length > 0 && (
               <Chip
-                label={`${history.length} láº§n`}
+                label={`${history.length} lần`}
                 size="small"
                 sx={{ ml: 'auto', bgcolor: '#FFF3E8', color: '#FF8C2F', fontWeight: 700, fontSize: '0.75rem' }}
               />
@@ -241,16 +241,16 @@ const ExamInfoPage: React.FC = () => {
           {loadingHistory ? (
             <Box sx={{ py: 6, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5, bgcolor: '#fff' }}>
               <CircularProgress size={22} sx={{ color: '#FF8C2F' }} />
-              <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>Äang táº£i lá»‹ch sá»­...</Typography>
+              <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>Đang tải lịch sử...</Typography>
             </Box>
           ) : history.length === 0 ? (
             <Box sx={{ py: 8, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, bgcolor: '#fff' }}>
               <HistoryRoundedIcon sx={{ fontSize: 52, color: '#FFE0C8' }} />
               <Typography sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '1rem' }}>
-                Báº¡n chÆ°a lÃ m bÃ i thi nÃ y láº§n nÃ o.
+                Bạn chưa làm bài thi này lần nào.
               </Typography>
               <Typography sx={{ color: '#CBD5E1', fontSize: '0.875rem' }}>
-                HÃ£y báº¯t Ä‘áº§u thi Ä‘á»ƒ ghi láº¡i káº¿t quáº£!
+                Hãy bắt đầu thi để ghi lại kết quả!
               </Typography>
             </Box>
           ) : (
@@ -258,7 +258,7 @@ const ExamInfoPage: React.FC = () => {
               <Table>
                 <TableHead>
                   <TableRow sx={{ bgcolor: '#FFFAF7' }}>
-                    {['Láº§n thi', 'Thá»i gian ná»™p', 'Äiá»ƒm sá»‘', 'Xáº¿p loáº¡i'].map(col => (
+                    {['Lần thi', 'Thời gian nộp', 'Điểm số', 'Xếp loại'].map(col => (
                       <TableCell
                         key={col}
                         sx={{ fontWeight: 700, fontSize: '0.8rem', color: '#64748B', borderBottom: '1px solid #FFF0E8', py: 1.75 }}
@@ -296,7 +296,7 @@ const ExamInfoPage: React.FC = () => {
                             </Box>
                             {isBest && (
                               <Chip
-                                label="Tá»‘t nháº¥t"
+                                label="Tốt nhất"
                                 size="small"
                                 sx={{
                                   bgcolor: 'rgba(255,140,47,0.12)', color: '#FF8C2F',
@@ -351,12 +351,12 @@ const ExamInfoPage: React.FC = () => {
               transition: 'all 0.25s ease',
             }}
           >
-            {history.length === 0 ? 'Báº¯t Ä‘áº§u thi ngay' : 'Thi láº¡i'}
+            {history.length === 0 ? 'Bắt đầu thi ngay' : 'Thi lại'}
           </Button>
 
           <Divider sx={{ width: '100%', maxWidth: 480, borderColor: '#FFE8D6' }} />
           <Typography sx={{ fontSize: '0.8rem', color: '#CBD5E1', textAlign: 'center' }}>
-            Káº¿t quáº£ Ä‘Æ°á»£c ghi láº¡i sau má»—i láº§n ná»™p bÃ i. Äiá»ƒm cao nháº¥t sáº½ Ä‘Æ°á»£c tÃ­nh vÃ o báº£ng xáº¿p háº¡ng.
+            Kết quả được ghi lại sau mỗi lần nộp bài. Điểm cao nhất sẽ được tính vào bảng xếp hạng.
           </Typography>
         </Box>
       </Container>
@@ -367,4 +367,3 @@ const ExamInfoPage: React.FC = () => {
 };
 
 export default ExamInfoPage;
-
