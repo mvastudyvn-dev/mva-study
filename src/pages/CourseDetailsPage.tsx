@@ -247,7 +247,7 @@ const CourseDetailsPage: React.FC = () => {
                                 if (!isLocked) {
                                   if (isOwned) {
                                     if (isExam) {
-                                      navigate(`/student?examId=${item.id}`);
+                                      navigate(`/student?examInfo=${item.id}`);
                                     } else {
                                       navigate('/student');
                                     }

@@ -11,6 +11,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
+import { saveExamAttempt } from './StudentExamInfo';
 
 interface StudentExamPlayerProps {
   examId: string;
@@ -123,7 +124,10 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
     }
 
     const total = isStandard ? p1Score : p1Score + p2Score;
-    if (user?.id) markExamCompleted(user.id, exam.id, total);
+    if (user?.id) {
+      markExamCompleted(user.id, exam.id, total);
+      saveExamAttempt(user.id, exam.id, total);
+    }
     setResult({ p1Score, p2Score, total, p1Wrong, p2WrongItems });
 
     setIsAnalyzing(true);

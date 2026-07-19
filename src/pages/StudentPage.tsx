@@ -2,23 +2,25 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import {
-  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentDocuments, StudentSettings, StudentTuition, StudentExamPlayer
+  StudentSidebar, StudentOverview, StudentCourses, StudentNotifications, StudentDocuments, StudentSettings, StudentTuition, StudentExamPlayer, StudentExamInfo
 } from '../features/student';
 
 const StudentPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'overview';
   const examId = searchParams.get('examId');
+  const examInfo = searchParams.get('examInfo');
 
   const handleTabChange = (tabId: string) => {
     setSearchParams(prev => {
       prev.set('tab', tabId);
       prev.delete('examId');
+      prev.delete('examInfo');
       return prev;
     }, { replace: true });
   };
 
-  // Nếu có examId trong URL thì render ExamPlayer toàn trang
+  // Nếu đang trong trang thi (examId) thì render ExamPlayer toàn trang
   if (examId) {
     return (
       <StudentExamPlayer
@@ -30,6 +32,35 @@ const StudentPage: React.FC = () => {
           }, { replace: true });
         }}
       />
+    );
+  }
+
+  // Nếu có examInfo thì hiển thị trang thông tin bài thi (trong layout student)
+  if (examInfo) {
+    return (
+      <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#FFF8F2' }}>
+        <StudentSidebar activeTab={activeTab} onTabChange={handleTabChange} />
+        <Box component="main" sx={{ flex: 1, overflowY: 'auto', height: '100vh' }}>
+          <Box sx={{ flex: 1, p: { xs: 2, md: 3 }, overflow: 'auto' }}>
+            <StudentExamInfo
+              examId={examInfo}
+              onStart={() => {
+                setSearchParams(prev => {
+                  prev.set('examId', examInfo);
+                  prev.delete('examInfo');
+                  return prev;
+                }, { replace: true });
+              }}
+              onBack={() => {
+                setSearchParams(prev => {
+                  prev.delete('examInfo');
+                  return prev;
+                }, { replace: true });
+              }}
+            />
+          </Box>
+        </Box>
+      </Box>
     );
   }
 
