@@ -11,7 +11,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
-import { saveExamAttempt } from './StudentExamInfo';
+import { saveExamAttempt } from '../../../core/services/examHistory';
 
 interface StudentExamPlayerProps {
   examId: string;

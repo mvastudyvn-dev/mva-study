@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Box, Typography, Button, Chip, Table, TableBody,
-  TableCell, TableContainer, TableHead, TableRow, Paper, Divider,
+  TableCell, TableContainer, TableHead, TableRow, Paper, Divider, CircularProgress,
 } from '@mui/material';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
@@ -12,6 +12,10 @@ import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
+import { getExamHistory, saveExamAttempt, type ExamAttempt } from '../../../core/services/examHistory';
+
+// Re-export for use in StudentExamPlayer
+export { saveExamAttempt, type ExamAttempt } from '../../../core/services/examHistory';
 
 interface StudentExamInfoProps {
   examId: string;
@@ -19,43 +23,7 @@ interface StudentExamInfoProps {
   onBack: () => void;
 }
 
-export interface ExamAttempt {
-  attemptNumber: number;
-  score: number;
-  submittedAt: string;
-}
 
-const EXAM_HISTORY_KEY = 'mva_exam_history';
-
-export function getExamHistory(userId: string, examId: string): ExamAttempt[] {
-  try {
-    const raw = localStorage.getItem(EXAM_HISTORY_KEY);
-    if (!raw) return [];
-    const all = JSON.parse(raw) as Record<string, Record<string, ExamAttempt[]>>;
-    return all[userId]?.[examId] || [];
-  } catch {
-    return [];
-  }
-}
-
-export function saveExamAttempt(userId: string, examId: string, score: number) {
-  try {
-    const raw = localStorage.getItem(EXAM_HISTORY_KEY);
-    const all: Record<string, Record<string, ExamAttempt[]>> = raw ? JSON.parse(raw) : {};
-    if (!all[userId]) all[userId] = {};
-    if (!all[userId][examId]) all[userId][examId] = [];
-    const attempts = all[userId][examId];
-    const newAttempt: ExamAttempt = {
-      attemptNumber: attempts.length + 1,
-      score,
-      submittedAt: new Date().toISOString(),
-    };
-    all[userId][examId] = [...attempts, newAttempt];
-    localStorage.setItem(EXAM_HISTORY_KEY, JSON.stringify(all));
-  } catch {
-    // ignore
-  }
-}
 
 function getScoreColor(score: number) {
   if (score >= 8) return '#10B981';
@@ -83,9 +51,17 @@ export const StudentExamInfo: React.FC<StudentExamInfoProps> = ({ examId, onStar
   const { user } = useAuth();
 
   const exam = useMemo(() => exams.find(e => e.id === examId), [exams, examId]);
-  const history = useMemo(() => {
-    if (!user) return [];
-    return getExamHistory(user.id, examId);
+
+  const [history, setHistory] = useState<ExamAttempt[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(true);
+
+  useEffect(() => {
+    if (!user) { setLoadingHistory(false); return; }
+    setLoadingHistory(true);
+    getExamHistory(user.id, examId).then(data => {
+      setHistory(data);
+      setLoadingHistory(false);
+    });
   }, [user, examId]);
 
   const bestScore = history.length > 0 ? Math.max(...history.map(h => h.score)) : null;
@@ -212,7 +188,12 @@ export const StudentExamInfo: React.FC<StudentExamInfoProps> = ({ examId, onStar
           )}
         </Box>
 
-        {history.length === 0 ? (
+        {loadingHistory ? (
+          <Box sx={{ py: 5, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+            <CircularProgress size={22} sx={{ color: '#3B82F6' }} />
+            <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>Đang tải lịch sử...</Typography>
+          </Box>
+        ) : history.length === 0 ? (
           <Box sx={{ py: 6, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
             <HistoryRoundedIcon sx={{ fontSize: 42, color: '#E2E8F0' }} />
             <Typography sx={{ color: '#94A3B8', fontWeight: 500 }}>Bạn chưa làm bài thi này lần nào.</Typography>
