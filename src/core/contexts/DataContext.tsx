@@ -17,13 +17,14 @@ interface DataContextType {
   topStudents: TopStudent[];
   monthlyStats: MonthlyStudentData[];
   systemSettings: SystemSettings | null;
-  allUserProgress: Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[] }>;
+  allUserProgress: Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[]; deductedPoints?: number }>;
   markLessonCompleted: (userId: string, lessonId: string) => void;
   markExamCompleted: (userId: string, examId: string, score: number) => void;
   addDocument: (doc: DocumentItem) => void;
   updateDocument: (id: string, doc: Partial<DocumentItem>) => void;
   deleteDocument: (id: string) => void;
   refreshData: () => void;
+  resetLeaderboard: () => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -44,7 +45,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [systemSettings, setSystemSettings] = useState<SystemSettings | null>(null);
   
   // Progress state
-  const [allUserProgress, setAllUserProgress] = useState<Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[] }>>({});
+  const [allUserProgress, setAllUserProgress] = useState<Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[]; deductedPoints?: number }>>({});
 
   const refreshData = useCallback(async () => {
     const rawCourses = await StorageService.getCourses();
@@ -99,11 +100,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
             points += Math.round(exam.score * 10);
           });
         }
+        if (progress.deductedPoints) {
+          points -= progress.deductedPoints;
+        }
       }
       return {
         id: u.id,
         name: u.name,
-        points: points,
+        points: Math.max(0, points),
         school: u.school || 'MVA Study',
         avatarColor: '#1E3A8A',
         avatar: u.avatar || `https://i.pravatar.cc/150?u=${u.id}`,
@@ -138,6 +142,30 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return prev;
     });
   }, []);
+
+  const resetLeaderboard = useCallback(() => {
+    setAllUserProgress(prev => {
+      const updated = { ...prev };
+      users.forEach(u => {
+        const progress = updated[u.id] || { completedLessons: [], completedExams: [] };
+        let currentTotalPoints = 0;
+        if (progress.completedLessons) {
+          currentTotalPoints += progress.completedLessons.length * 50;
+        }
+        if (progress.completedExams) {
+          progress.completedExams.forEach(exam => {
+            currentTotalPoints += Math.round(exam.score * 10);
+          });
+        }
+        updated[u.id] = {
+          ...progress,
+          deductedPoints: currentTotalPoints
+        };
+      });
+      StorageService.saveUserProgress(updated);
+      return updated;
+    });
+  }, [users]);
 
   const markExamCompleted = useCallback((userId: string, examId: string, score: number) => {
     setAllUserProgress(prev => {
@@ -193,12 +221,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     users, courses, lessons, exams, documents, activationCodes, consultations, 
     teachers, news, leaderboard: dynamicLeaderboard, notifications, topStudents, 
     monthlyStats, systemSettings, refreshData, allUserProgress, 
-    markLessonCompleted, markExamCompleted, addDocument, updateDocument, deleteDocument
+    markLessonCompleted, markExamCompleted, addDocument, updateDocument, deleteDocument, resetLeaderboard
   }), [
     users, courses, lessons, exams, documents, activationCodes, consultations, 
     teachers, news, dynamicLeaderboard, notifications, topStudents, 
     monthlyStats, systemSettings, refreshData, allUserProgress, 
-    markLessonCompleted, markExamCompleted, addDocument, updateDocument, deleteDocument
+    markLessonCompleted, markExamCompleted, addDocument, updateDocument, deleteDocument, resetLeaderboard
   ]);
 
   return (

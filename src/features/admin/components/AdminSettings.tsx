@@ -14,7 +14,7 @@ import type { SystemSettings } from '../../../core/types/global';
 
 export const AdminSettings: React.FC = () => {
   const { user, updateProfile } = useAuth();
-  const { systemSettings, refreshData } = useData();
+  const { systemSettings, refreshData, resetLeaderboard } = useData();
   const [settings, setSettings] = useState<SystemSettings | null>(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [adminAvatar, setAdminAvatar] = useState(user?.avatar || '');
@@ -97,6 +97,14 @@ export const AdminSettings: React.FC = () => {
       }
     };
     reader.readAsText(file);
+  };
+
+  const handleResetLeaderboard = () => {
+    if (window.confirm('CẢNH BÁO TỐI MẬT: Bạn có chắc chắn muốn reset toàn bộ điểm trên bảng xếp hạng về 0? (Dữ liệu điểm bài thi của học sinh vẫn được giữ nguyên)')) {
+      resetLeaderboard();
+      setSuccessMsg('Đã reset bảng xếp hạng thành công!');
+      setTimeout(() => setSuccessMsg(''), 3000);
+    }
   };
 
   return (
@@ -316,6 +324,48 @@ export const AdminSettings: React.FC = () => {
               >
                 Gửi tin nhắn thử nghiệm
               </Button>
+            </CardContent>
+          </Card>
+
+          <Card sx={{ borderRadius: 1, mb: 3, boxShadow: '0 4px 6px rgba(0,0,0,0.02)', bgcolor: '#111827', color: '#F9FAFB' }}>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#F87171' }}>
+                ☢️ Quản Lí Tối Mật
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 3, color: '#9CA3AF' }}>
+                Cảnh báo: Các thao tác trong khu vực này sẽ ảnh hưởng trực tiếp đến toàn hệ thống.
+              </Typography>
+              
+              <Box display="flex" flexDirection="column" gap={3}>
+                <Box>
+                  <Typography variant="subtitle2" sx={{ mb: 1, color: '#FCA5A5' }}>Trạng thái truy cập</Typography>
+                  <FormControlLabel
+                    control={
+                      <Switch 
+                        checked={settings.maintenanceMode || false} 
+                        onChange={(e) => handleChange('maintenanceMode', e.target.checked)} 
+                        color="error" 
+                      />
+                    }
+                    label={settings.maintenanceMode ? "Đang bảo trì (Học sinh bị chặn)" : "Hoạt động bình thường"}
+                  />
+                </Box>
+                
+                <Divider sx={{ borderColor: '#374151' }} />
+                
+                <Box>
+                  <Typography variant="subtitle2" sx={{ mb: 1, color: '#FCA5A5' }}>Bảng xếp hạng</Typography>
+                  <Button 
+                    variant="contained" 
+                    color="error" 
+                    onClick={handleResetLeaderboard}
+                    fullWidth
+                    sx={{ fontWeight: 600, py: 1 }}
+                  >
+                    Reset Bảng Xếp Hạng Về 0
+                  </Button>
+                </Box>
+              </Box>
             </CardContent>
           </Card>
 

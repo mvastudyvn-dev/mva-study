@@ -493,6 +493,7 @@ export const StorageService = {
         countdownSubtitle: data.countdown_subtitle ?? localSettings.countdownSubtitle ?? '',
         telegramBotToken: data.telegram_bot_token || localSettings.telegramBotToken || '',
         telegramChatId: data.telegram_chat_id || localSettings.telegramChatId || '',
+        maintenanceMode: String(data.maintenance_mode) === 'true' || localSettings.maintenanceMode === true,
       };
     } catch (_e) {
       console.warn('Fallback to LocalStorage for System Settings');
@@ -512,6 +513,7 @@ export const StorageService = {
         countdownSubtitle: '',
         telegramBotToken: '',
         telegramChatId: '',
+        maintenanceMode: false,
       };
     }
   },
@@ -532,6 +534,7 @@ export const StorageService = {
         countdown_subtitle: settings.countdownSubtitle ?? '',
         telegram_bot_token: settings.telegramBotToken ?? '',
         telegram_chat_id: settings.telegramChatId ?? '',
+        maintenance_mode: settings.maintenanceMode ?? false,
       };
       const { error } = await supabase.from('system_settings').upsert({
         id: 'default',
@@ -547,16 +550,17 @@ export const StorageService = {
     localStorage.setItem(STORAGE_KEYS.SYSTEM_SETTINGS, JSON.stringify(settings));
   },
   
-  async getUserProgress(): Promise<Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[] }>> {
+  async getUserProgress(): Promise<Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[]; deductedPoints?: number }>> {
     try {
       const { data, error } = await supabase.from('user_progress').select('*');
       if (error) throw error;
       
-      const progressRecord: Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[] }> = {};
+      const progressRecord: Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[]; deductedPoints?: number }> = {};
       data.forEach((p: any) => {
         progressRecord[p.user_id] = {
           completedLessons: p.completed_lessons || [],
-          completedExams: p.completed_exams || []
+          completedExams: p.completed_exams || [],
+          deductedPoints: p.deducted_points || 0
         };
       });
       return progressRecord;
@@ -565,13 +569,14 @@ export const StorageService = {
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_PROGRESS) || '{}');
     }
   },
-  async saveUserProgress(progress: Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[] }>) {
+  async saveUserProgress(progress: Record<string, { completedLessons: string[]; completedExams: { examId: string; score: number }[]; deductedPoints?: number }>) {
     try {
       // Vì progress là 1 object lớn chứa tất cả user_id, ta cần convert nó thành mảng để upsert (update or insert)
       const dataToUpsert = Object.keys(progress).map(userId => ({
         user_id: userId,
         completed_lessons: progress[userId].completedLessons,
-        completed_exams: progress[userId].completedExams
+        completed_exams: progress[userId].completedExams,
+        deducted_points: progress[userId].deductedPoints || 0
       }));
       // Sử dụng upsert (chú ý cần thiết lập user_id là primary key trên supabase)
       await supabase.from('user_progress').upsert(dataToUpsert);

@@ -25,6 +25,7 @@ export interface UserProgress {
   userId: string;
   completedLessons: string[];
   completedExams: { examId: string; score: number }[];
+  deductedPoints?: number;
 }
 
 export interface Course {
@@ -187,4 +188,5 @@ export interface SystemSettings {
   countdownSubtitle: string;
   telegramBotToken?: string;
   telegramChatId?: string;
+  maintenanceMode?: boolean;
 }
