@@ -11,7 +11,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
-import { saveExamAttempt } from '../../../core/services/examHistory';
+import { saveExamAttempt, getExamHistory } from '../../../core/services/examHistory';
 
 interface StudentExamPlayerProps {
   examId: string;
@@ -36,6 +36,13 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiFeedback, setAiFeedback] = useState('');
   const [activeTab, setActiveTab] = useState(0);
+  const [attemptCount, setAttemptCount] = useState<number | null>(null);
+  const MAX_ATTEMPTS = 10;
+
+  useEffect(() => {
+    if (!user?.id || !examId) return;
+    getExamHistory(user.id, examId).then(h => setAttemptCount(h.length));
+  }, [user?.id, examId]);
 
   const isStandard = exam?.format === 'standard';
   const numPart1Qs = isStandard && Array.isArray(exam?.answerKey?.part1) ? exam.answerKey.part1.length : 24;
@@ -62,6 +69,15 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   if (!exam) return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', color: '#64748B' }}>
       <Typography>Đề thi không tồn tại!</Typography>
+    </Box>
+  );
+
+  // Guard: chặn nếu đã đủ 10 lần
+  if (attemptCount !== null && attemptCount >= MAX_ATTEMPTS) return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: 2, px: 3 }}>
+      <Typography variant="h6" sx={{ fontWeight: 800, color: '#EF4444' }}>Đã đạt giới hạn 10 lần làm bài</Typography>
+      <Typography color="text.secondary" textAlign="center">Mỗi tài khoản chỉ được làm tối đa 10 lần mỗi đề thi.</Typography>
+      <Button variant="outlined" onClick={onExit}>Quay lại</Button>
     </Box>
   );
 

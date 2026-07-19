@@ -67,9 +67,17 @@ const ExamInfoPage: React.FC = () => {
 
   const bestScore = history.length > 0 ? Math.max(...history.map(h => h.score)) : null;
 
-  const questionCount = exam?.format === 'standard'
-    ? (exam?.answerKey?.part1?.length || 24)
-    : (exam?.answerKey?.part1?.length || 24) + 6;
+  const MAX_ATTEMPTS = 10;
+  const isMaxReached = !loadingHistory && history.length >= MAX_ATTEMPTS;
+
+  // Số câu theo answerKey thực tế
+  const part1Count = exam?.answerKey?.part1?.length || 0;
+  const part2Count = exam?.answerKey?.part2?.length || 0;
+  const hasTwoParts = part2Count > 0;
+  // Hiển thị số câu: nếu 2 phần → ghi rõ, nếu 1 phần → chỉ tổng
+  const questionCountLabel = hasTwoParts
+    ? `${part1Count} + ${part2Count} câu`
+    : `${part1Count} câu`;
 
   if (!exam) {
     return (
@@ -176,36 +184,44 @@ const ExamInfoPage: React.FC = () => {
                 icon: <AccessTimeRoundedIcon sx={{ color: '#FF8C2F', fontSize: 26 }} />,
                 label: 'Thời gian làm bài',
                 value: `${exam.timeLimit} phút`,
+                subValue: null as string | null,
                 valueColor: '#FF8C2F',
               },
               {
                 icon: <QuizRoundedIcon sx={{ color: '#E67923', fontSize: 26 }} />,
-                label: 'Số câu hỏi',
-                value: `${questionCount} câu`,
+                label: hasTwoParts ? 'Câu hỏi (Phần 1 + 2)' : 'Số câu hỏi',
+                value: loadingHistory ? '...' : questionCountLabel,
+                subValue: hasTwoParts ? `Phần 1: ${part1Count} — Phần 2: ${part2Count}` : null,
                 valueColor: '#E67923',
               },
               {
-                icon: <HistoryRoundedIcon sx={{ color: '#10B981', fontSize: 26 }} />,
+                icon: <HistoryRoundedIcon sx={{ color: isMaxReached ? '#EF4444' : '#10B981', fontSize: 26 }} />,
                 label: 'Số lần đã thi',
-                value: loadingHistory ? '...' : `${history.length} lần`,
-                valueColor: '#10B981',
+                value: loadingHistory ? '...' : `${history.length}/10`,
+                subValue: isMaxReached ? 'Đã đạt giới hạn' : null,
+                valueColor: isMaxReached ? '#EF4444' : '#10B981',
               },
             ].map((stat, i, arr) => (
               <Box
                 key={i}
                 sx={{
                   flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  py: 3, px: 1, gap: 0.75,
+                  py: 3, px: 1, gap: 0.5,
                   borderRight: i < arr.length - 1 ? '1px solid #FFF0E8' : 'none',
                 }}
               >
                 {stat.icon}
-                <Typography sx={{ fontSize: '1.4rem', fontWeight: 900, color: stat.valueColor, lineHeight: 1 }}>
+                <Typography sx={{ fontSize: '1.35rem', fontWeight: 900, color: stat.valueColor, lineHeight: 1.1, textAlign: 'center' }}>
                   {stat.value}
                 </Typography>
-                <Typography sx={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
+                <Typography sx={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500, textAlign: 'center' }}>
                   {stat.label}
                 </Typography>
+                {stat.subValue && (
+                  <Typography sx={{ fontSize: '0.68rem', color: stat.valueColor === '#EF4444' ? '#EF4444' : '#CBD5E1', fontWeight: 600, textAlign: 'center', mt: 0.25 }}>
+                    {stat.subValue}
+                  </Typography>
+                )}
               </Box>
             ))}
           </Box>
@@ -333,26 +349,42 @@ const ExamInfoPage: React.FC = () => {
 
         {/* CTA */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-          <Button
-            variant="contained"
-            size="large"
-            startIcon={<PlayArrowRoundedIcon sx={{ fontSize: 22 }} />}
-            onClick={() => navigate(`/student?examId=${id}`)}
-            sx={{
-              px: 8, py: 2, borderRadius: 3,
-              fontWeight: 800, fontSize: '1.1rem', letterSpacing: 0.3,
-              background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
-              boxShadow: '0 8px 28px rgba(255,140,47,0.4)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
-                boxShadow: '0 12px 36px rgba(255,140,47,0.5)',
-                transform: 'translateY(-2px)',
-              },
-              transition: 'all 0.25s ease',
-            }}
-          >
-            {history.length === 0 ? 'Bắt đầu thi ngay' : 'Thi lại'}
-          </Button>
+          {isMaxReached ? (
+            <Box
+              sx={{
+                bgcolor: 'rgba(239,68,68,0.06)', border: '1.5px solid rgba(239,68,68,0.18)',
+                borderRadius: 3, px: 4, py: 3, textAlign: 'center', maxWidth: 480, width: '100%',
+              }}
+            >
+              <Typography sx={{ fontWeight: 800, color: '#EF4444', fontSize: '1rem', mb: 0.5 }}>
+                Đã đạt giới hạn 10 lần làm bài
+              </Typography>
+              <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>
+                Mỗi tài khoản chỉ được làm tối đa 10 lần. Vui lòng liên hệ hỗ trợ nếu cần thêm lượt.
+              </Typography>
+            </Box>
+          ) : (
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<PlayArrowRoundedIcon sx={{ fontSize: 22 }} />}
+              onClick={() => navigate(`/student?examId=${id}`)}
+              sx={{
+                px: 8, py: 2, borderRadius: 3,
+                fontWeight: 800, fontSize: '1.1rem', letterSpacing: 0.3,
+                background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
+                boxShadow: '0 8px 28px rgba(255,140,47,0.4)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #FF9940 0%, #FF7D1A 100%)',
+                  boxShadow: '0 12px 36px rgba(255,140,47,0.5)',
+                  transform: 'translateY(-2px)',
+                },
+                transition: 'all 0.25s ease',
+              }}
+            >
+              {history.length === 0 ? 'Bắt đầu thi ngay' : `Thi lại (còn ${MAX_ATTEMPTS - history.length} lần)`}
+            </Button>
+          )}
 
           <Divider sx={{ width: '100%', maxWidth: 480, borderColor: '#FFE8D6' }} />
           <Typography sx={{ fontSize: '0.8rem', color: '#CBD5E1', textAlign: 'center' }}>
