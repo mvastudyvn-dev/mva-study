@@ -68,7 +68,7 @@ export const CourseSection: React.FC = () => {
     <Box
       sx={{
         py: { xs: 8, md: 12 },
-        bgcolor: '#FFFFFF',
+        background: 'linear-gradient(160deg, #FFF8F2 0%, #FAFAFA 55%, #FFF3E8 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
