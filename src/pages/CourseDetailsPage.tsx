@@ -31,7 +31,7 @@ const CourseDetailsPage: React.FC = () => {
   }, [refreshData, id]);
 
   const course = useMemo(() => courses.find(c => c.id === id), [courses, id]);
-  
+
   const courseLessons = useMemo(() => {
     return lessons
       .filter(l => l.courseId === id)
@@ -81,9 +81,9 @@ const CourseDetailsPage: React.FC = () => {
         >
           {/* Subtle overlay for contrast */}
           <Box sx={{ position: 'absolute', inset: 0, bgcolor: 'rgba(0,0,0,0.4)', zIndex: 0 }} />
-          
+
           <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-            <Button 
+            <Button
               onClick={() => navigate(isOwned ? '/student' : '/courses')}
               sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, '&:hover': { color: '#fff', bgcolor: 'rgba(255,255,255,0.1)' } }}
               startIcon={<ArrowBackRoundedIcon />}
@@ -115,7 +115,7 @@ const CourseDetailsPage: React.FC = () => {
                 <Typography sx={{ color: '#E2E8F0', fontSize: '1.1rem', mb: 3, lineHeight: 1.6, maxWidth: '800px' }}>
                   {course.description}
                 </Typography>
-                
+
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Rating value={course.rating} precision={0.1} readOnly size="small" sx={{ color: '#F59E0B' }} />
@@ -138,7 +138,7 @@ const CourseDetailsPage: React.FC = () => {
                         {formatPrice(course.price)}
                       </Typography>
                       <Typography sx={{ color: '#64748B', mb: 3, fontSize: '0.9rem' }}>
-                        Thời hạn khóa học {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
+                        Thời hạn khóa học: {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
                       </Typography>
 
                       <Button
@@ -160,7 +160,7 @@ const CourseDetailsPage: React.FC = () => {
                       </Button>
 
                       <Box sx={{ mt: 3 }}>
-                        <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Quyền lợi khóa học:</Typography>
+                        <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Quyền lợi khi mua khóa học:</Typography>
                         <Box component="ul" sx={{ m: 0, pl: 2, '& li': { mb: 0.5, color: '#475569', fontSize: '0.85rem' } }}>
                           <li>Bài giảng chất lượng cao</li>
                           <li>Đề thi bám sát đề thi thật</li>
@@ -187,10 +187,10 @@ const CourseDetailsPage: React.FC = () => {
                     Chưa có bài học hay đề thi nào được thêm vào khóa học này.
                   </Typography>
                 ) : (
-                  <Accordion 
+                  <Accordion
                     defaultExpanded
-                    sx={{ 
-                      boxShadow: 'none', 
+                    sx={{
+                      boxShadow: 'none',
                       bgcolor: '#fff',
                       borderRadius: '12px !important',
                       '&:before': { display: 'none' },
@@ -200,15 +200,15 @@ const CourseDetailsPage: React.FC = () => {
                   >
                     <AccordionSummary
                       expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B', fontSize: 20 }} />}
-                      sx={{ 
+                      sx={{
                         p: 0, px: 3, minHeight: 56,
                         '&.Mui-expanded': { minHeight: 56 },
-                        '& .MuiAccordionSummary-content': { 
+                        '& .MuiAccordionSummary-content': {
                           my: 1.5,
-                          display: 'flex', 
+                          display: 'flex',
                           flexDirection: 'column',
                           gap: 0.4
-                        } 
+                        }
                       }}
                     >
                       <Typography sx={{ fontWeight: 700, color: '#0F172A', fontSize: '0.95rem' }}>
@@ -218,24 +218,24 @@ const CourseDetailsPage: React.FC = () => {
                         {courseLessons.length + courseExams.length} bài học • 0 phút
                       </Typography>
                     </AccordionSummary>
-                    
+
                     <AccordionDetails sx={{ p: 0 }}>
                       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         {[...courseLessons, ...courseExams].map((item, index) => {
                           const isExam = 'timeLimit' in item;
                           const duration = isExam ? `${(item as any).timeLimit} phút` : (item as any).duration || '0 phút';
-                          
+
                           // Trial logic: first 2 items are free to try
                           const isTrial = index < 2;
                           const isLocked = !isOwned && !isTrial;
 
                           return (
-                            <Box 
+                            <Box
                               key={item.id}
-                              sx={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'space-between', 
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
                                 px: 3,
                                 py: 1.5,
                                 borderTop: '1px solid #F1F5F9',
