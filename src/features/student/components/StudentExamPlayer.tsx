@@ -540,7 +540,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
         <Box sx={{ width: '40%', height: '100%', bgcolor: '#fff', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
 
           {/* ── RESULT SCREEN ── */}
-          {isSubmitted && result ? (
+          {isSubmitted && result && (
             <Box sx={{ p: { xs: 2, md: 3 } }}>
               {/* Score Card */}
               <Paper
@@ -644,9 +644,10 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 Quay lại danh sách đề thi
               </Button>
             </Box>
-          ) : (
-            /* ── ANSWER SHEET ── */
-            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          )}
+
+          {/* ── ANSWER SHEET ── */}
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               {/* Tabs for THPT 2025 */}
               {!isStandard && (
                 <Box sx={{ borderBottom: '1px solid #F1F5F9', px: 2 }}>
@@ -841,9 +842,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                   </Box>
                 )}
               </Box>
-
             </Box>
-          )}
         </Box>
       </Box>
     </Box>
