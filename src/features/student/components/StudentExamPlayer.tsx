@@ -628,23 +628,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 </Paper>
               )}
 
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<CloseRoundedIcon />}
-                onClick={onExit}
-                sx={{
-                  mt: 2.5,
-                  borderRadius: '10px',
-                  textTransform: 'none',
-                  fontWeight: 700,
-                  borderColor: '#E2E8F0',
-                  color: '#64748B',
-                  '&:hover': { borderColor: '#94A3B8', bgcolor: '#F8FAFC' },
-                }}
-              >
-                Quay lại danh sách đề thi
-              </Button>
+
             </Box>
           )}
 
