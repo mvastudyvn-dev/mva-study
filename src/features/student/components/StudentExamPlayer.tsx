@@ -57,7 +57,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timer);
-          handleSubmit();
+          handleSubmit(true);
           return 0;
         }
         return prev - 1;
@@ -103,10 +103,13 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (force = false) => {
+    if (!force && !window.confirm('Bạn có chắc chắn muốn nộp bài thi? Không thể thay đổi kết quả sau khi nộp.')) {
+      return;
+    }
     setIsSubmitted(true);
     let p1Score = 0, p2Score = 0, p1Wrong = 0, p2WrongItems = 0;
-    const answerKey = exam.answerKey || { part1: [], part2: [] };
+    const answerKey = exam?.answerKey || { part1: [], part2: [] };
     const wrongAnswers: string[] = [];
 
     for (let i = 0; i < numPart1Qs; i++) {
@@ -205,7 +208,18 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
               px: 2,
               py: 1,
               borderBottom: subIndex < 3 ? '1px solid #F1F5F9' : 'none',
-              bgcolor: isTrue ? 'rgba(16,185,129,0.04)' : isFalse ? 'rgba(239,68,68,0.04)' : 'transparent',
+              bgcolor: (() => {
+                if (!isSubmitted) return isTrue ? 'rgba(16,185,129,0.04)' : isFalse ? 'rgba(239,68,68,0.04)' : 'transparent';
+                
+                const keyAns = (exam?.answerKey || { part2: [] }).part2?.[qIndex] || [];
+                const correctVal = keyAns[subIndex] === 'T';
+                const answeredCorrectly = (isTrue && correctVal) || (isFalse && !correctVal);
+                const answeredWrongly = (isTrue && !correctVal) || (isFalse && correctVal);
+                
+                if (answeredCorrectly) return 'rgba(16,185,129,0.1)';
+                if (answeredWrongly) return 'rgba(239,68,68,0.1)';
+                return 'transparent';
+              })(),
             }}
           >
             <Typography sx={{ fontSize: '0.85rem', color: '#475569', fontWeight: 500 }}>
@@ -384,7 +398,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             /* Submit button */
             <Button
               variant="contained"
-              onClick={handleSubmit}
+              onClick={() => handleSubmit(false)}
               sx={{
                 background: 'linear-gradient(135deg, #F97316, #FB923C)',
                 borderRadius: '10px',
@@ -674,16 +688,31 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                     <Grid container spacing={1.5}>
                       {Array.from({ length: numPart1Qs }).map((_, i) => {
                         const selected = answers.part1[i];
+                        const correctOpt = (exam?.answerKey || { part1: [] }).part1?.[i];
+                        
+                        let borderColor = selected ? '1.5px solid rgba(37,99,235,0.4)' : '1px solid #E2E8F0';
+                        let bgColor = selected ? 'rgba(37,99,235,0.03)' : '#FAFAFA';
+
+                        if (isSubmitted) {
+                          if (selected === correctOpt) {
+                            borderColor = '1.5px solid #10B981';
+                            bgColor = 'rgba(16,185,129,0.08)';
+                          } else if (selected) {
+                            borderColor = '1.5px solid #EF4444';
+                            bgColor = 'rgba(239,68,68,0.08)';
+                          } else {
+                            borderColor = '1px solid #E2E8F0';
+                          }
+                        }
+
                         return (
                           <Grid item xs={6} sm={4} key={i}>
                             <Paper
                               elevation={0}
                               sx={{
                                 borderRadius: '10px',
-                                border: selected
-                                  ? '1.5px solid rgba(37,99,235,0.4)'
-                                  : '1px solid #E2E8F0',
-                                bgcolor: selected ? 'rgba(37,99,235,0.03)' : '#FAFAFA',
+                                border: borderColor,
+                                bgcolor: bgColor,
                                 p: 1.25,
                                 transition: 'all 0.15s',
                               }}
@@ -705,36 +734,49 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                                 onChange={(e) => handlePart1Change(i, e.target.value)}
                                 sx={{ justifyContent: 'space-around', gap: 0 }}
                               >
-                                {['A', 'B', 'C', 'D'].map(opt => (
-                                  <FormControlLabel
-                                    key={opt}
-                                    value={opt}
-                                    control={
-                                      <Radio
-                                        size="small"
-                                        disabled={isSubmitted}
-                                        sx={{
-                                          p: 0.4,
-                                          color: '#CBD5E1',
-                                          '&.Mui-checked': { color: '#2563EB' },
-                                        }}
-                                      />
-                                    }
-                                    label={
-                                      <Typography
-                                        sx={{
-                                          fontSize: '0.75rem',
-                                          fontWeight: selected === opt ? 700 : 500,
-                                          color: selected === opt ? '#2563EB' : '#475569',
-                                        }}
-                                      >
-                                        {opt}
-                                      </Typography>
-                                    }
-                                    labelPlacement="bottom"
-                                    sx={{ m: 0 }}
-                                  />
-                                ))}
+                                {['A', 'B', 'C', 'D'].map(opt => {
+                                  const isCorrectOpt = isSubmitted && opt === correctOpt;
+                                  const isSelectedWrong = isSubmitted && selected === opt && opt !== correctOpt;
+
+                                  return (
+                                    <FormControlLabel
+                                      key={opt}
+                                      value={opt}
+                                      control={
+                                        <Radio
+                                          size="small"
+                                          disabled={isSubmitted}
+                                          sx={{
+                                            p: 0.4,
+                                            color: isCorrectOpt ? '#10B981' : '#CBD5E1',
+                                            '&.Mui-checked': { 
+                                              color: isCorrectOpt ? '#10B981' : isSelectedWrong ? '#EF4444' : '#2563EB' 
+                                            },
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          sx={{
+                                            fontSize: '0.75rem',
+                                            fontWeight: selected === opt || isCorrectOpt ? 700 : 500,
+                                            color: isCorrectOpt 
+                                              ? '#10B981' 
+                                              : isSelectedWrong 
+                                                ? '#EF4444' 
+                                                : selected === opt 
+                                                  ? '#2563EB' 
+                                                  : '#475569',
+                                          }}
+                                        >
+                                          {opt}
+                                        </Typography>
+                                      }
+                                      labelPlacement="bottom"
+                                      sx={{ m: 0 }}
+                                    />
+                                  );
+                                })}
                               </RadioGroup>
                             </Paper>
                           </Grid>
