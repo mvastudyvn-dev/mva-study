@@ -423,25 +423,31 @@ router.post('/send-manual-code', async (req, res) => {
       return res.status(404).json({ error: 'Không tìm thấy khóa học' });
     }
 
-    // 3. Tạo mã ngẫu nhiên
-    const randomPart = Array.from({ length: 9 }, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 36)]).join('');
-    const codeString = `MVA${randomPart}`;
-
-    // 4. Lưu vào Supabase (nhớ dùng status: 'Chưa sử dụng' để không vi phạm constraint)
-    const { error: insertError } = await supabase
+    // 3. Tìm mã chưa bán trong kho
+    const { data: codes, error: codeError } = await supabase
       .from('activation_codes')
-      .insert({
-        code: codeString,
-        course_id: courseId,
-        course_name: course.title,
-        status: 'Chưa sử dụng',
-        is_used: false,
-        used_by_email: user.email,
-      });
+      .select('*')
+      .eq('course_id', courseId)
+      .eq('is_used', false)
+      .is('used_by_email', null)
+      .limit(1);
 
-    if (insertError) {
-      console.error('Lỗi insert mã:', insertError);
-      return res.status(500).json({ error: 'Lỗi lưu mã vào cơ sở dữ liệu' });
+    if (codeError || !codes || codes.length === 0) {
+      return res.status(400).json({ error: 'Không còn mã trống trong kho cho khóa học này. Vui lòng tạo thêm mã trước khi gửi.' });
+    }
+
+    const activationCode = codes[0];
+    const codeString = activationCode.code;
+
+    // 4. Cập nhật mã (Gán email)
+    const { error: updateError } = await supabase
+      .from('activation_codes')
+      .update({ used_by_email: user.email })
+      .eq('code', codeString);
+
+    if (updateError) {
+      console.error('Lỗi cập nhật mã:', updateError);
+      return res.status(500).json({ error: 'Lỗi cập nhật mã trong cơ sở dữ liệu' });
     }
 
     // 5. Gửi email
