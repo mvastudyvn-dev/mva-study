@@ -9,6 +9,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { saveExamAttempt, getExamHistory } from '../../../core/services/examHistory';
@@ -432,7 +433,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             width: '60%',
             height: '100%',
             borderRight: '1px solid #E2E8F0',
-            bgcolor: '#1A1A1A', // Match Google Drive dark background
+            bgcolor: '#F8FAFC', // Match the requested light background
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
@@ -440,6 +441,35 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           }}
         >
           {exam.fileUrl ? (
+            <>
+              {/* Floating Download Button */}
+              <Button
+                variant="outlined"
+                onClick={() => window.open(exam.fileUrl, '_blank')}
+                startIcon={<DownloadRoundedIcon sx={{ fontSize: 18 }} />}
+                sx={{
+                  position: 'absolute',
+                  top: 16,
+                  right: 16,
+                  bgcolor: '#ffffff',
+                  color: '#334155',
+                  borderColor: '#E2E8F0',
+                  borderRadius: '8px',
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  zIndex: 10,
+                  px: 2,
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+                  '&:hover': {
+                    bgcolor: '#F1F5F9',
+                    borderColor: '#CBD5E1'
+                  }
+                }}
+              >
+                Tải xuống
+              </Button>
+
               <iframe
                 src={(() => {
                   const url = exam.fileUrl;
@@ -449,17 +479,27 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                   }
                   return url.includes('#') ? url : `${url}#toolbar=0&view=FitH`;
                 })()}
-                style={{
-                  border: 'none',
-                  position: 'absolute',
-                  top: '-56px', // Crop out Google Drive top toolbar
-                  left: '-5%', // Shift left to center the 110% width
-                  width: '110%', // Zoom 110%
-                  height: 'calc(100% + 60px)', // Compensate for the top crop
-                }}
+                style={
+                  exam.fileUrl.includes('drive.google.com')
+                    ? {
+                        border: 'none',
+                        position: 'absolute',
+                        top: '-56px', // Crop out Google Drive top toolbar
+                        left: '-5%', // Shift left to center the 110% width
+                        width: '110%', // Zoom 110%
+                        height: 'calc(100% + 60px)', // Compensate for the top crop
+                      }
+                    : {
+                        border: 'none',
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'transparent'
+                      }
+                }
                 title="Exam PDF"
                 allow="autoplay"
               />
+            </>
           ) : (
             <Box
               sx={{
