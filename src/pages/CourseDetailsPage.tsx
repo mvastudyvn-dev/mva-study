@@ -138,7 +138,7 @@ const CourseDetailsPage: React.FC = () => {
                         {formatPrice(course.price)}
                       </Typography>
                       <Typography sx={{ color: '#64748B', mb: 3, fontSize: '0.9rem' }}>
-                        Truy cập {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
+                        Thời hạn khóa học {course.durationMonths ? `${course.durationMonths} tháng` : 'vĩnh viễn'}
                       </Typography>
 
                       <Button
@@ -160,11 +160,10 @@ const CourseDetailsPage: React.FC = () => {
                       </Button>
 
                       <Box sx={{ mt: 3 }}>
-                        <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Khóa học này bao gồm:</Typography>
+                        <Typography sx={{ fontWeight: 600, mb: 1, fontSize: '0.9rem' }}>Quyền lợi khóa học:</Typography>
                         <Box component="ul" sx={{ m: 0, pl: 2, '& li': { mb: 0.5, color: '#475569', fontSize: '0.85rem' } }}>
-                          <li>Video bài giảng chất lượng cao</li>
-                          <li>Tài liệu thực hành đính kèm</li>
-                          <li>Bài kiểm tra đánh giá năng lực</li>
+                          <li>Bài giảng chất lượng cao</li>
+                          <li>Đề thi bám sát đề thi thật</li>
                           <li>Hỗ trợ giải đáp thắc mắc 24/7</li>
                         </Box>
                       </Box>
