@@ -26,7 +26,7 @@ interface ExamAnswers {
 }
 
 export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, onExit }) => {
-  const { exams = [], markExamCompleted } = useData();
+  const { exams = [], markExamCompleted, systemSettings } = useData();
   const { user } = useAuth();
   const exam = exams.find(e => e.id === examId);
 
@@ -587,44 +587,46 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
               </Paper>
 
               {/* AI Feedback */}
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 2.5,
-                  borderRadius: '14px',
-                  bgcolor: 'rgba(59,130,246,0.04)',
-                  border: '1px solid rgba(59,130,246,0.15)',
-                }}
-              >
-                <Box display="flex" alignItems="center" gap={1} mb={1.5}>
-                  <Box
-                    sx={{
-                      p: 0.75,
-                      borderRadius: '8px',
-                      background: 'linear-gradient(135deg, #2563EB, #60A5FA)',
-                      display: 'flex',
-                    }}
-                  >
-                    <AutoAwesomeIcon sx={{ fontSize: 16, color: '#fff' }} />
-                  </Box>
-                  <Typography sx={{ fontWeight: 700, color: '#1D4ED8', fontSize: '0.9rem' }}>
-                    AI Phân tích kết quả
-                  </Typography>
-                </Box>
-
-                {isAnalyzing ? (
-                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3, gap: 1.5 }}>
-                    <CircularProgress size={28} sx={{ color: '#2563EB' }} />
-                    <Typography sx={{ fontSize: '0.85rem', color: '#94A3B8' }}>
-                      AI đang phân tích bài làm của bạn...
+              {systemSettings?.aiAnalysisEnabled && (
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 2.5,
+                    borderRadius: '14px',
+                    bgcolor: 'rgba(59,130,246,0.04)',
+                    border: '1px solid rgba(59,130,246,0.15)',
+                  }}
+                >
+                  <Box display="flex" alignItems="center" gap={1} mb={1.5}>
+                    <Box
+                      sx={{
+                        p: 0.75,
+                        borderRadius: '8px',
+                        background: 'linear-gradient(135deg, #2563EB, #60A5FA)',
+                        display: 'flex',
+                      }}
+                    >
+                      <AutoAwesomeIcon sx={{ fontSize: 16, color: '#fff' }} />
+                    </Box>
+                    <Typography sx={{ fontWeight: 700, color: '#1D4ED8', fontSize: '0.9rem' }}>
+                      AI Phân tích kết quả
                     </Typography>
                   </Box>
-                ) : (
-                  <Typography sx={{ color: '#374151', lineHeight: 1.7, fontSize: '0.9rem' }}>
-                    {aiFeedback}
-                  </Typography>
-                )}
-              </Paper>
+
+                  {isAnalyzing ? (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3, gap: 1.5 }}>
+                      <CircularProgress size={28} sx={{ color: '#2563EB' }} />
+                      <Typography sx={{ fontSize: '0.85rem', color: '#94A3B8' }}>
+                        AI đang phân tích bài làm của bạn...
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Typography sx={{ color: '#374151', lineHeight: 1.7, fontSize: '0.9rem' }}>
+                      {aiFeedback}
+                    </Typography>
+                  )}
+                </Paper>
+              )}
 
               <Button
                 fullWidth
