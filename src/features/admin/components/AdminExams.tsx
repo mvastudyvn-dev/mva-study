@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useData } from '../../../core/contexts/DataContext';
 import { StorageService } from '../../../core/services/storage';
 import type { Exam } from '../../../core/types/global';
@@ -228,6 +229,11 @@ export const AdminExams: React.FC = () => {
                         <a href={exam.fileUrl} target="_blank" rel="noreferrer">{exam.fileUrl || 'Chưa có link'}</a>
                       </TableCell>
                       <TableCell align="right">
+                        <Tooltip title="Xem thống kê">
+                          <IconButton size="small" onClick={() => window.location.href = `/admin/exams/${exam.id}/analytics`} sx={{ color: '#10B981', mr: 1, bgcolor: 'rgba(16, 185, 129, 0.1)', '&:hover': { bgcolor: 'rgba(16, 185, 129, 0.2)' } }}>
+                            <AssessmentIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                         <Tooltip title="Chỉnh sửa đề thi">
                           <IconButton size="small" onClick={() => handleOpen(exam)} sx={{ color: '#3B82F6', mr: 1, bgcolor: 'rgba(59, 130, 246, 0.1)', '&:hover': { bgcolor: 'rgba(59, 130, 246, 0.2)' } }}>
                             <EditIcon fontSize="small" />

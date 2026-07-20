@@ -107,12 +107,14 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
     setIsSubmitted(true);
     let p1Score = 0, p2Score = 0, p1Wrong = 0, p2WrongItems = 0;
     const answerKey = exam.answerKey || { part1: [], part2: [] };
+    const wrongAnswers: string[] = [];
 
     for (let i = 0; i < numPart1Qs; i++) {
       if (answers.part1[i] === answerKey.part1[i]) {
         p1Score += isStandard ? 10 / (numPart1Qs || 1) : 0.25;
       } else {
         p1Wrong++;
+        wrongAnswers.push(`P1_Q${i + 1}`);
       }
     }
 
@@ -124,7 +126,10 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
         for (let j = 0; j < 4; j++) {
           const k = keyAns[j] === 'T';
           if (studentAns[j] === k) correct++;
-          else p2WrongItems++;
+          else {
+            p2WrongItems++;
+            wrongAnswers.push(`P2_Q${qIndex + 1}_${['a', 'b', 'c', 'd'][j]}`);
+          }
         }
         if (correct === 1) return 0.1;
         if (correct === 2) return 0.25;
@@ -143,7 +148,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
     const total = isStandard ? p1Score : p1Score + p2Score;
     if (user?.id) {
       markExamCompleted(user.id, exam.id, total);
-      saveExamAttempt(user.id, exam.id, total);
+      saveExamAttempt(user.id, exam.id, total, wrongAnswers);
     }
     setResult({ p1Score, p2Score, total, p1Wrong, p2WrongItems });
 
