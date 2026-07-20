@@ -73,7 +73,7 @@ export const AdminExamAnalytics: React.FC = () => {
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => navigate('/admin?tab=exams')}
+          onClick={() => navigate(`/admin?tab=exams&course=${exam.courseId}`)}
           sx={{ color: '#64748B', mr: 2, '&:hover': { bgcolor: '#F1F5F9' } }}
         >
           Quay lại
