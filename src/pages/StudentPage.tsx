@@ -24,10 +24,8 @@ const StudentPage: React.FC = () => {
       <StudentExamPlayer
         examId={examId}
         onExit={() => {
-          setSearchParams(prev => {
-            prev.delete('examId');
-            return prev;
-          }, { replace: true });
+          // Navigate back to the exam info page instead of student dashboard
+          window.location.href = `/exam/${examId}`;
         }}
       />
     );
