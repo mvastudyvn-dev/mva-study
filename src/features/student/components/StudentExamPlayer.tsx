@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Grid, Button, Paper, RadioGroup, FormControlLabel,
-  Radio, Tabs, Tab, CircularProgress, Divider, LinearProgress, Tooltip, Chip
+  Radio, Tabs, Tab, CircularProgress, Divider, LinearProgress, Tooltip, Chip,
+  Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel, TextField, Snackbar, Alert
 } from '@mui/material';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
@@ -10,6 +11,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import ReportProblemRoundedIcon from '@mui/icons-material/ReportProblemRounded';
 import { useData } from '../../../core/contexts/DataContext';
 import { useAuth } from '../../../core/contexts/AuthContext';
 import { saveExamAttempt, getExamHistory } from '../../../core/services/examHistory';
@@ -26,7 +28,7 @@ interface ExamAnswers {
 }
 
 export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, onExit }) => {
-  const { exams = [], markExamCompleted, systemSettings } = useData();
+  const { exams = [], courses = [], markExamCompleted, systemSettings } = useData();
   const { user } = useAuth();
   const exam = exams.find(e => e.id === examId);
 
@@ -39,6 +41,12 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   const [activeTab, setActiveTab] = useState(0);
   const [attemptCount, setAttemptCount] = useState<number | null>(null);
   const MAX_ATTEMPTS = 10;
+
+  // States cho tính năng Báo lỗi
+  const [reportOpen, setReportOpen] = useState(false);
+  const [reportData, setReportData] = useState({ reason: '', question: '', details: '' });
+  const [reportSubmitting, setReportSubmitting] = useState(false);
+  const [snackOpen, setSnackOpen] = useState(false);
 
   useEffect(() => {
     if (!user?.id || !examId) return;
@@ -81,6 +89,56 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
       <Button variant="outlined" onClick={onExit}>Quay lại</Button>
     </Box>
   );
+
+  const handleReportSubmit = async () => {
+    if (!reportData.reason || !reportData.question) {
+      alert('Vui lòng chọn lý do và câu hỏi báo lỗi.');
+      return;
+    }
+    setReportSubmitting(true);
+    try {
+      const localSettingsStr = localStorage.getItem('mva_system_settings');
+      const localSettings = localSettingsStr ? JSON.parse(localSettingsStr) : {};
+
+      const token = (systemSettings?.telegramBotToken || localSettings?.telegramBotToken || '').trim();
+      const chatId = (systemSettings?.telegramChatId || localSettings?.telegramChatId || '').trim();
+
+      if (token && chatId) {
+        const course = courses.find((c: any) => c.id === exam?.courseId);
+        const courseTitle = course ? course.title : 'Không xác định';
+
+        const message = `🚨 <b>BÁO LỖI ĐỀ THI</b>\n\n` +
+                        `👤 <b>Tài khoản:</b> ${user?.name || user?.username || 'Không xác định'}\n` +
+                        `📖 <b>Khóa học:</b> ${courseTitle}\n` +
+                        `📝 <b>Đề thi:</b> ${exam.title}\n` +
+                        `❓ <b>Câu:</b> ${reportData.question}\n` +
+                        `⚠️ <b>Lý do:</b> ${reportData.reason}\n` +
+                        (reportData.details ? `💬 <b>Chi tiết:</b> ${reportData.details}\n` : '') +
+                        `⏰ <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}`;
+
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' }),
+        });
+        const tgData = await res.json();
+        if (!tgData.ok) {
+          console.error('Lỗi Telegram:', tgData.description);
+          alert('Lỗi gửi thông báo Telegram: ' + tgData.description);
+        }
+      } else {
+        alert('Chưa cấu hình Telegram Bot trong phần cài đặt.');
+      }
+      setSnackOpen(true);
+      setReportOpen(false);
+      setReportData({ reason: '', question: '', details: '' });
+    } catch (error) {
+      console.error('Lỗi khi gửi báo lỗi:', error);
+      alert('Lỗi mạng khi gọi API Telegram: ' + error);
+    } finally {
+      setReportSubmitting(false);
+    }
+  };
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -392,6 +450,33 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 flexShrink: 0,
               }}
             />
+          )}
+
+          {!isSubmitted && (
+            /* Report button */
+            <Button
+              variant="outlined"
+              onClick={() => setReportOpen(true)}
+              sx={{
+                borderRadius: '10px',
+                textTransform: 'none',
+                fontWeight: 600,
+                fontSize: { xs: '0.8rem', sm: '0.875rem' },
+                px: { xs: 1.5, sm: 2 },
+                py: { xs: 0.6, sm: 0.85 },
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                borderColor: '#EF4444',
+                color: '#EF4444',
+                '&:hover': {
+                  bgcolor: 'rgba(239,68,68,0.08)',
+                  borderColor: '#DC2626',
+                },
+              }}
+            >
+              <ReportProblemRoundedIcon sx={{ fontSize: { xs: 14, sm: 16 }, mr: 0.5 }} />
+              <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Báo lỗi</Box>
+            </Button>
           )}
 
           {!isSubmitted && (
@@ -831,6 +916,68 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             </Box>
         </Box>
       </Box>
+
+      {/* Pop-up Báo lỗi */}
+      <Dialog open={reportOpen} onClose={() => !reportSubmitting && setReportOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 700, pb: 1, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>Báo lỗi đề thi</DialogTitle>
+        <DialogContent>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 1 }}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Lý do lỗi</InputLabel>
+              <Select
+                label="Lý do lỗi"
+                value={reportData.reason}
+                onChange={(e) => setReportData(prev => ({ ...prev, reason: e.target.value }))}
+                sx={{ borderRadius: '10px' }}
+              >
+                <MenuItem value="Sai đề bài">Sai đề bài</MenuItem>
+                <MenuItem value="Sai đáp án">Sai đáp án</MenuItem>
+                <MenuItem value="Lỗi hiển thị/Hình ảnh">Lỗi hiển thị/Hình ảnh</MenuItem>
+                <MenuItem value="Khác">Khác</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              fullWidth
+              size="small"
+              label="Câu bị lỗi (VD: Câu 1, Phần 2 Câu 1a...)"
+              value={reportData.question}
+              onChange={(e) => setReportData(prev => ({ ...prev, question: e.target.value }))}
+              placeholder="Nhập số câu hoặc phần bị lỗi"
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Chi tiết (Tùy chọn)"
+              multiline
+              rows={3}
+              value={reportData.details}
+              onChange={(e) => setReportData(prev => ({ ...prev, details: e.target.value }))}
+              placeholder="Mô tả rõ hơn về lỗi để giáo viên dễ dàng kiểm tra..."
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2.5 }}>
+          <Button onClick={() => setReportOpen(false)} disabled={reportSubmitting} color="inherit" sx={{ textTransform: 'none', fontWeight: 600 }}>
+            Hủy
+          </Button>
+          <Button onClick={handleReportSubmit} disabled={reportSubmitting} variant="contained" sx={{ textTransform: 'none', fontWeight: 600, bgcolor: '#EF4444', borderRadius: '8px', '&:hover': { bgcolor: '#DC2626' } }}>
+            {reportSubmitting ? 'Đang gửi...' : 'Gửi báo lỗi'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setSnackOpen(false)} severity="success" sx={{ width: '100%', borderRadius: '12px', fontWeight: 600 }}>
+          Cảm ơn bạn! Báo lỗi đã được gửi thành công.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
