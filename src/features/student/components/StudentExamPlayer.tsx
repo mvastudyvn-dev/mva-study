@@ -33,6 +33,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   const exam = exams.find(e => e.id === examId);
 
   const [timeLeft, setTimeLeft] = useState((exam?.timeLimit || 50) * 60);
+  const [timerInitialized, setTimerInitialized] = useState(!!exam);
   const [answers, setAnswers] = useState<ExamAnswers>({ part1: {}, part2: {} });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -47,6 +48,13 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   const [reportData, setReportData] = useState({ reason: '', question: '', details: '' });
   const [reportSubmitting, setReportSubmitting] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
+
+  useEffect(() => {
+    if (exam && !timerInitialized) {
+      setTimeLeft((exam.timeLimit || 50) * 60);
+      setTimerInitialized(true);
+    }
+  }, [exam, timerInitialized]);
 
   useEffect(() => {
     if (!user?.id || !examId) return;
