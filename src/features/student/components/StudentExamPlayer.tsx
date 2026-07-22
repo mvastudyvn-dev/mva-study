@@ -460,32 +460,30 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             />
           )}
 
-          {!isSubmitted && (
-            /* Report button */
-            <Button
-              variant="outlined"
-              onClick={() => setReportOpen(true)}
-              sx={{
-                borderRadius: '10px',
-                textTransform: 'none',
-                fontWeight: 600,
-                fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                px: { xs: 1.5, sm: 2 },
-                py: { xs: 0.6, sm: 0.85 },
-                whiteSpace: 'nowrap',
-                flexShrink: 0,
-                borderColor: '#EF4444',
-                color: '#EF4444',
-                '&:hover': {
-                  bgcolor: 'rgba(239,68,68,0.08)',
-                  borderColor: '#DC2626',
-                },
-              }}
-            >
-              <ReportProblemRoundedIcon sx={{ fontSize: { xs: 14, sm: 16 }, mr: 0.5 }} />
-              <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Báo lỗi</Box>
-            </Button>
-          )}
+          /* Report button - Hỗ trợ báo lỗi cả khi đang làm bài và sau khi nộp bài */
+          <Button
+            variant="outlined"
+            onClick={() => setReportOpen(true)}
+            sx={{
+              borderRadius: '10px',
+              textTransform: 'none',
+              fontWeight: 600,
+              fontSize: { xs: '0.8rem', sm: '0.875rem' },
+              px: { xs: 1.5, sm: 2 },
+              py: { xs: 0.6, sm: 0.85 },
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              borderColor: '#EF4444',
+              color: '#EF4444',
+              '&:hover': {
+                bgcolor: 'rgba(239,68,68,0.08)',
+                borderColor: '#DC2626',
+              },
+            }}
+          >
+            <ReportProblemRoundedIcon sx={{ fontSize: { xs: 14, sm: 16 }, mr: 0.5 }} />
+            <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Báo lỗi</Box>
+          </Button>
 
           {!isSubmitted && (
             /* Submit button */
@@ -721,6 +719,54 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 </Paper>
               )}
 
+              {/* Report Error Prompt on Result Screen */}
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 2,
+                  mt: 2,
+                  borderRadius: '14px',
+                  bgcolor: 'rgba(239,68,68,0.04)',
+                  border: '1px dashed rgba(239,68,68,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 1.5,
+                  flexWrap: 'wrap'
+                }}
+              >
+                <Box display="flex" alignItems="center" gap={1.2}>
+                  <ReportProblemRoundedIcon sx={{ color: '#EF4444', fontSize: 22 }} />
+                  <Box>
+                    <Typography sx={{ fontWeight: 700, color: '#991B1B', fontSize: '0.85rem' }}>
+                      Phát hiện sai sót trong đề bài hoặc đáp án?
+                    </Typography>
+                    <Typography sx={{ color: '#7F1D1D', fontSize: '0.75rem' }}>
+                      Gửi báo lỗi để ban chuyên môn hỗ trợ và đính chính kịp thời.
+                    </Typography>
+                  </Box>
+                </Box>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => setReportOpen(true)}
+                  startIcon={<ReportProblemRoundedIcon sx={{ fontSize: 16 }} />}
+                  sx={{
+                    bgcolor: '#EF4444',
+                    color: '#fff',
+                    textTransform: 'none',
+                    fontWeight: 700,
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 6px rgba(239,68,68,0.25)',
+                    fontSize: '0.8rem',
+                    px: 2,
+                    py: 0.6,
+                    '&:hover': { bgcolor: '#DC2626' }
+                  }}
+                >
+                  Báo lỗi ngay
+                </Button>
+              </Paper>
 
             </Box>
           )}
