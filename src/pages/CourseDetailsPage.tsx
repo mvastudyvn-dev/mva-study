@@ -39,7 +39,9 @@ const CourseDetailsPage: React.FC = () => {
   }, [lessons, id]);
 
   const courseExams = useMemo(() => {
-    return (exams || []).filter(e => e.courseId === id);
+    return (exams || [])
+      .filter(e => e.courseId === id)
+      .sort((a, b) => (a.id || '').localeCompare(b.id || ''));
   }, [exams, id]);
 
   const groupedItems = useMemo(() => {
@@ -215,7 +217,7 @@ const CourseDetailsPage: React.FC = () => {
                   groupedItems.map((group, groupIndex) => (
                     <Accordion
                       key={groupIndex}
-                      defaultExpanded={groupIndex === 0}
+                      defaultExpanded={false}
                       sx={{
                         boxShadow: 'none',
                         bgcolor: '#fff',
