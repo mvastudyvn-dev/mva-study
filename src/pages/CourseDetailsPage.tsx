@@ -42,6 +42,31 @@ const CourseDetailsPage: React.FC = () => {
     return (exams || []).filter(e => e.courseId === id);
   }, [exams, id]);
 
+  const groupedItems = useMemo(() => {
+    const extractTopicName = (title: string): string => {
+      const match = title.match(/^(\d+\.\s+.*?)(?:\s+(?:BT|BTVN\d*|BTVN\s*\d*|Đề\s*\d*|Review)|$)/i);
+      if (match) {
+        return match[1].trim();
+      }
+      return "Nội dung khác";
+    };
+
+    const allItems = [...courseLessons, ...courseExams];
+    const groups: { topic: string; items: { data: any, globalIndex: number }[] }[] = [];
+    
+    allItems.forEach((item, index) => {
+      const topic = extractTopicName(item.title);
+      let group = groups.find(g => g.topic === topic);
+      if (!group) {
+        group = { topic, items: [] };
+        groups.push(group);
+      }
+      group.items.push({ data: item, globalIndex: index });
+    });
+    
+    return groups;
+  }, [courseLessons, courseExams]);
+
   const isOwned = useMemo(() => {
     return activationCodes.some((c) => c.usedByEmail === user?.email && c.courseId === id);
   }, [activationCodes, user, id]);
@@ -182,51 +207,55 @@ const CourseDetailsPage: React.FC = () => {
               <Box sx={{ bgcolor: '#fff', borderRadius: 4, p: { xs: 3, md: 4 }, boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
 
 
-                {courseLessons.length === 0 && courseExams.length === 0 ? (
+                {groupedItems.length === 0 ? (
                   <Typography sx={{ color: '#64748B', py: 4, textAlign: 'center' }}>
                     Chưa có bài học hay đề thi nào được thêm vào khóa học này.
                   </Typography>
                 ) : (
-                  <Accordion
-                    defaultExpanded
-                    sx={{
-                      boxShadow: 'none',
-                      bgcolor: '#fff',
-                      borderRadius: '12px !important',
-                      '&:before': { display: 'none' },
-                      border: '1px solid #E2E8F0',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B', fontSize: 20 }} />}
+                  groupedItems.map((group, groupIndex) => (
+                    <Accordion
+                      key={groupIndex}
+                      defaultExpanded={groupIndex === 0}
                       sx={{
-                        p: 0, px: 3, minHeight: 56,
-                        '&.Mui-expanded': { minHeight: 56 },
-                        '& .MuiAccordionSummary-content': {
-                          my: 1.5,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: 0.4
-                        }
+                        boxShadow: 'none',
+                        bgcolor: '#fff',
+                        borderRadius: '12px !important',
+                        '&:before': { display: 'none' },
+                        border: '1px solid #E2E8F0',
+                        overflow: 'hidden',
+                        mb: 2,
+                        '&:last-child': { mb: 0 }
                       }}
                     >
-                      <Typography sx={{ fontWeight: 700, color: '#0F172A', fontSize: '0.95rem' }}>
-                        {course.title}
-                      </Typography>
-                      <Typography sx={{ fontSize: '0.8rem', color: '#64748B' }}>
-                        {courseLessons.length + courseExams.length} bài học • 0 phút
-                      </Typography>
-                    </AccordionSummary>
-
-                    <AccordionDetails sx={{ p: 0 }}>
-                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        {[...courseLessons, ...courseExams].map((item, index) => {
-                          const isExam = 'timeLimit' in item;
-                          const duration = isExam ? `${(item as any).timeLimit} phút` : (item as any).duration || '0 phút';
-
-                          // Trial logic: first 2 items are free to try
-                          const isTrial = index < 2;
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreRoundedIcon sx={{ color: '#64748B', fontSize: 20 }} />}
+                        sx={{
+                          p: 0, px: 3, minHeight: 56,
+                          '&.Mui-expanded': { minHeight: 56 },
+                          '& .MuiAccordionSummary-content': {
+                            my: 1.5,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 0.4
+                          }
+                        }}
+                      >
+                        <Typography sx={{ fontWeight: 700, color: '#0F172A', fontSize: '0.95rem' }}>
+                          {group.topic}
+                        </Typography>
+                        <Typography sx={{ fontSize: '0.8rem', color: '#64748B' }}>
+                          {group.items.length} bài học
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ p: 0 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                          {group.items.map((groupItem) => {
+                            const { data: item, globalIndex: index } = groupItem;
+                            const isExam = 'timeLimit' in item;
+                            const duration = isExam ? `${(item as any).timeLimit} phút` : (item as any).duration || '0 phút';
+                            
+                            // Trial logic: first 2 items are free to try
+                            const isTrial = index < 2;
                           const isLocked = !isOwned && !isTrial;
 
                           let bestScore: number | null = null;
@@ -327,10 +356,11 @@ const CourseDetailsPage: React.FC = () => {
                               </Box>
                             </Box>
                           );
-                        })}
-                      </Box>
-                    </AccordionDetails>
-                  </Accordion>
+                          })}
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
                 )}
               </Box>
             </Grid>
