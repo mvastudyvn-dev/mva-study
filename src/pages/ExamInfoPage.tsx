@@ -65,6 +65,23 @@ const ExamInfoPage: React.FC = () => {
     });
   }, [user, id]);
 
+  const [isLocked, setIsLocked] = useState(false);
+  const [openTimeStr, setOpenTimeStr] = useState('');
+
+  useEffect(() => {
+    if (exam?.openTime) {
+      const openDate = new Date(exam.openTime);
+      if (new Date() < openDate) {
+        setIsLocked(true);
+        setOpenTimeStr(formatDateTime(exam.openTime));
+      } else {
+        setIsLocked(false);
+      }
+    } else {
+      setIsLocked(false);
+    }
+  }, [exam]);
+
   const bestScore = history.length > 0 ? Math.max(...history.map(h => h.score)) : null;
 
   const MAX_ATTEMPTS = 10;
@@ -358,7 +375,21 @@ const ExamInfoPage: React.FC = () => {
 
         {/* CTA */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-          {isMaxReached ? (
+          {isLocked ? (
+            <Box
+              sx={{
+                bgcolor: 'rgba(245,158,11,0.06)', border: '1.5px solid rgba(245,158,11,0.18)',
+                borderRadius: 3, px: 4, py: 3, textAlign: 'center', maxWidth: 480, width: '100%',
+              }}
+            >
+              <Typography sx={{ fontWeight: 800, color: '#D97706', fontSize: '1rem', mb: 0.5 }}>
+                Đề thi chưa mở
+              </Typography>
+              <Typography sx={{ color: '#92400E', fontSize: '0.875rem' }}>
+                Vui lòng quay lại lúc: <span style={{ fontWeight: 700 }}>{openTimeStr}</span>
+              </Typography>
+            </Box>
+          ) : isMaxReached ? (
             <Box
               sx={{
                 bgcolor: 'rgba(239,68,68,0.06)', border: '1.5px solid rgba(239,68,68,0.18)',
@@ -366,7 +397,7 @@ const ExamInfoPage: React.FC = () => {
               }}
             >
               <Typography sx={{ fontWeight: 800, color: '#EF4444', fontSize: '1rem', mb: 0.5 }}>
-                Đã đạt giới hạn 10 lần làm bài
+                Đề đã đạt giới hạn 10 lần làm bài
               </Typography>
               <Typography sx={{ color: '#94A3B8', fontSize: '0.875rem' }}>
                 Mỗi tài khoản chỉ được làm tối đa 10 lần. Vui lòng liên hệ hỗ trợ nếu cần thêm lượt.
