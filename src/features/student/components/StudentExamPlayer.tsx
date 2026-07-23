@@ -1023,7 +1023,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           </Button>
         </DialogActions>
       </Dialog>
-
+      <Snackbar
         open={snackOpen}
         autoHideDuration={4000}
         onClose={() => setSnackOpen(false)}
@@ -1033,6 +1033,39 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           Cảm ơn bạn! Báo lỗi đã được gửi thành công.
         </Alert>
       </Snackbar>
+
+      {/* Xác nhận nộp bài Modal */}
+      <Dialog 
+        open={confirmSubmitOpen} 
+        onClose={() => setConfirmSubmitOpen(false)}
+        PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
+      >
+        <DialogTitle sx={{ fontWeight: 800, color: '#1E3A8A', display: 'flex', alignItems: 'center', gap: 1 }}>
+          <CheckCircleRoundedIcon sx={{ color: '#10B981', fontSize: 28 }} />
+          Xác nhận nộp bài
+        </DialogTitle>
+        <DialogContent>
+          <Typography sx={{ color: '#475569', fontSize: '1.05rem', mt: 1 }}>
+            Bạn có chắc chắn muốn nộp bài thi? Kết quả sẽ không thể thay đổi sau khi nộp.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 2, pb: 1, gap: 1 }}>
+          <Button onClick={() => setConfirmSubmitOpen(false)} sx={{ color: '#64748B', fontWeight: 600 }}>
+            Làm tiếp
+          </Button>
+          <Button 
+            variant="contained" 
+            onClick={() => handleSubmit(true)}
+            sx={{ 
+              fontWeight: 700, px: 3, 
+              background: 'linear-gradient(135deg, #10B981, #059669)',
+              '&:hover': { background: 'linear-gradient(135deg, #059669, #047857)' }
+            }}
+          >
+            Nộp bài ngay
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
