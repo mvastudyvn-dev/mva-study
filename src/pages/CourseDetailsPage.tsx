@@ -229,6 +229,14 @@ const CourseDetailsPage: React.FC = () => {
                           const isTrial = index < 2;
                           const isLocked = !isOwned && !isTrial;
 
+                          let bestScore: number | null = null;
+                          if (isExam && userProgress?.completedExams) {
+                            const attempts = userProgress.completedExams.filter(e => e.examId === item.id);
+                            if (attempts.length > 0) {
+                              bestScore = Math.max(...attempts.map(e => e.score));
+                            }
+                          }
+
                           return (
                             <Box
                               key={item.id}
@@ -276,6 +284,19 @@ const CourseDetailsPage: React.FC = () => {
                                 >
                                   {item.title}
                                 </Typography>
+                                {bestScore !== null && (
+                                  <Chip 
+                                    label={`${bestScore.toFixed(2)}/10`} 
+                                    size="small" 
+                                    sx={{ 
+                                      height: 20, 
+                                      fontSize: '0.7rem', 
+                                      fontWeight: 700, 
+                                      bgcolor: bestScore >= 8 ? 'rgba(16,185,129,0.1)' : bestScore >= 5 ? 'rgba(245,158,11,0.1)' : 'rgba(239,68,68,0.1)', 
+                                      color: bestScore >= 8 ? '#10B981' : bestScore >= 5 ? '#F59E0B' : '#EF4444' 
+                                    }} 
+                                  />
+                                )}
                               </Box>
                               {/* Right: badge / lock + duration */}
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0, ml: 2 }}>
@@ -297,7 +318,7 @@ const CourseDetailsPage: React.FC = () => {
                                       bgcolor: isOwned ? 'rgba(16,185,129,0.06)' : 'rgba(249,115,22,0.06)',
                                     }}
                                   >
-                                    {isOwned ? (isExam ? 'Thi ngay' : 'Học ngay') : 'Học thử'}
+                                    {isOwned ? (isExam ? (bestScore !== null ? 'Thi lại' : 'Thi ngay') : 'Học ngay') : 'Học thử'}
                                   </Box>
                                 )}
                                 <Typography sx={{ fontSize: '0.8rem', color: '#94A3B8', minWidth: '40px', textAlign: 'right' }}>
