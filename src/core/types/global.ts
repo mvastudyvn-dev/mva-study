@@ -171,6 +171,8 @@ export interface Exam {
   format: 'standard' | 'thpt_2025';
   fileUrl: string;
   answerKey?: any; // To store complex answer structures
+  showResultAfterSubmission?: boolean;
+  openTime?: string;
 }
 
 export interface SystemSettings {

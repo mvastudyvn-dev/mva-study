@@ -64,6 +64,23 @@ export const StudentExamInfo: React.FC<StudentExamInfoProps> = ({ examId, onStar
     });
   }, [user, examId]);
 
+  const [isLocked, setIsLocked] = useState(false);
+  const [openTimeStr, setOpenTimeStr] = useState('');
+
+  useEffect(() => {
+    if (exam?.openTime) {
+      const openDate = new Date(exam.openTime);
+      if (new Date() < openDate) {
+        setIsLocked(true);
+        setOpenTimeStr(formatDateTime(exam.openTime));
+      } else {
+        setIsLocked(false);
+      }
+    } else {
+      setIsLocked(false);
+    }
+  }, [exam]);
+
   const bestScore = history.length > 0 ? Math.max(...history.map(h => h.score)) : null;
 
   const questionCount =
@@ -274,27 +291,38 @@ export const StudentExamInfo: React.FC<StudentExamInfoProps> = ({ examId, onStar
       </Paper>
 
       {/* CTA */}
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="contained"
-          size="large"
-          startIcon={<PlayArrowRoundedIcon />}
-          onClick={onStart}
-          sx={{
-            px: 6, py: 1.75, borderRadius: 3,
-            fontWeight: 700, fontSize: '1.05rem',
-            background: 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
-            boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
-            '&:hover': {
-              background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-              boxShadow: '0 12px 32px rgba(37,99,235,0.45)',
-              transform: 'translateY(-1px)',
-            },
-            transition: 'all 0.2s ease',
-          }}
-        >
-          {history.length === 0 ? 'Bắt đầu thi' : 'Thi lại'}
-        </Button>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+        {isLocked ? (
+          <Box sx={{ textAlign: 'center', p: 3, bgcolor: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 3 }}>
+            <Typography sx={{ fontWeight: 700, color: '#D97706', fontSize: '1.05rem', mb: 0.5 }}>
+              Đề thi chưa mở
+            </Typography>
+            <Typography sx={{ color: '#92400E', fontSize: '0.9rem' }}>
+              Vui lòng quay lại lúc: <span style={{ fontWeight: 700 }}>{openTimeStr}</span>
+            </Typography>
+          </Box>
+        ) : (
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<PlayArrowRoundedIcon />}
+            onClick={onStart}
+            sx={{
+              px: 6, py: 1.75, borderRadius: 3,
+              fontWeight: 700, fontSize: '1.05rem',
+              background: 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
+              boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+                boxShadow: '0 12px 32px rgba(37,99,235,0.45)',
+                transform: 'translateY(-1px)',
+              },
+              transition: 'all 0.2s ease',
+            }}
+          >
+            {history.length === 0 ? 'Bắt đầu thi' : 'Thi lại'}
+          </Button>
+        )}
       </Box>
 
       <Divider sx={{ mt: 4, borderColor: '#F1F5F9' }} />

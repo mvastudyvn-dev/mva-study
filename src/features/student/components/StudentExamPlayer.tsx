@@ -772,7 +772,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
           )}
 
           {/* ── ANSWER SHEET ── */}
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {(!isSubmitted || exam?.showResultAfterSubmission !== false) && (
+            <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               {/* Tabs for THPT 2025 */}
               {!isStandard && (
                 <Box sx={{ borderBottom: '1px solid #F1F5F9', px: 2 }}>
@@ -968,6 +969,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                 )}
               </Box>
             </Box>
+          )}
         </Box>
       </Box>
 

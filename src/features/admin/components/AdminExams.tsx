@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Button, Card, CardContent,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, MenuItem, Tooltip, Stack
+  IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, MenuItem, Tooltip, Stack, FormControlLabel, Switch
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -36,7 +36,7 @@ export const AdminExams: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Exam>>({
-    id: '', courseId: '', title: '', timeLimit: 50, format: 'thpt_2025', fileUrl: '', answerKey: ''
+    id: '', courseId: '', title: '', timeLimit: 50, format: 'thpt_2025', fileUrl: '', answerKey: '', showResultAfterSubmission: true, openTime: ''
   });
   const [answerKeyText, setAnswerKeyText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -110,7 +110,11 @@ export const AdminExams: React.FC = () => {
 
   const handleOpen = (exam?: Exam) => {
     if (exam) {
-      setFormData(exam);
+      setFormData({
+        ...exam,
+        showResultAfterSubmission: exam.showResultAfterSubmission !== false,
+        openTime: exam.openTime || ''
+      });
       setAnswerKeyText(typeof exam.answerKey === 'object' ? JSON.stringify(exam.answerKey, null, 2) : exam.answerKey || '');
       setIsEditing(true);
     } else {
@@ -121,6 +125,8 @@ export const AdminExams: React.FC = () => {
         timeLimit: 50,
         format: 'thpt_2025',
         fileUrl: '',
+        showResultAfterSubmission: true,
+        openTime: '',
       });
       setAnswerKeyText(defaultTHPTKey);
       setIsEditing(false);
@@ -303,6 +309,27 @@ export const AdminExams: React.FC = () => {
                 value={formData.fileUrl || ''}
                 onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
                 placeholder="https://drive.google.com/..."
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth label="Thời gian mở đề (Không bắt buộc)"
+                type="datetime-local"
+                InputLabelProps={{ shrink: true }}
+                value={formData.openTime || ''}
+                onChange={(e) => setFormData({ ...formData, openTime: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} display="flex" alignItems="center">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.showResultAfterSubmission !== false}
+                    onChange={(e) => setFormData({ ...formData, showResultAfterSubmission: e.target.checked })}
+                    color="primary"
+                  />
+                }
+                label="Hiển thị đáp án sau khi nộp"
               />
             </Grid>
             <Grid item xs={12}>

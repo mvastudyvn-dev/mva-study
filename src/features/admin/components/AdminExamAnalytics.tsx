@@ -104,34 +104,34 @@ export const AdminExamAnalytics: React.FC = () => {
                     Top các câu hỏi sai nhiều nhất
                   </Typography>
                 </Box>
-                
+
                 {chartData.length > 0 ? (
                   <Box sx={{ height: 350, width: '100%' }}>
                     <ResponsiveContainer>
                       <BarChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                        <XAxis 
-                          dataKey="name" 
-                          axisLine={false} 
-                          tickLine={false} 
-                          tick={{ fill: '#64748B', fontSize: 12 }} 
+                        <XAxis
+                          dataKey="name"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: '#64748B', fontSize: 12 }}
                           dy={10}
                         />
-                        <YAxis 
-                          allowDecimals={false} 
-                          axisLine={false} 
-                          tickLine={false} 
+                        <YAxis
+                          allowDecimals={false}
+                          axisLine={false}
+                          tickLine={false}
                           tick={{ fill: '#64748B', fontSize: 12 }}
                         />
-                        <Tooltip 
+                        <Tooltip
                           cursor={{ fill: '#F8FAFC' }}
                           contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
                         />
-                        <Bar 
-                          dataKey="count" 
+                        <Bar
+                          dataKey="count"
                           name="Số lượt làm sai"
-                          fill="#EF4444" 
-                          radius={[4, 4, 0, 0]} 
+                          fill="#EF4444"
+                          radius={[4, 4, 0, 0]}
                           maxBarSize={50}
                         />
                       </BarChart>
@@ -170,13 +170,13 @@ export const AdminExamAnalytics: React.FC = () => {
                       {attempts.map((attempt, idx) => {
                         const user = attempt.userId ? userMap[attempt.userId] : null;
                         const scoreColor = attempt.score >= 8 ? '#10B981' : attempt.score >= 5 ? '#F59E0B' : '#EF4444';
-                        
+
                         return (
                           <TableRow key={idx} sx={{ '&:hover': { bgcolor: '#F8FAFC' } }}>
                             <TableCell>
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                <Avatar 
-                                  src={user?.avatar} 
+                                <Avatar
+                                  src={user?.avatar}
                                   sx={{ width: 32, height: 32, bgcolor: '#3B82F6' }}
                                 >
                                   {user?.name?.charAt(0) || '?'}
@@ -187,9 +187,9 @@ export const AdminExamAnalytics: React.FC = () => {
                               </Box>
                             </TableCell>
                             <TableCell>
-                              <Chip 
-                                label={`Lần ${attempt.attemptNumber}`} 
-                                size="small" 
+                              <Chip
+                                label={`Lần ${attempt.attemptNumber}`}
+                                size="small"
                                 sx={{ bgcolor: '#F1F5F9', color: '#475569', fontWeight: 600 }}
                               />
                             </TableCell>
