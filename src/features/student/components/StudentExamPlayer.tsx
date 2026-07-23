@@ -64,6 +64,29 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
     getExamHistory(user.id, examId).then(h => setAttemptCount(h.length));
   }, [user?.id, examId]);
 
+  // Tự động Fullscreen khi vào thi
+  useEffect(() => {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().catch(err => {
+        console.warn(`Không thể tự động bật toàn màn hình: ${err.message}`);
+      });
+    }
+    
+    return () => {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    };
+  }, []);
+
+  // Tự động thoát Fullscreen khi nộp bài xong
+  useEffect(() => {
+    if (isSubmitted && document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }, [isSubmitted]);
+
   const isStandard = exam?.format === 'standard';
   const numPart1Qs = isStandard && Array.isArray(exam?.answerKey?.part1) ? exam.answerKey.part1.length : 24;
   const totalTime = (exam?.timeLimit || 50) * 60;
