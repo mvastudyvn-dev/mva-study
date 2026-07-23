@@ -49,6 +49,9 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   const [reportSubmitting, setReportSubmitting] = useState(false);
   const [snackOpen, setSnackOpen] = useState(false);
 
+  // States cho xác nhận nộp bài
+  const [confirmSubmitOpen, setConfirmSubmitOpen] = useState(false);
+
   useEffect(() => {
     if (exam && !timerInitialized) {
       setTimeLeft((exam.timeLimit || 50) * 60);
@@ -170,9 +173,11 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
   };
 
   const handleSubmit = (force = false) => {
-    if (!force && !window.confirm('Bạn có chắc chắn muốn nộp bài thi? Không thể thay đổi kết quả sau khi nộp.')) {
+    if (!force) {
+      setConfirmSubmitOpen(true);
       return;
     }
+    setConfirmSubmitOpen(false);
     setIsSubmitted(true);
     let p1Score = 0, p2Score = 0, p1Wrong = 0, p2WrongItems = 0;
     const answerKey = exam?.answerKey || { part1: [], part2: [] };
@@ -505,7 +510,9 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                   background: 'linear-gradient(135deg, #EA580C, #F97316)',
                   boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
                 },
+                },
               }}
+              onClick={() => setConfirmSubmitOpen(true)}
             >
               <SendRoundedIcon sx={{ fontSize: { xs: 14, sm: 16 }, mr: 0.5 }} />
               Nộp bài
@@ -973,58 +980,51 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
         </Box>
       </Box>
 
-      {/* Pop-up Báo lỗi */}
+      {/* Form Báo Lỗi */}
       <Dialog open={reportOpen} onClose={() => !reportSubmitting && setReportOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontWeight: 700, pb: 1, fontFamily: '"Plus Jakarta Sans", sans-serif' }}>Báo lỗi đề thi</DialogTitle>
-        <DialogContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: 1 }}>
-            <FormControl fullWidth size="small">
-              <InputLabel>Lý do lỗi</InputLabel>
-              <Select
-                label="Lý do lỗi"
-                value={reportData.reason}
-                onChange={(e) => setReportData(prev => ({ ...prev, reason: e.target.value }))}
-                sx={{ borderRadius: '10px' }}
-              >
-                <MenuItem value="Sai đề bài">Sai đề bài</MenuItem>
-                <MenuItem value="Sai đáp án">Sai đáp án</MenuItem>
-                <MenuItem value="Lỗi hiển thị/Hình ảnh">Lỗi hiển thị/Hình ảnh</MenuItem>
-                <MenuItem value="Khác">Khác</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              fullWidth
-              size="small"
-              label="Câu bị lỗi (VD: Câu 1, Phần 2 Câu 1a...)"
-              value={reportData.question}
-              onChange={(e) => setReportData(prev => ({ ...prev, question: e.target.value }))}
-              placeholder="Nhập số câu hoặc phần bị lỗi"
-              sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              label="Chi tiết (Tùy chọn)"
-              multiline
-              rows={3}
-              value={reportData.details}
-              onChange={(e) => setReportData(prev => ({ ...prev, details: e.target.value }))}
-              placeholder="Mô tả rõ hơn về lỗi để giáo viên dễ dàng kiểm tra..."
-              sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
-            />
-          </Box>
+        <DialogTitle sx={{ fontWeight: 700, color: '#0F172A', display: 'flex', alignItems: 'center', gap: 1 }}>
+          <ReportProblemRoundedIcon sx={{ color: '#EF4444' }} />
+          Báo lỗi
+        </DialogTitle>
+        <DialogContent dividers>
+          <FormControl fullWidth size="small" sx={{ mb: 2.5, mt: 1 }}>
+            <InputLabel>Lý do báo lỗi</InputLabel>
+            <Select
+              value={reportData.reason}
+              onChange={(e) => setReportData(prev => ({ ...prev, reason: e.target.value }))}
+              label="Lý do báo lỗi"
+            >
+              <MenuItem value="Đáp án sai">Đáp án sai</MenuItem>
+              <MenuItem value="Đề thiếu nội dung/hình ảnh">Đề thiếu nội dung/hình ảnh</MenuItem>
+              <MenuItem value="Đề khó nhìn/bị mờ">Đề khó nhìn/bị mờ</MenuItem>
+              <MenuItem value="Lỗi khác">Lỗi khác</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            fullWidth size="small" label="Câu số mấy?" placeholder="Ví dụ: Câu 5 phần 1" sx={{ mb: 2.5 }}
+            value={reportData.question}
+            onChange={(e) => setReportData(prev => ({ ...prev, question: e.target.value }))}
+          />
+          <TextField
+            fullWidth size="small" label="Mô tả chi tiết lỗi (Không bắt buộc)" placeholder="Chi tiết lỗi giúp admin fix nhanh hơn..."
+            multiline rows={3}
+            value={reportData.details}
+            onChange={(e) => setReportData(prev => ({ ...prev, details: e.target.value }))}
+          />
         </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setReportOpen(false)} disabled={reportSubmitting} color="inherit" sx={{ textTransform: 'none', fontWeight: 600 }}>
-            Hủy
-          </Button>
-          <Button onClick={handleReportSubmit} disabled={reportSubmitting} variant="contained" sx={{ textTransform: 'none', fontWeight: 600, bgcolor: '#EF4444', borderRadius: '8px', '&:hover': { bgcolor: '#DC2626' } }}>
+        <DialogActions sx={{ p: 2, bgcolor: '#F8FAFC' }}>
+          <Button onClick={() => setReportOpen(false)} sx={{ color: '#64748B' }} disabled={reportSubmitting}>Hủy</Button>
+          <Button 
+            variant="contained" 
+            onClick={handleReportSubmit}
+            disabled={reportSubmitting}
+            sx={{ bgcolor: '#EF4444', '&:hover': { bgcolor: '#DC2626' } }}
+          >
             {reportSubmitting ? 'Đang gửi...' : 'Gửi báo lỗi'}
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Snackbar
         open={snackOpen}
         autoHideDuration={4000}
         onClose={() => setSnackOpen(false)}
