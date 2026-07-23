@@ -460,7 +460,7 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             />
           )}
 
-          /* Report button - Hỗ trợ báo lỗi cả khi đang làm bài và sau khi nộp bài */
+          {/* Report button - Hỗ trợ báo lỗi cả khi đang làm bài và sau khi nộp bài */}
           <Button
             variant="outlined"
             onClick={() => setReportOpen(true)}
