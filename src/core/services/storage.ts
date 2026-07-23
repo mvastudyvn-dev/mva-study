@@ -301,33 +301,17 @@ export const StorageService = {
     try {
       const { data, error } = await supabase.from('exams').select('*');
       if (error) throw error;
-      return data.map((e: any) => {
-        let answerKey = e.answer_key;
-        let showResultAfterSubmission = true;
-        let openTime = '';
-
-        if (answerKey && typeof answerKey === 'object' && answerKey.__meta) {
-          showResultAfterSubmission = answerKey.__meta.showResultAfterSubmission !== false;
-          openTime = answerKey.__meta.openTime || '';
-          
-          // Create a copy without __meta for the app to use
-          const cleanKey = { ...answerKey };
-          delete cleanKey.__meta;
-          answerKey = cleanKey;
-        }
-
-        return {
-          id: e.id,
-          courseId: e.course_id,
-          title: e.title,
-          timeLimit: e.time_limit,
-          format: e.format,
-          fileUrl: e.file_url,
-          answerKey,
-          showResultAfterSubmission,
-          openTime,
-        };
-      }) as Exam[];
+      return data.map((e: any) => ({
+        id: e.id,
+        courseId: e.course_id,
+        title: e.title,
+        timeLimit: e.time_limit,
+        format: e.format,
+        fileUrl: e.file_url,
+        answerKey: e.answer_key,
+        showResultAfterSubmission: e.show_result_after_submission,
+        openTime: e.open_time,
+      })) as Exam[];
     } catch (e) {
       console.warn('Fallback to LocalStorage for Exams');
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.EXAMS) || '[]');
@@ -335,10 +319,6 @@ export const StorageService = {
   },
   async saveExam(exam: Exam) {
     try {
-      const dbAnswerKey = typeof exam.answerKey === 'object' && exam.answerKey !== null
-        ? { ...exam.answerKey, __meta: { showResultAfterSubmission: exam.showResultAfterSubmission, openTime: exam.openTime } }
-        : { __data: exam.answerKey, __meta: { showResultAfterSubmission: exam.showResultAfterSubmission, openTime: exam.openTime } };
-
       await supabase.from('exams').insert({
         id: exam.id,
         course_id: exam.courseId,
@@ -346,7 +326,9 @@ export const StorageService = {
         time_limit: exam.timeLimit,
         format: exam.format,
         file_url: exam.fileUrl,
-        answer_key: dbAnswerKey,
+        answer_key: exam.answerKey,
+        show_result_after_submission: exam.showResultAfterSubmission,
+        open_time: exam.openTime || null,
       });
     } catch (e) {
       console.error(e);
@@ -357,17 +339,15 @@ export const StorageService = {
   },
   async updateExam(updatedExam: Exam) {
     try {
-      const dbAnswerKey = typeof updatedExam.answerKey === 'object' && updatedExam.answerKey !== null
-        ? { ...updatedExam.answerKey, __meta: { showResultAfterSubmission: updatedExam.showResultAfterSubmission, openTime: updatedExam.openTime } }
-        : { __data: updatedExam.answerKey, __meta: { showResultAfterSubmission: updatedExam.showResultAfterSubmission, openTime: updatedExam.openTime } };
-
       await supabase.from('exams').update({
         course_id: updatedExam.courseId,
         title: updatedExam.title,
         time_limit: updatedExam.timeLimit,
         format: updatedExam.format,
         file_url: updatedExam.fileUrl,
-        answer_key: dbAnswerKey,
+        answer_key: updatedExam.answerKey,
+        show_result_after_submission: updatedExam.showResultAfterSubmission,
+        open_time: updatedExam.openTime || null,
       }).eq('id', updatedExam.id);
     } catch (e) {
       console.error(e);
