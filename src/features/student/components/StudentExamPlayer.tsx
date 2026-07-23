@@ -510,7 +510,6 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
                   background: 'linear-gradient(135deg, #EA580C, #F97316)',
                   boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
                 },
-                },
               }}
               onClick={() => setConfirmSubmitOpen(true)}
             >
