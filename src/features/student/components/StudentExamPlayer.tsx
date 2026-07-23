@@ -1040,8 +1040,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
         onClose={() => setConfirmSubmitOpen(false)}
         PaperProps={{ sx: { borderRadius: 3, p: 1 } }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: '#1E3A8A', display: 'flex', alignItems: 'center', gap: 1 }}>
-          <CheckCircleRoundedIcon sx={{ color: '#10B981', fontSize: 28 }} />
+        <DialogTitle sx={{ fontWeight: 800, color: '#0F172A', display: 'flex', alignItems: 'center', gap: 1 }}>
+          <CheckCircleRoundedIcon sx={{ color: '#F97316', fontSize: 28 }} />
           Xác nhận nộp bài
         </DialogTitle>
         <DialogContent>
@@ -1058,8 +1058,8 @@ export const StudentExamPlayer: React.FC<StudentExamPlayerProps> = ({ examId, on
             onClick={() => handleSubmit(true)}
             sx={{ 
               fontWeight: 700, px: 3, 
-              background: 'linear-gradient(135deg, #10B981, #059669)',
-              '&:hover': { background: 'linear-gradient(135deg, #059669, #047857)' }
+              background: 'linear-gradient(135deg, #F97316, #EA580C)',
+              '&:hover': { background: 'linear-gradient(135deg, #EA580C, #C2410C)' }
             }}
           >
             Nộp bài ngay
