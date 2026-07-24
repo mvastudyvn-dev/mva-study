@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Avatar, Stack,
-  IconButton, Card, CardActionArea, Chip, Divider, Tooltip,
+  IconButton, Card, CardActionArea, Chip, Divider, Tooltip, Collapse,
 } from '@mui/material';
 import {
   Facebook, YouTube, Language, Phone,
-  ArrowForward, Star, School, LocalFireDepartment,
+  ArrowForward, Star, School, LocalFireDepartment, ExpandMore, ExpandLess,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useData } from '../core/contexts/DataContext';
@@ -94,9 +94,9 @@ const CourseCard: React.FC<{
     lessonsCount: number; bgGradient: string; durationMonths?: number; thumbnail?: string;
   };
   index: number;
-  onClick: (id: string) => void;
-}> = ({ course, index, onClick }) => {
+}> = ({ course, index }) => {
   const isHot = index === 0;
+  const [expanded, setExpanded] = useState(false);
   const isNew = index === 1;
 
   return (
@@ -114,7 +114,7 @@ const CourseCard: React.FC<{
         borderColor: C.primaryBorder,
       },
     }}>
-      <CardActionArea onClick={() => onClick(course.id)} sx={{ borderRadius: '20px' }}>
+      <CardActionArea onClick={() => setExpanded(!expanded)} sx={{ borderRadius: '20px' }}>
 
         {/* ── Image area ── */}
         <Box sx={{
@@ -211,8 +211,8 @@ const CourseCard: React.FC<{
             </Typography>
           </Box>
 
-          {/* Right: price + CTA */}
-          <Stack direction="row" alignItems="center" spacing={1}>
+          {/* Right: price + expand icon */}
+          <Stack direction="row" alignItems="center" spacing={1.5}>
             <Typography sx={{
               fontWeight: 800, color: C.primary,
               fontSize: { xs: '0.95rem', sm: '1rem' }, whiteSpace: 'nowrap',
@@ -220,25 +220,24 @@ const CourseCard: React.FC<{
               {course.price > 0 ? `${new Intl.NumberFormat('vi-VN').format(course.price)}đ` : 'Miễn phí'}
             </Typography>
             <Box sx={{
-              display: 'flex', alignItems: 'center', gap: 0.4,
-              px: 1.4, py: 0.65, borderRadius: '10px',
-              bgcolor: C.primaryBg, border: `1.5px solid ${C.primaryBorder}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 28, height: 28, borderRadius: '50%',
+              bgcolor: expanded ? C.primary : C.primaryBg,
+              color: expanded ? '#fff' : C.primary,
               transition: 'all 0.2s',
-              '.MuiCardActionArea-root:hover &': { bgcolor: C.primary, borderColor: C.primary },
             }}>
-              <Typography sx={{
-                fontSize: '0.72rem', fontWeight: 700, color: C.primary, whiteSpace: 'nowrap',
-                '.MuiCardActionArea-root:hover &': { color: '#fff' },
-              }}>
-                Đăng ký
-              </Typography>
-              <ArrowForward sx={{
-                fontSize: 12, color: C.primary,
-                '.MuiCardActionArea-root:hover &': { color: '#fff' },
-              }} />
+              {expanded ? <ExpandLess sx={{ fontSize: 18 }} /> : <ExpandMore sx={{ fontSize: 18 }} />}
             </Box>
           </Stack>
         </Stack>
+
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Box sx={{ px: { xs: 1.5, sm: 2 }, pb: 2, pt: 0.5, bgcolor: C.white }}>
+            <Typography sx={{ fontSize: '0.85rem', color: C.textSub, lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+              {course.description}
+            </Typography>
+          </Box>
+        </Collapse>
       </CardActionArea>
     </Card>
   );
@@ -393,7 +392,7 @@ const BioPage: React.FC = () => {
             <Stack spacing={2.5}>
               {displayCourses.map((course, i) => (
                 <Box key={course.id} sx={{ animation:`fade-up 0.5s ${0.18 + i * 0.07}s ease both` }}>
-                  <CourseCard course={course} index={i} onClick={id => navigate(`/courses/${id}`)} />
+                  <CourseCard course={course} index={i} />
                 </Box>
               ))}
             </Stack>
