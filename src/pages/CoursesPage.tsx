@@ -385,6 +385,15 @@ const CoursesPage: React.FC = () => {
                               <Button
                                 variant="contained"
                                 size="small"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (!user) {
+                                    navigate('/login', { state: { message: 'Vui lòng đăng nhập để mua khóa học này.' } });
+                                  } else {
+                                    setSelectedCourse(course);
+                                    setIsPaymentModalOpen(true);
+                                  }
+                                }}
                                 sx={{
                                   background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
                                   color: '#fff',

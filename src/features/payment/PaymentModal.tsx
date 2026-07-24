@@ -18,11 +18,17 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, course, onClose }) =>
     setError(null);
 
     try {
-      // Giả sử có 1 userId cố định để test nếu chưa làm auth (bạn cần thay bằng userId thực tế sau khi có chức năng login)
+      // Lấy user từ localStorage (hoặc tốt hơn là pass từ props nếu được)
       const userSession = localStorage.getItem('mva_session');
       const currentUser = userSession ? JSON.parse(userSession) : null;
       
-      const userId = currentUser?.id || 'guest_123'; // Tạm thời dùng guest nếu chưa login
+      if (!currentUser?.id) {
+        setError('Bạn cần đăng nhập để thực hiện thanh toán.');
+        setLoading(false);
+        return;
+      }
+      
+      const userId = currentUser.id;
 
       const response = await fetch('/api/payment/create-payment-link', {
         method: 'POST',

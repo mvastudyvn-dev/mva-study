@@ -171,7 +171,13 @@ const CourseDetailsPage: React.FC = () => {
                       <Button
                         variant="contained"
                         fullWidth
-                        onClick={() => setIsPaymentModalOpen(true)}
+                        onClick={() => {
+                          if (!user) {
+                            navigate('/login', { state: { message: 'Vui lòng đăng nhập để mua khóa học này.' } });
+                          } else {
+                            setIsPaymentModalOpen(true);
+                          }
+                        }}
                         sx={{
                           py: 1.5,
                           background: 'linear-gradient(135deg, #FF8C2F 0%, #FF6B00 100%)',
@@ -291,7 +297,11 @@ const CourseDetailsPage: React.FC = () => {
                                       navigate('/student');
                                     }
                                   } else {
-                                    setIsPaymentModalOpen(true);
+                                    if (!user) {
+                                      navigate('/login', { state: { message: 'Vui lòng đăng nhập để mua khóa học này.' } });
+                                    } else {
+                                      setIsPaymentModalOpen(true);
+                                    }
                                   }
                                 }
                               }}
