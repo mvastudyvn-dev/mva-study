@@ -28,8 +28,12 @@ const C = {
 };
 
 // ── THPT keyword filter ────────────────────────────────────────────
-const THPT_KW = ['thpt','quốc gia','thi','tin học','tin','ôn','luyện','12','đại học','xét tuyển','thptqg'];
-const isThpt  = (title: string, desc: string) => THPT_KW.some(k => `${title} ${desc}`.toLowerCase().includes(k));
+const THPT_KW = ['thpt', 'thptqg', 'quốc gia', 'đại học', 'xét tuyển', 'lớp 12'];
+const EXCLUDE_KW = ['mos', 'ic3', 'văn phòng'];
+const isThpt  = (title: string, desc: string) => {
+  const t = `${title} ${desc}`.toLowerCase();
+  return THPT_KW.some(k => t.includes(k)) && !EXCLUDE_KW.some(k => t.includes(k));
+};
 
 // ── Custom SVG Icons ───────────────────────────────────────────────
 const TikTokIcon = () => (
