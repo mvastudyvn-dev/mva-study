@@ -21,13 +21,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, course, onClose }) =>
       // Lấy user từ localStorage (hoặc tốt hơn là pass từ props nếu được)
       const userSession = localStorage.getItem('mva_session');
       const currentUser = userSession ? JSON.parse(userSession) : null;
-      
+
       if (!currentUser?.id) {
         setError('Bạn cần đăng nhập để thực hiện thanh toán.');
         setLoading(false);
         return;
       }
-      
+
       const userId = currentUser.id;
 
       const response = await fetch('/api/payment/create-payment-link', {
@@ -73,7 +73,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, course, onClose }) =>
             {course.title}
           </Typography>
         </Box>
-        
+
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: '#F3F4F6', borderRadius: 2 }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Tổng thanh toán:</Typography>
           <Typography variant="h5" sx={{ fontWeight: 900, color: '#FF8C2F' }}>
@@ -91,13 +91,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, course, onClose }) =>
         <Button onClick={onClose} disabled={loading} color="inherit">
           Hủy bỏ
         </Button>
-        <Button 
-          variant="contained" 
-          onClick={handlePayment} 
+        <Button
+          variant="contained"
+          onClick={handlePayment}
           disabled={loading}
           sx={{ bgcolor: '#FF8C2F', '&:hover': { bgcolor: '#E07B29' } }}
         >
-          {loading ? <CircularProgress size={24} color="inherit" /> : 'Thanh toán qua PayOS'}
+          {loading ? <CircularProgress size={24} color="inherit" /> : 'Thanh toán ngay'}
         </Button>
       </DialogActions>
     </Dialog>

@@ -23,6 +23,7 @@ import TermsOfUsePage from './pages/TermsOfUsePage';
 import PaymentPolicyPage from './pages/PaymentPolicyPage';
 import ExamInfoPage from './pages/ExamInfoPage';
 import AdminExamAnalyticsPage from './pages/AdminExamAnalyticsPage';
+import BioPage from './pages/BioPage';
 
 const App: React.FC = () => (
   <ThemeProvider theme={theme}>
@@ -35,6 +36,7 @@ const App: React.FC = () => (
             <Route path="/" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><LandingPage /></RouteGuard>} />
             <Route path="/login" element={<RouteGuard allowedRoles={['guest']} ignoreMaintenance><LoginPage /></RouteGuard>} />
             <Route path="/register" element={<RouteGuard allowedRoles={['guest']}><RegisterPage /></RouteGuard>} />
+            <Route path="/bio" element={<BioPage />} />
             <Route path="/uni" element={<CheckDHPage />} />
             <Route path="/courses" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><CoursesPage /></RouteGuard>} />
             <Route path="/courses/:id" element={<RouteGuard allowedRoles={['guest', 'student', 'admin']}><CourseDetailsPage /></RouteGuard>} />

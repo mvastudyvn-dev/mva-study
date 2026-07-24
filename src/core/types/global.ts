@@ -41,6 +41,7 @@ export interface Course {
   colorCode: string;
   bgGradient: string;
   durationMonths?: number;
+  thumbnail?: string;
 }
 
 export interface UserCourse {

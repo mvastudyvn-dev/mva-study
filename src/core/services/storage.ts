@@ -27,6 +27,7 @@ import { mockCourses, mockTeachers, mockNews, mockLeaderboard } from '../../feat
 import { mockCodes } from '../../features/admin/constants/mockData';
 import { mockNotifications, mockTopStudents, mockMonthlyStats } from '../../features/student/constants/mockData';
 import { supabase } from './supabase';
+import { courseThumbnails } from '../constants/courseThumbnails';
 
 
 export const StorageService = {
@@ -165,6 +166,7 @@ export const StorageService = {
         colorCode: c.color_code,
         bgGradient: c.bg_gradient,
         durationMonths: c.duration_months,
+        thumbnail: c.thumbnail || courseThumbnails[c.id] || null,
       })) as Course[];
     } catch (e) {
       console.warn('Fallback to LocalStorage for Courses');
@@ -185,6 +187,7 @@ export const StorageService = {
         color_code: course.colorCode,
         bg_gradient: course.bgGradient,
         duration_months: course.durationMonths,
+        thumbnail: course.thumbnail || null,
       };
       await supabase.from('courses').insert(dataToSave);
     } catch (e) {
@@ -208,6 +211,7 @@ export const StorageService = {
         color_code: updatedCourse.colorCode,
         bg_gradient: updatedCourse.bgGradient,
         duration_months: updatedCourse.durationMonths,
+        thumbnail: updatedCourse.thumbnail || null,
       };
       await supabase.from('courses').update(dataToUpdate).eq('id', updatedCourse.id);
     } catch (e) {

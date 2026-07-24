@@ -185,6 +185,24 @@ export const AdminCourses: React.FC = () => {
                 helperText="Nhập 0 cho vĩnh viễn"
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth label="Ảnh thumbnail (URL)"
+                value={formData.thumbnail || ''}
+                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+                helperText="URL ảnh bìa khóa học (để trống nếu dùng icon emoji)"
+                placeholder="https://... hoặc /images/courses/ten-anh.png"
+              />
+              {formData.thumbnail && (
+                <Box
+                  component="img"
+                  src={formData.thumbnail}
+                  alt="preview"
+                  sx={{ mt: 1, width: '100%', height: 120, objectFit: 'cover', borderRadius: 2, border: '1px solid rgba(0,0,0,0.1)' }}
+                  onError={(e: any) => { e.target.style.display = 'none'; }}
+                />
+              )}
+            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3 }}>
