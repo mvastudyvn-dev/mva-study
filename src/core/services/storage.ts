@@ -189,7 +189,12 @@ export const StorageService = {
         duration_months: course.durationMonths,
         thumbnail: course.thumbnail || null,
       };
-      await supabase.from('courses').insert(dataToSave);
+      const { error } = await supabase.from('courses').insert(dataToSave);
+      if (error) {
+        console.error('Supabase save error:', error);
+        alert('Lỗi lưu khóa học (DB): ' + error.message);
+        throw error;
+      }
     } catch (e) {
       console.error(e);
     }
@@ -213,7 +218,12 @@ export const StorageService = {
         duration_months: updatedCourse.durationMonths,
         thumbnail: updatedCourse.thumbnail || null,
       };
-      await supabase.from('courses').update(dataToUpdate).eq('id', updatedCourse.id);
+      const { error } = await supabase.from('courses').update(dataToUpdate).eq('id', updatedCourse.id);
+      if (error) {
+        console.error('Supabase update error:', error);
+        alert('Lỗi cập nhật khóa học (DB): ' + error.message);
+        throw error;
+      }
     } catch (e) {
       console.error(e);
     }

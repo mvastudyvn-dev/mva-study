@@ -139,7 +139,7 @@ const CourseDetailsPage: React.FC = () => {
                 >
                   {course.title}
                 </Typography>
-                <Typography sx={{ color: '#E2E8F0', fontSize: '1.1rem', mb: 3, lineHeight: 1.6, maxWidth: '800px' }}>
+                <Typography sx={{ color: '#E2E8F0', fontSize: '1.1rem', mb: 3, lineHeight: 1.6, maxWidth: '800px', whiteSpace: 'pre-line' }}>
                   {course.description}
                 </Typography>
 
