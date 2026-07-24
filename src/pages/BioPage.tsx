@@ -263,8 +263,16 @@ const BioPage: React.FC = () => {
   const contactPhone = systemSettings?.contactPhone || '';
   const contactEmail = systemSettings?.contactEmail || '';
 
-  // Chỉ hiện các khóa học liên quan đến THPT QG Tin học, không fallback
-  const displayCourses = courses.filter(c => isThpt(c.title, c.description));
+  // Lọc khóa THPT QG, ưu tiên chữ XPS lên đầu, sau đó sắp xếp theo giá tăng dần
+  const displayCourses = courses
+    .filter(c => isThpt(c.title, c.description))
+    .sort((a, b) => {
+      const aXps = a.title.toLowerCase().includes('xps');
+      const bXps = b.title.toLowerCase().includes('xps');
+      if (aXps && !bXps) return -1;
+      if (!aXps && bXps) return 1;
+      return a.price - b.price;
+    });
 
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Inter:wght@400;500;600&display=swap');
@@ -431,7 +439,7 @@ const BioPage: React.FC = () => {
                 <ZaloIcon /> Zalo
               </Box>
 
-              <Box component="a" href="https://m.me/mva.study" target="_blank" sx={{
+              <Box component="a" href="https://m.me/tminh.mva" target="_blank" sx={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 1,
                 px: 3, py: 1.2, borderRadius: '12px',
                 background: '#0084FF', color: '#fff', fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none',
